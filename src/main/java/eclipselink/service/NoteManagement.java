@@ -87,13 +87,13 @@ public class NoteManagement {
 	      TypedQuery<Note> query = entitymanager.createQuery("SELECT n FROM Note n", Note.class);
 	      List<Note> result = query.getResultList();
 	      
-	    /*  for(Note n : result)
+	      for(Note n : result)
 	      {
 		      System.out.println("Note ID = " + n.getId());
 		      System.out.println("Note NAME = " + n.getName());
 		      System.out.println("Note CONTENT = " + n.getContent());
 		      
-	      }*/
+	      }
 	      
 	      return result;
 

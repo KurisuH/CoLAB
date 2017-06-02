@@ -6,10 +6,10 @@ public class TestCase {
 	public static void main (String[] args)
 	{
 		
-		NoteManagement.CreateNote("YOYOYOYOYOY", "BIIIIIIIIIIITCH");
+		NoteManagement.CreateNote("TestnoteName", "Testnote");
 		//NoteManagement.DeleteNote(1);
-		NoteManagement.FindNote(2);
-		NoteManagement.UpdateNote(251, "BALLER", "BALLINDBSHITYO");
+		NoteManagement.FindNote(1);
+		//NoteManagement.UpdateNote(251, "Testnote", "Testnotename");
 	}
 
 }

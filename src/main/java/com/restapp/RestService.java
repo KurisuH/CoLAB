@@ -23,7 +23,7 @@ public class RestService {
 	@Path("/{param}")
 	public Response getMsg(@PathParam("param") String msg) {
  
-		String output = "Jersey say : " + msg;
+		String output = "Jersey says : " + msg;
  
 		return Response.status(200).entity(output).build();
  
@@ -65,7 +65,7 @@ public class RestService {
 		
 		
 		List<Note> result = NoteManagement.FetchAllNotes();
-		String output = "Jersey wil add a Note now" ;
+		String output = "Jersey will now display all notes" ;
 		
 	      for(Note n : result)
 	      {
