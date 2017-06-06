@@ -1,6 +1,6 @@
 package eclipselink.service;
-import eclipselink.service.NoteManagement;
-import entities.Note;
+
+
 
 public class test {
 	
@@ -14,7 +14,8 @@ public class test {
 		
 		//NoteManagement.DeleteNote(1);
 		//System.out.println(Note.ConvertString(test));
-		NoteManagement.FetchAllNotes();
+		//NoteManagement.FetchAllNotes();
+		UserManagement.FetchAllUsers();
 		//NoteManagement.UpdateNote(251, "UpdateThis!-Content", "UpdateThis!");
 		//System.out.println("Finished Successfully!");
 	}

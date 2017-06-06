@@ -1,4 +1,5 @@
-package eclipselink.service;
+/*
+ * package eclipselink.service;
 import entities.Note;
 import java.util.*;
 
@@ -106,3 +107,4 @@ public class NoteManagement {
    
 
 }
+*/
