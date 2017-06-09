@@ -1,6 +1,6 @@
 CREATE TABLE `users` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`email` varchar(255) NOT NULL,
+	`email` varchar(255) NOT NULL UNIQUE,
 	`password` varchar(255) NOT NULL,
 	`name` varchar(255) NOT NULL,
 	`surname` varchar(255) NOT NULL,
@@ -11,12 +11,12 @@ CREATE TABLE `users` (
 	`register_date` DATETIME(6) NOT NULL,
 	`fax` varchar(255) NOT NULL,
 	`location` varchar(255) NOT NULL,
-	`avatar` varchar(255) NOT NULL,
+	`avatar` varchar(255) NOT NULL UNIQUE,
 	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `position` (
-	`id` int NOT NULL,
+	`id` int NOT NULL AUTO_INCREMENT,
 	`name` varchar(255) NOT NULL,
 	`permission_level` int(255) NOT NULL,
 	PRIMARY KEY (`id`)
@@ -37,4 +37,7 @@ CREATE TABLE `PostIt` (
 	PRIMARY KEY (`id`)
 );
 
+ALTER TABLE `users` ADD CONSTRAINT `users_fk0` FOREIGN KEY (`position`) REFERENCES `position`(`id`);
+
+ALTER TABLE `PostIt` ADD CONSTRAINT `PostIt_fk0` FOREIGN KEY (`author`) REFERENCES `users`(`id`);
 

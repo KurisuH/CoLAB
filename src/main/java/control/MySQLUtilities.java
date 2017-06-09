@@ -26,7 +26,13 @@ import model.User;
  *
  */
 public class MySQLUtilities {
+	
     public static void main(String[] args) throws Exception {
+    	
+    	
+        //TO DO: Add Setup for Positions 
+        setupPositions();
+        
         new MySQLUtilities().processPerson(MySQLUtilities.class
                 .getResourceAsStream("DatabaseExamplePopulation.xml"));
     }
@@ -42,6 +48,8 @@ public class MySQLUtilities {
         // Skip the first Tag
         xss.nextTag();
         
+
+        
         // Start with the Root
         xss.require(XMLStreamReader.START_ELEMENT, "http://example.org", "Personlist");
 
@@ -52,9 +60,13 @@ public class MySQLUtilities {
             xss.require(XMLStreamReader.START_ELEMENT, "http://example.org", "results");
             Person person = (Person)unmarshaller.unmarshal(xss);
             
-            processPerson(person);
+
+            processPerson(person);   
             
+
             populateDatabase(person);
+            
+            
         }
 
         xss.require(XMLStreamReader.END_ELEMENT, "http://example.org", "Personlist");
@@ -84,6 +96,38 @@ public class MySQLUtilities {
 
     }
     
+    public static void setupPositions()
+    {
+    	
+    	Position admin = new Position();
+    	admin.setId(1);
+    	admin.setName("Admin");
+    	admin.setPermissionLevel(9);
+    	
+      	Position  mod = new Position();
+    	mod.setId(2);
+    	mod.setName("Moderator");
+    	mod.setPermissionLevel(5);
+    	
+    	Position user = new Position();
+    	user.setId(3);
+    	user.setName("User");
+    	user.setPermissionLevel(3);
+    	
+    	PositionManagement.CreatePositionFromPosition(admin);
+    	PositionManagement.CreatePositionFromPosition(mod);
+    	PositionManagement.CreatePositionFromPosition(user);
+    	
+
+    	/*
+      	Position  = new Position();
+    	.setId();
+    	.setName();
+    	.setPermissionLevel();
+    	*/
+
+    }
+    
     /**
      * This will load the User into the database
      * @param person
@@ -93,7 +137,6 @@ public class MySQLUtilities {
     	
     	
     	UserManagement.createUserFromPerson(person);
-    	  	
 
     }
 }

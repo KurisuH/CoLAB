@@ -101,7 +101,7 @@ public class UserManagement {
 	    	user.setRegisterDate(new Date());
 	    
 			 entitymanager.persist( user );
-			// entitymanager.persist( position );
+			 //entitymanager.persist( position );
 			 entitymanager.getTransaction( ).commit( );
 
 			 entitymanager.close( );
