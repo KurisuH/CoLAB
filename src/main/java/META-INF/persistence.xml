@@ -7,7 +7,7 @@
  	<persistence-unit name="Eclipselink_JPA" transaction-type="RESOURCE_LOCAL">
  	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
  	
- 	     <class>entities.Note</class>
+ 	     
  	     <class>model.Position</class>
  	     <class>model.Postit</class>
  	     <class>model.User</class>
