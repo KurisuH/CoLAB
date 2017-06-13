@@ -24,11 +24,11 @@ public class PostitManagement {
 
 	      System.out.println("Postit ID = " + postit.getId());
 	      System.out.println("Postit CONTENT = " + postit.getContentText());
-	      System.out.println("Postit AUTHOR = " + postit.getUser());
+	      System.out.println("Postit AUTHOR = " + postit.getAuthor());
 	      
 	      return postit;
 	   }
-	
+
    public static void CreatePostit(int author, String title, String content_text, String content_image, int responseTo){
 	
 		   EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );   
@@ -38,11 +38,14 @@ public class PostitManagement {
 		   Postit postit = new Postit( ); 
     
     
-		   postit.setUser(author);
+		   postit.setAuthor(author);
 		   postit.setTitle(title);
 		   postit.setContentText(content_text);
 		   postit.setContentImage(content_image);
 		   postit.setResponseTo(responseTo);
+		   postit.setDate(new Date());
+
+		   
 		   
   
 		   entitymanager.persist( postit );
@@ -94,7 +97,7 @@ public class PostitManagement {
 			        			 
 			        	case 1:   try{
 			        			int newId =  Integer.parseInt(content);
-			        			postit.setUser(newId);
+			        			postit.setAuthor(newId);
 		        			 	}
 		        	
 			        			catch(NumberFormatException e)
@@ -196,7 +199,7 @@ public class PostitManagement {
 			        			 
 			        	case 1:   try{
 			        			int newId =  Integer.parseInt(content[i]);
-			        			postit.setUser(newId);
+			        			postit.setAuthor(newId);
 		        			 	}
 		        	
 			        			catch(NumberFormatException e)
@@ -284,7 +287,7 @@ public class PostitManagement {
 	      for(Postit n : result)
 	      {
 		      System.out.println("Postit ID = " + n.getId());
-		      System.out.println("Postit Author = " + n.getUser());
+		      System.out.println("Postit Author = " + n.getAuthor());
 		      System.out.println("Postit CONTENT = " + n.getContentText());
 		      
 	      }

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import model.Position;
 import control.MySQLUtilities;
+import control.PostitManagement;
 import control.UserManagement;
 
 
@@ -22,6 +23,8 @@ public class test {
 		String print = UserManagement.getUserbyID(1).toString();
 		System.out.println(print);
 		//UserManagement.createUser("Testest","TEST","MREST","SURTE",position,"12334342",new Date(),"m"
+		
+		PostitManagement.CreatePostit(1, "TEST", "HEUTEMALKURS", null , 0);
 		//	,new Date(),"23123123","Test","avatar",null);
     	
     	//UserManagement.fetchAllUsers();

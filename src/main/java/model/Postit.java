@@ -39,7 +39,7 @@ public class Postit implements Serializable {
 
 	private String title;
 
-	private int user;
+	private int author;
 
 	public Postit() {
 	}
@@ -124,12 +124,12 @@ public class Postit implements Serializable {
 		this.title = title;
 	}
 
-	public int getUser() {
-		return this.user;
+	public int getAuthor() {
+		return this.author;
 	}
 
-	public void setUser(int author) {
-		this.user = author;
+	public void setAuthor(int author) {
+		this.author = author;
 	}
 
 }
