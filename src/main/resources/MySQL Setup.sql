@@ -24,7 +24,7 @@ CREATE TABLE `position` (
 
 CREATE TABLE `PostIt` (
 	`id` int NOT NULL AUTO_INCREMENT,
-	`author` int NOT NULL UNIQUE,
+	`author` int NOT NULL,
 	`title` varchar(255) NOT NULL,
 	`content_text` varchar(255),
 	`content_image` varchar(255) UNIQUE,

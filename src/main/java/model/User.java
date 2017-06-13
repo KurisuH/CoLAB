@@ -45,14 +45,13 @@ public class User implements Serializable {
 
 	private String surname;
 
-	//bi-directional many-to-one association to Postit
-	@OneToMany(mappedBy="user")
+
 	private List<Postit> postits;
 
-	//bi-directional many-to-one association to Position
-	@ManyToOne
-	@JoinColumn(name="position")
-	private Position positionBean;
+
+	private int position;
+
+
 
 	public User() {
 	}
@@ -161,26 +160,23 @@ public class User implements Serializable {
 		this.postits = postits;
 	}
 
-	public Postit addPostit(Postit postit) {
-		getPostits().add(postit);
-		postit.setUser(this);
-
-		return postit;
+	public int getPosition() {
+		return position;
 	}
 
-	public Postit removePostit(Postit postit) {
-		getPostits().remove(postit);
-		postit.setUser(null);
-
-		return postit;
+	public void setPosition(int position) {
+		this.position = position;
 	}
-
-	public Position getPositionBean() {
-		return this.positionBean;
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", avatar=" + avatar + ", birthDate="
+				+ birthDate + ", email=" + email + ", fax=" + fax + ", gender="
+				+ gender + ", location=" + location + ", name=" + name
+				+ ", password=" + password + ", phone=" + phone
+				+ ", registerDate=" + registerDate + ", surname=" + surname
+				+ ", postits=" + postits + ", positionBean=" + position
+				+ "]";
 	}
-
-	public void setPositionBean(Position positionBean) {
-		this.positionBean = positionBean;
-	}
+	
 
 }

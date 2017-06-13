@@ -30,7 +30,7 @@ public class MySQLUtilities {
     public static void main(String[] args) throws Exception {
     	
     	
-        //TO DO: Add Setup for Positions 
+        //Initial Setup for positions Table.
         setupPositions();
         
         new MySQLUtilities().processPerson(MySQLUtilities.class

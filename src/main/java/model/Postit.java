@@ -39,10 +39,7 @@ public class Postit implements Serializable {
 
 	private String title;
 
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="author")
-	private User user;
+	private int user;
 
 	public Postit() {
 	}
@@ -127,12 +124,12 @@ public class Postit implements Serializable {
 		this.title = title;
 	}
 
-	public User getUser() {
+	public int getUser() {
 		return this.user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(int author) {
+		this.user = author;
 	}
 
 }

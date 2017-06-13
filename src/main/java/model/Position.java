@@ -22,8 +22,7 @@ public class Position implements Serializable {
 	@Column(name="permission_level")
 	private int permissionLevel;
 
-	//bi-directional many-to-one association to User
-	@OneToMany(mappedBy="positionBean")
+
 	private List<User> users;
 
 	public Position() {
@@ -60,19 +59,4 @@ public class Position implements Serializable {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-
-	public User addUser(User user) {
-		getUsers().add(user);
-		user.setPositionBean(this);
-
-		return user;
-	}
-
-	public User removeUser(User user) {
-		getUsers().remove(user);
-		user.setPositionBean(null);
-
-		return user;
-	}
-
 }

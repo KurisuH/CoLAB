@@ -17,13 +17,13 @@ public class PositionManagement {
 		   
 	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
 	      EntityManager entitymanager = emfactory.createEntityManager();
-	      Position note = entitymanager.find( Position.class, id);
+	      Position position = entitymanager.find( Position.class, id);
 
-	      System.out.println("Position ID = " + note.getId());
-	      System.out.println("Position NAME = " + note.getName());
-	      System.out.println("Position PERMISSIONLVL = " + note.getPermissionLevel());
+	      System.out.println("Position ID = " + position.getId());
+	      System.out.println("Position NAME = " + position.getName());
+	      System.out.println("Position PERMISSIONLVL = " + position.getPermissionLevel());
 	      
-	      return note;
+	      return position;
 	   }
 	
    public static void CreatePosition(String Name, int PermissionLevel){
@@ -32,13 +32,13 @@ public class PositionManagement {
 		   EntityManager entitymanager = emfactory.createEntityManager( );
 		   entitymanager.getTransaction( ).begin( );
 
-		   Position note = new Position( ); 
+		   Position position = new Position( ); 
     
     
-		   note.setName( Name);
-		   note.setPermissionLevel( PermissionLevel);
+		   position.setName(Name);
+		   position.setPermissionLevel( PermissionLevel);
     
-		   entitymanager.persist( note );
+		   entitymanager.persist( position );
 		   entitymanager.getTransaction( ).commit( );
 
 		   entitymanager.close( );
@@ -67,8 +67,8 @@ public class PositionManagement {
 	      EntityManager entitymanager = emfactory.createEntityManager();
 	      entitymanager.getTransaction().begin();
 	      
-	      Position note = entitymanager.find( Position.class, id );
-	      entitymanager.remove( note );
+	      Position position = entitymanager.find( Position.class, id );
+	      entitymanager.remove( position );
 	      entitymanager.getTransaction().commit();
 	      entitymanager.close();
 	      emfactory.close();
@@ -80,10 +80,10 @@ public class PositionManagement {
 	      EntityManager entitymanager = emfactory.createEntityManager();
 	      entitymanager.getTransaction().begin( );
 	      
-	      Position note = entitymanager.find( Position.class, id );
+	      Position position = entitymanager.find( Position.class, id );
 
-	      note.setName(name);
-	      note.setPermissionLevel(permssionlevel);
+	      position.setName(name);
+	      position.setPermissionLevel(permssionlevel);
 	      
 	      entitymanager.getTransaction( ).commit( );
 
