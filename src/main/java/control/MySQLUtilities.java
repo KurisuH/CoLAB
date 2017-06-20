@@ -48,8 +48,6 @@ public class MySQLUtilities {
         // Skip the first Tag
         xss.nextTag();
         
-
-        
         // Start with the Root
         xss.require(XMLStreamReader.START_ELEMENT, "http://example.org", "Personlist");
 
@@ -60,10 +58,7 @@ public class MySQLUtilities {
             xss.require(XMLStreamReader.START_ELEMENT, "http://example.org", "results");
             Person person = (Person)unmarshaller.unmarshal(xss);
             
-
             processPerson(person);   
-            
-
             populateDatabase(person);
             
             

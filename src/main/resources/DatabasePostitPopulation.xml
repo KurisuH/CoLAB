@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<PostitList xmlns="http://postit.org">
+	<results>
+		<author>1</author>
+		<title>LOREM IPSUM LOREM IPSUM</title>
+		<content-text>LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM</content-text>
+		<content-image></content-image>
+		<clicks>0</clicks>
+		<answers>0</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+		<results>
+		<author>1</author>
+		<title>LOREM IPSUM LOREM IPSUM</title>
+		<content-text>LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM</content-text>
+		<content-image></content-image>
+		<clicks>0</clicks>
+		<answers>0</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+		<results>
+		<author>1</author>
+		<title>LOREM IPSUM LOREM IPSUM</title>
+		<content-text>LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM</content-text>
+		<content-image></content-image>
+		<clicks>0</clicks>
+		<answers>0</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+		<results>
+		<author>1</author>
+		<title>LOREM IPSUM LOREM IPSUM</title>
+		<content-text>LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM</content-text>
+		<content-image></content-image>
+		<clicks>0</clicks>
+		<answers>0</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+		<results>
+		<author>1</author>
+		<title>LOREM IPSUM LOREM IPSUM</title>
+		<content-text>LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM LOREM IPSUM</content-text>
+		<content-image></content-image>
+		<clicks>0</clicks>
+		<answers>0</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+	
+	
+	
+	
+	
+	<results>
+		<author>2</author>
+		<title>Heute Malkurs Yo!</title>
+		<content-text>Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs!</content-text>
+		<content-image></content-image>
+		<clicks>50</clicks>
+		<answers>10</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+	
+	<results>
+		<author>2</author>
+		<title>Heute Malkurs Yo!</title>
+		<content-text>Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs!</content-text>
+		<content-image></content-image>
+		<clicks>50</clicks>
+		<answers>10</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+
+	<results>
+		<author>2</author>
+		<title>Heute Malkurs Yo!</title>
+		<content-text>Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs!</content-text>
+		<content-image></content-image>
+		<clicks>50</clicks>
+		<answers>10</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+
+	<results>
+		<author>2</author>
+		<title>Heute Malkurs Yo!</title>
+		<content-text>Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs! Heute Malkurs!</content-text>
+		<content-image></content-image>
+		<clicks>50</clicks>
+		<answers>10</answers>
+		<isPost>1</isPost>
+		<responseTo></responseTo>
+	</results>
+	
+	
+	
+	<results>
+		<author>2</author>
+		<title>GOOD IDEA!</title>
+		<content-text>TOLLER MALKURS TOLLER MALKURS!</content-text>
+		<content-image></content-image>
+		<clicks>50</clicks>
+		<answers>0</answers>
+		<isPost>0</isPost>
+		<responseTo>2</responseTo>
+	</results>
+	
+	<results>
+		<author>2</author>
+		<title>GOOD IDEA!</title>
+		<content-text>TOLLER MALKURS TOLLER MALKURS!</content-text>
+		<content-image></content-image>
+		<clicks>50</clicks>
+		<answers>0</answers>
+		<isPost>0</isPost>
+		<responseTo>2</responseTo>
+	</results>
+	
+	<results>
+		<author>2</author>
+		<title>GOOD IDEA!</title>
+		<content-text>TOLLER MALKURS TOLLER MALKURS!</content-text>
+		<content-image></content-image>
+		<clicks>50</clicks>
+		<answers>0</answers>
+		<isPost>0</isPost>
+		<responseTo>2</responseTo>
+	</results>
+	
+	
+
+
+</PostitList>

@@ -295,6 +295,95 @@ public class PostitManagement {
 	      return result;
    }
    
-
+   
+   
+   public static List<Postit> FetchByResponseTo(int id)
+   
+   {
+	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
+	      EntityManager entitymanager = emfactory.createEntityManager();
+	      entitymanager.getTransaction().begin( );
+   
+	      TypedQuery<Postit> query = entitymanager.createQuery("SELECT n FROM Postit n WHERE n.responseTo = :id", Postit.class);
+	      query.setParameter("id", id);
+	      List<Postit> result = query.getResultList();
+	      
+	      for(Postit n : result)
+	      {
+		      System.out.println("Postit ID = " + n.getId());
+		      System.out.println("Postit Author = " + n.getAuthor());
+		      System.out.println("Postit CONTENT = " + n.getContentText());
+		      
+	      }
+	      
+	      return result;
+   }
+   
+   public static List<Postit> FetchByAuthor(int id)
+   
+   {
+	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
+	      EntityManager entitymanager = emfactory.createEntityManager();
+	      entitymanager.getTransaction().begin( );
+   
+	      TypedQuery<Postit> query = entitymanager.createQuery("SELECT n FROM Postit n WHERE n.author = :id", Postit.class);
+	      query.setParameter("id", id);
+	      List<Postit> result = query.getResultList();
+	      
+	      for(Postit n : result)
+	      {
+		      System.out.println("Postit ID = " + n.getId());
+		      System.out.println("Postit Author = " + n.getAuthor());
+		      System.out.println("Postit CONTENT = " + n.getContentText());
+		      
+	      }
+	      
+	      return result;
+   }
+   
+   public static List<Postit> FetchByAuthorOnlyPost(int id)
+   
+   {
+	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
+	      EntityManager entitymanager = emfactory.createEntityManager();
+	      entitymanager.getTransaction().begin( );
+   
+	      TypedQuery<Postit> query = entitymanager.createQuery("SELECT n FROM Postit n WHERE n.author = :id AND n.isPost = 1", Postit.class);
+	      query.setParameter("id", id);
+	      List<Postit> result = query.getResultList();
+	      
+	      for(Postit n : result)
+	      {
+		      System.out.println("Postit ID = " + n.getId());
+		      System.out.println("Postit Author = " + n.getAuthor());
+		      System.out.println("Postit CONTENT = " + n.getContentText());
+		      
+	      }
+	      
+	      return result;
+   }
+   
+   public static List<Postit> FetchByAuthorOnlyNotPost(int id)
+   
+   {
+	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
+	      EntityManager entitymanager = emfactory.createEntityManager();
+	      entitymanager.getTransaction().begin( );
+   
+	      TypedQuery<Postit> query = entitymanager.createQuery("SELECT n FROM Postit n WHERE n.author = :id AND n.isPost = 0", Postit.class);
+	      query.setParameter("id", id);
+	      List<Postit> result = query.getResultList();
+	      
+	      for(Postit n : result)
+	      {
+		      System.out.println("Postit ID = " + n.getId());
+		      System.out.println("Postit Author = " + n.getAuthor());
+		      System.out.println("Postit CONTENT = " + n.getContentText());
+		      
+	      }
+	      
+	      return result;
+   }
+   
 }
 

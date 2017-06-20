@@ -31,7 +31,7 @@ public class Postit implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
-	private byte isPost;
+	private int isPost;
 
 	private Timestamp lastModified;
 
@@ -92,11 +92,11 @@ public class Postit implements Serializable {
 		this.date = date;
 	}
 
-	public byte getIsPost() {
+	public int getIsPost() {
 		return this.isPost;
 	}
 
-	public void setIsPost(byte isPost) {
+	public void setIsPost(int isPost) {
 		this.isPost = isPost;
 	}
 
