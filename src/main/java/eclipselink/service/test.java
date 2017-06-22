@@ -9,6 +9,12 @@ import control.UserManagement;
 
 
 
+/**
+ * Private class to run some tests against the DB. 
+ * TODO: Implement a few 'real' fleshed out tests.
+ * @author Chris
+ *
+ */
 public class test {
 	
 	public static void main (String[] args)
@@ -26,7 +32,7 @@ public class test {
 		
 		//PostitManagement.CreatePostit(5, "TEST", "HEUTEMALKURS", null , 5);
 		//PostitManagement.FetchByResponseTo(5);
-		PostitManagement.FetchByAuthorOnlyPost(1);
+		PostitManagement.fetchByAuthorOnlyPost(1);
 	//	PostitManagement.FetchAllPostits();
 		//PostitManagement.FetchByAuthor(5);
 		//new Date(),"23123123","Test","avatar",null);

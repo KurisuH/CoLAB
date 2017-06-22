@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import model.User;
+import model.Postit;
 
 import org.eclipse.persistence.oxm.MediaType;
 
@@ -21,34 +21,34 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import control.*;
 
-@Path("/userservice")
+@Path("/postitservice")
 /**
- * This class routes to /userservice from the URL of our Server.
- * It offer functionality to everything relating to User Data in our DB.
- * Including: Finding a User by their ID, complete lists
+ * This class routes to /postitservice from the URL of our Server.
+ * It offer functionality to everything relating to Postit Data in our DB.
+ * Including: Finding a Postit by their ID, complete lists
  * @author Chris
  *
  */
-public class UserService {
+public class PostitService {
 
 	/**
-	 * This Method will fetch a User by its id and return it as a json with
+	 * This Method will fetch a Postit by its id and return it as a json with
 	 * response code 200. TODO: Add a Functionality for 404 or forbidden 405
 	 * responses.
 	 * 
 	 * @param msg
-	 *            The int for which User you want to fetch.
+	 *            The int for which Postit you want to fetch.
 	 * @return Fitting Response as MIME-Type with an enclosed JSON.
 	 */
 	@GET
 	@Produces("application/json")
-	@Path("findUser/{param}")
-	public Response findUser(@PathParam("param") int msg) {
+	@Path("findPostit/{param}")
+	public Response FindPostit(@PathParam("param") int msg) {
 
 		String fulljson = "";
 
 		try {
-			User result = UserManagement.getUserbyID(msg);
+			Postit result = PostitManagement.getPostitbyID(msg);
 			Utilities utilities = new Utilities();
 
 			try {
@@ -71,15 +71,15 @@ public class UserService {
 
 	@GET
 	@Produces("application/json")
-	@Path("fetchAllUsers")
-	public Response fetchAllUsers() {
+	@Path("fetchAllPostits")
+	public Response FetchAllPostits() {
 		String fulljson = "";
 		try {
-			List<User> result = UserManagement.fetchAllUsers();
+			List<Postit> result = PostitManagement.fetchAllPostits();
 			Utilities utilities = new Utilities();
 
 			try {
-				fulljson = utilities.toJsonList(result);
+				fulljson = utilities.toJson(result);
 			} catch (JsonProcessingException e) {
 
 				e.printStackTrace();
@@ -103,26 +103,26 @@ public class UserService {
 	 */
 	@POST
 	@Consumes("text/plain")
-	@Path("createUser")
-	public void createUserbyPlain(String x) {
+	@Path("createPostit")
+	public void createPostitbyPlain(String x) {
 		System.out.println(x);
 	}
 
 	@POST
 	@Consumes("text/plain")
-	@Path("createUserJson")
-	public void createUserJson(String x) {
+	@Path("createPostitJson")
+	public void createPostitJson(String x) {
 		System.out.println(x);
 	}
 
 	@GET
 	@Path("/Test3")
-	public Response listShow() {
+	public Response ListShow() {
 
-		List<User> result = UserManagement.fetchAllUsers();
-		String output = "The Servlet will now display all Users";
+		List<Postit> result = PostitManagement.fetchAllPostits();
+		String output = "The Servlet will now display all Postits";
 
-		for (User n : result) {
+		for (Postit n : result) {
 			output = output + n;
 		}
 		return Response.status(200).entity(output).build();
@@ -133,7 +133,7 @@ public class UserService {
 	@PUT
 	@Consumes("application/json")
 	@Path("update/{id}")
-	public Response updateUserByID(@PathParam("id") int id) {
+	public Response updatePostitByID(@PathParam("id") int id) {
 
 		String output = "";
 		return Response.status(200).entity(output).build();

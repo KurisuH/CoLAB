@@ -109,9 +109,9 @@ public class MySQLUtilities {
     	user.setName("User");
     	user.setPermissionLevel(3);
     	
-    	PositionManagement.CreatePositionFromPosition(admin);
-    	PositionManagement.CreatePositionFromPosition(mod);
-    	PositionManagement.CreatePositionFromPosition(user);
+    	PositionManagement.createPositionFromPosition(admin);
+    	PositionManagement.createPositionFromPosition(mod);
+    	PositionManagement.createPositionFromPosition(user);
     	
 
     	/*

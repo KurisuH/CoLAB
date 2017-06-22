@@ -1,4 +1,4 @@
-//TO DO Update functionality as needed, use implementation as reference
+//TO DO Update functionality as needed, use this implementation as reference.
 
 /*package com.restapp;
 

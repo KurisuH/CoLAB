@@ -1,4 +1,8 @@
-/*package entities;
+/*
+ * 
+ * Old class, use as reference on how to design an entity for Database persistence 
+ * package entities;
+ 
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

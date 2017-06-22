@@ -1,4 +1,6 @@
 /*
+ *  Old example class. Not used anymore but good for looking up some functionality.
+ * 
  * package eclipselink.service;
 import entities.Note;
 import java.util.*;

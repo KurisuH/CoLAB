@@ -10,10 +10,16 @@ import javax.persistence.TypedQuery;
 
 import model.Position;
 
+/**
+ * This Class offers functionality for manipulating Data in the DB.
+ * This includes: Adding new Positions, Updating their Data, or fetching a list of all Positions.
+ * @author Chris
+ *
+ */
 
 public class PositionManagement {
 	
-	public static Position FindPosition (int id){
+	public static Position findPosition (int id){
 		   
 	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
 	      EntityManager entitymanager = emfactory.createEntityManager();
@@ -26,7 +32,7 @@ public class PositionManagement {
 	      return position;
 	   }
 	
-   public static void CreatePosition(String Name, int PermissionLevel){
+   public static void createPosition(String Name, int PermissionLevel){
 	
 		   EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );   
 		   EntityManager entitymanager = emfactory.createEntityManager( );
@@ -46,7 +52,7 @@ public class PositionManagement {
 	
 		}
    
-   public static void CreatePositionFromPosition(Position pos){
+   public static void createPositionFromPosition(Position pos){
 		
 	   EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );   
 	   EntityManager entitymanager = emfactory.createEntityManager( );
@@ -60,7 +66,7 @@ public class PositionManagement {
 
 	}
    
-   public static void DeletePosition(int id)
+   public static void deletePosition(int id)
    {
 	   
 	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
@@ -74,7 +80,7 @@ public class PositionManagement {
 	      emfactory.close();
    }
    
-   public static void UpdatePosition(int id, String name, int permssionlevel)
+   public static void updatePosition(int id, String name, int permssionlevel)
    {
 	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
 	      EntityManager entitymanager = emfactory.createEntityManager();
@@ -89,7 +95,7 @@ public class PositionManagement {
 
    }
    
-   public static List<Position> FetchAllPositions()
+   public static List<Position> fetchAllPositions()
    {
 	      EntityManagerFactory emfactory = Persistence.createEntityManagerFactory( "Eclipselink_JPA" );
 	      EntityManager entitymanager = emfactory.createEntityManager();

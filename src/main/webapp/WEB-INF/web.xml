@@ -18,6 +18,12 @@
 	</servlet>
 	
 	
+
+	
+	
+	
+	
+	
 	<servlet>
 	<servlet-name>default</servlet-name>
   <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
@@ -39,6 +45,8 @@
 		<servlet-name>User-Servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+	
+
 
 <servlet-mapping>
    <servlet-name>default</servlet-name>
