@@ -42,8 +42,8 @@ public class PostitService {
 	 */
 	@GET
 	@Produces("application/json")
-	@Path("findPostit/{param}")
-	public Response FindPostit(@PathParam("param") int msg) {
+	@Path("findpostit/{param}")
+	public Response findPostit(@PathParam("param") int msg) {
 
 		String fulljson = "";
 
@@ -71,8 +71,8 @@ public class PostitService {
 
 	@GET
 	@Produces("application/json")
-	@Path("fetchAllPostits")
-	public Response FetchAllPostits() {
+	@Path("fetchallpostits")
+	public Response fetchAllPostits() {
 		String fulljson = "";
 		try {
 			List<Postit> result = PostitManagement.fetchAllPostits();
@@ -103,21 +103,21 @@ public class PostitService {
 	 */
 	@POST
 	@Consumes("text/plain")
-	@Path("createPostit")
+	@Path("createpostit")
 	public void createPostitbyPlain(String x) {
 		System.out.println(x);
 	}
 
 	@POST
 	@Consumes("text/plain")
-	@Path("createPostitJson")
+	@Path("createpostitJson")
 	public void createPostitJson(String x) {
 		System.out.println(x);
 	}
 
 	@GET
 	@Path("/Test3")
-	public Response ListShow() {
+	public Response listShow() {
 
 		List<Postit> result = PostitManagement.fetchAllPostits();
 		String output = "The Servlet will now display all Postits";

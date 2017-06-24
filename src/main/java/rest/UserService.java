@@ -42,7 +42,7 @@ public class UserService {
 	 */
 	@GET
 	@Produces("application/json")
-	@Path("findUser/{param}")
+	@Path("finduser/{param}")
 	public Response findUser(@PathParam("param") int msg) {
 
 		String fulljson = "";
@@ -71,7 +71,7 @@ public class UserService {
 
 	@GET
 	@Produces("application/json")
-	@Path("fetchAllUsers")
+	@Path("fetchallusers")
 	public Response fetchAllUsers() {
 		String fulljson = "";
 		try {
@@ -103,20 +103,20 @@ public class UserService {
 	 */
 	@POST
 	@Consumes("text/plain")
-	@Path("createUser")
+	@Path("createuser")
 	public void createUserbyPlain(String x) {
 		System.out.println(x);
 	}
 
 	@POST
 	@Consumes("text/plain")
-	@Path("createUserJson")
+	@Path("createuserjson")
 	public void createUserJson(String x) {
 		System.out.println(x);
 	}
 
 	@GET
-	@Path("/Test3")
+	@Path("/test3")
 	public Response listShow() {
 
 		List<User> result = UserManagement.fetchAllUsers();
