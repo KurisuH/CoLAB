@@ -9,6 +9,7 @@ import java.util.List;
 import control.JsonUnmarshaller;
 import control.MySQLUtilities;
 import control.PostitManagement;
+import control.UserManagement;
 
 
 
@@ -49,7 +50,7 @@ public class test {
 	//	PostitManagement.FetchAllPostits();
 		//PostitManagement.FetchByAuthor(5);
 		//new Date(),"23123123","Test","avatar",null);
-    	
+ 
     	//UserManagement.fetchAllUsers();
 		
 		//PostitManagement.deletePostitbyID(3);

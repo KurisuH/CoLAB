@@ -83,6 +83,34 @@ public class PostitManagement {
 
 	}
 	
+	
+	
+	
+	public static void updatePostit(int id, Postit update) {
+
+		EntityManagerFactory emfactory = Persistence
+				.createEntityManagerFactory("Eclipselink_JPA");
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+
+		Postit postit = entitymanager.find(Postit.class, id);
+		
+		postit.setAuthor(update.getAuthor());
+		postit.setTitle(update.getTitle());
+		postit.setContentText(update.getContentText());
+		postit.setContentImage(update.getContentImage());
+		postit.setResponseTo(update.getResponseTo());
+		if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
+
+		entitymanager.getTransaction().commit();
+
+		entitymanager.close();
+		emfactory.close();
+	}
+	
+	
+	
+	
 
 	public static void deletePostitbyID(int id) {
 
@@ -197,114 +225,7 @@ public class PostitManagement {
 
 	}
 
-	public static void updatePostitbyOptionBulk(int id, String[] content,
-			int[] options, Date date, Timestamp timestamp) {
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
-
-		Postit postit = entitymanager.find(Postit.class, id);
-
-		for (int i : options) {
-
-			switch (i) {
-
-			case 0:
-				try {
-					int newId = Integer.parseInt(content[i]);
-					postit.setId(newId);
-				}
-
-				catch (NumberFormatException e) {
-					System.out
-							.println("Please specify a valid int for this input");
-				}
-				break;
-
-			case 1:
-				try {
-					int newId = Integer.parseInt(content[i]);
-					postit.setAuthor(newId);
-				}
-
-				catch (NumberFormatException e) {
-					System.out
-							.println("Please specify a valid int for this input");
-				}
-				break;
-
-			case 2:
-				postit.setTitle(content[i]);
-				break;
-			case 3:
-				postit.setContentText(content[i]);
-				break;
-			case 4:
-				postit.setContentImage(content[i]);
-				break;
-
-			case 5:
-				try {
-					int newId = Integer.parseInt(content[i]);
-					postit.setClicks(newId);
-				}
-
-				catch (NumberFormatException e) {
-					System.out
-							.println("Please specify a valid int for this input");
-				}
-				break;
-
-			case 6:
-				try {
-					int newId = Integer.parseInt(content[i]);
-					postit.setAnswers(newId);
-				}
-
-				catch (NumberFormatException e) {
-					System.out
-							.println("Please specify a valid int for this input");
-				}
-				break;
-
-			case 7:
-				try {
-
-					int newId = Integer.parseInt(content[i]);
-					if (newId == 0 || newId == 1) {
-						postit.setIsPost(Byte.parseByte(content[i]));
-					} else {
-						System.out
-								.println("Please specify a value between 1 and 0 for the column 'isPost'");
-					}
-				}
-
-				catch (NumberFormatException e) {
-					System.out
-							.println("Please specify a valid int for this input");
-				}
-				break;
-
-			case 8:
-				postit.setDate(date);
-				break;
-
-			case 9:
-				postit.setLastModified(timestamp);
-				break;
-			default:
-				System.out
-						.println("Please specify a Number in Range from 1 to 9, refer to the Javadoc for details.");
-				break;
-			}
-
-		}
-
-		entitymanager.getTransaction().commit();
-
-	}
-
+	
 	public static List<Postit> fetchAllPostits() {
 		EntityManagerFactory emfactory = Persistence
 				.createEntityManagerFactory("Eclipselink_JPA");
@@ -371,6 +292,9 @@ public class PostitManagement {
 
 		return result;
 	}
+	
+	
+	
 
 	public static List<Postit> fetchByAuthorOnlyPost(int id)
 

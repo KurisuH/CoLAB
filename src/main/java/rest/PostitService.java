@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -18,6 +19,8 @@ import model.Postit;
 import model.User;
 
 import org.eclipse.persistence.oxm.MediaType;
+
+
 
 
 
@@ -168,41 +171,57 @@ public class PostitService {
 	
 	
 	/**
-	 * This Method will fetch a Postit by its id and return it as a json with
-	 * response code 200. TODO: Add a Functionality for 404 or forbidden 405
-	 * responses.
-	 * 
-	 * @param msg
-	 *            The int for which Postit you want to fetch.
-	 * @return Fitting Response as MIME-Type with an enclosed JSON.
+	 * Specify an ID and this Method will delete the corresponding Postit in the Database.
 	 */
-	@GET
+	@DELETE
 	@Path("delete/{param}")
 	public Response delete(@PathParam("param") int msg) {
 
-		String fulljson = "";
-
 		try {
-			Postit result = PostitManagement.getPostitbyID(msg);
-			Utilities utilities = new Utilities();
+			PostitManagement.deletePostitbyID(msg);
 
-			try {
-				fulljson = utilities.toJson(result);
-			} catch (JsonProcessingException e) {
+			} catch (Exception e) {
 
 				e.printStackTrace();
 				System.out
-						.println("Something went wrong: With Converting String to Json");
-				return Response.status(404).entity(fulljson).build();
+						.println("Cant find the source to be deleted.");
+				return Response.status(404).build();
 			}
 
-			Object jayson = fulljson;
 
-			return Response.status(200).entity(jayson).build();
-		} catch (Exception e) {
-			return Response.status(404).entity(fulljson).build();
-		}
+			return Response.status(200).build();
 	}
+	
+	/**
+	 * Updates a Postit with a provieded JSON
+	 * @param id The Postit to update
+	 * @param json the body json with all the relevant information.
+	 * @return
+	 */
+	@PUT
+	@Consumes("application/json")
+	@Path("update/{id}")
+	public Response updatePostitByID(@PathParam("id") int id, File json) {
+		
+	
+		try {
+			JsonUnmarshaller jc = new JsonUnmarshaller();
+			Postit postit = jc.UnmarshalJsonPostit(json);
+
+			PostitManagement.updatePostit(id, postit);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			System.out
+					.println("Marshalling went wrong.");
+			
+			return Response.status(400).build();
+		}
+		return Response.status(200).build();
+
+	}
+
 	
 	
 
@@ -220,16 +239,6 @@ public class PostitService {
 
 	}
 
-	// TODO: This method.
-	@PUT
-	@Consumes("application/json")
-	@Path("update/{id}")
-	public Response updatePostitByID(@PathParam("id") int id) {
-
-		String output = "";
-		return Response.status(200).entity(output).build();
-
-	}
 	/*
 	 * @GET
 	 * 

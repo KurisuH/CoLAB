@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -134,6 +135,29 @@ public class UserService {
 		return Response.status(200).build();
 
 	}
+	
+	
+	/**
+	 * Specify an ID and this Method will delete the corresponding Postit in the Database.
+	 */
+	@DELETE
+	@Path("delete/{param}")
+	public Response delete(@PathParam("param") int msg) {
+
+		try {
+			UserManagement.deleteUser(msg);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Cant find the source to be deleted.");
+				return Response.status(404).build();
+			}
+
+
+			return Response.status(200).build();
+	}
 
 	@GET
 	@Path("/test3")
@@ -149,16 +173,37 @@ public class UserService {
 
 	}
 
-	// TODO: This method.
+	/**
+	 * Updates a User with a provieded JSON
+	 * @param id The user to update
+	 * @param json the body json with all the relevant information.
+	 * @return
+	 */
 	@PUT
 	@Consumes("application/json")
 	@Path("update/{id}")
-	public Response updateUserByID(@PathParam("id") int id) {
+	public Response updateUserByID(@PathParam("id") int id, File json) {
+		
+	
+		try {
+			JsonUnmarshaller jc = new JsonUnmarshaller();
+			User user = jc.UnmarshalJsonUser(json);
 
-		String output = "";
-		return Response.status(200).entity(output).build();
+			UserManagement.updateUser(id, user);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			System.out
+					.println("Marshalling went wrong.");
+			
+			return Response.status(400).build();
+		}
+		return Response.status(200).build();
 
 	}
+	
+	
 	/*
 	 * @GET
 	 * 

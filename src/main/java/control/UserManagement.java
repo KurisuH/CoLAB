@@ -242,112 +242,38 @@ public class UserManagement {
 		entitymanager.getTransaction().commit();
 
 	}
-
-	/**
-	 * Function used for update Operations.
-	 * 
-	 * @param id
-	 *            The ID of the user you want to update
-	 * @param content
-	 *            The content the data shall be changed to. Here specify as an Array and add corresponding options in the integer Array.
-	 * @param option
-	 *            Specify the kind of Operations you want. 
-	 *            
-	 *            0. id (not recommended, only added for the sake of being complete and for
-	 *            tests. The id is our pk and should never be changed) 
-	 *            1. email
-	 *            2. password 
-	 *            3. name 
-	 *            4. surname 
-	 *            5. position 
-	 *            6. phone 
-	 *            7. birth_date 
-	 *            8. gender 
-	 *            9. register_date 
-	 *            10. fax 
-	 *            11. location 
-	 *            12. avatar
-	 * 
-	 */
 	
-	public static void updateUserByOptionBulk(int id, String[] content,
-			Date date, int[] options) {
+	public static void updateUser(int id, User update) {
+
 		EntityManagerFactory emfactory = Persistence
 				.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
 		User user = entitymanager.find(User.class, id);
+		
+		user.setEmail(update.getEmail());
+		user.setPassword(update.getPassword());
+		user.setName(update.getName());
+		user.setSurname(update.getSurname());
+		user.setGender(update.getGender());
+		user.setPassword(update.getPassword());
+		
+		user.setPosition(update.getPosition());
+		user.setPhone(update.getPhone());
+		user.setBirthDate(update.getBirthDate());
+		user.setFax(update.getFax());
+		user.setLocation(update.getLocation());
+		user.setAvatar(update.getAvatar());
+		user.setRegisterDate(new Date());
 
-		for (int i : options) {
-
-			switch (i) {
-
-			case 0:
-				try {
-					int newId = Integer.parseInt(content[i]);
-					user.setId(newId);
-				}
-
-				catch (NumberFormatException e) {
-					System.out.println("Please specify a valid int for this input");
-				}
-				break;
-
-			case 1:
-				user.setEmail(content[i]);
-				break;
-			case 2:
-				user.setPassword(content[i]);
-				break;
-			case 3:
-				user.setName(content[i]);
-				break;
-			case 4:
-				user.setSurname(content[i]);
-				break;
-
-			case 5:
-				try {
-					Position p = new Position();
-					int newId = Integer.parseInt(content[i]);
-					user.setPosition(newId);
-
-				}
-
-				catch (NumberFormatException e) {
-					System.out
-							.println("Please specify a valid int for this input");
-				}
-				break;
-
-			case 6:
-				user.setBirthDate(date);
-				break;
-			case 7:
-				user.setGender(content[i]);
-				break;
-			case 8:
-				user.setRegisterDate(date);
-				break;
-			case 9:
-				user.setFax(content[i]);
-				break;
-			case 10:
-				user.setLocation(content[i]);
-				break;
-			case 11:
-				user.setAvatar(content[i]);
-				break;
-			default:
-				System.out
-						.println("Please specify a Number in Range from 1 to 11, refer to the Javadoc for details.");
-				break;
-			}
-		}
 
 		entitymanager.getTransaction().commit();
+
+		entitymanager.close();
+		emfactory.close();
 	}
+
 
 	public static List<User> fetchAllUsers() {
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
