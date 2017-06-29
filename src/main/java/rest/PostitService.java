@@ -48,7 +48,7 @@ public class PostitService {
 	 */
 	@GET
 	@Produces("application/json")
-	@Path("findpostit/{param}")
+	@Path("find/{param}")
 	public Response findPostit(@PathParam("param") int msg) {
 
 		String fulljson = "";
@@ -77,7 +77,7 @@ public class PostitService {
 
 	@GET
 	@Produces("application/json")
-	@Path("fetchallpostits")
+	@Path("fetch_all")
 	public Response fetchAllPostits() {
 		String fulljson = "";
 		try {
@@ -105,7 +105,7 @@ public class PostitService {
 	
 	@GET
 	@Produces("application/json")
-	@Path("findpostitresponses/{param}")
+	@Path("responses/{param}")
 	public Response findPostitResponses(@PathParam("param") int msg) {
 
 		String fulljson = "";
@@ -144,7 +144,7 @@ public class PostitService {
 	 */
 	@POST
 	@Consumes("application/json")
-	@Path("create_postit_by_json")
+	@Path("create_by_json")
 	public Response createPostitJson(File json) {
 		
 		try {
@@ -162,9 +162,49 @@ public class PostitService {
 		}
 		System.out
 		.println("Added the new Note. No Errors.");
-		return Response.status(200).build();
+		return Response.status(201).build();
 
 	}
+	
+	
+	/**
+	 * This Method will fetch a Postit by its id and return it as a json with
+	 * response code 200. TODO: Add a Functionality for 404 or forbidden 405
+	 * responses.
+	 * 
+	 * @param msg
+	 *            The int for which Postit you want to fetch.
+	 * @return Fitting Response as MIME-Type with an enclosed JSON.
+	 */
+	@GET
+	@Path("delete/{param}")
+	public Response delete(@PathParam("param") int msg) {
+
+		String fulljson = "";
+
+		try {
+			Postit result = PostitManagement.getPostitbyID(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+
+			Object jayson = fulljson;
+
+			return Response.status(200).entity(jayson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+	
+	
 
 	@GET
 	@Path("/Test3")

@@ -44,7 +44,7 @@ public class UserService {
 	 */
 	@GET
 	@Produces("application/json")
-	@Path("finduser/{param}")
+	@Path("find/{param}")
 	public Response findUser(@PathParam("param") int msg) {
 
 		String fulljson = "";
@@ -75,7 +75,7 @@ public class UserService {
 
 	@GET
 	@Produces("application/json")
-	@Path("fetchallusers")
+	@Path("fetchall")
 	public Response fetchAllUsers() {
 		String fulljson = "";
 		try {
@@ -115,7 +115,7 @@ public class UserService {
 
 	@POST
 	@Consumes("application/json")
-	@Path("create_user_by_json")
+	@Path("create_by_json")
 	public Response createUserJson(File json) {
 		
 		try {
