@@ -1,3 +1,4 @@
+package tests;
 /*
  *  Old example class. Not used anymore but good for looking up some functionality.
  * 

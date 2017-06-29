@@ -239,18 +239,5 @@ public class PostitService {
 
 	}
 
-	/*
-	 * @GET
-	 * 
-	 * @Path("/{param}") public Response getMsg(@PathParam("param") String msg)
-	 * {
-	 * 
-	 * String output = "Jersey says Hello Mr/Mrs " + msg
-	 * +". Enjoy how well we can read parameter.";
-	 * 
-	 * return Response.status(200).entity(output).build();
-	 * 
-	 * }
-	 */
 
 }

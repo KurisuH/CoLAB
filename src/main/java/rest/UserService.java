@@ -3,22 +3,56 @@
 package rest;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+
+
+
+
+
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
+
+
+
+
+
+
+
+
+
 
 import model.Postit;
 import model.User;
 
-import org.eclipse.persistence.oxm.MediaType;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -203,19 +237,4 @@ public class UserService {
 
 	}
 	
-	
-	/*
-	 * @GET
-	 * 
-	 * @Path("/{param}") public Response getMsg(@PathParam("param") String msg)
-	 * {
-	 * 
-	 * String output = "Jersey says Hello Mr/Mrs " + msg
-	 * +". Enjoy how well we can read parameter.";
-	 * 
-	 * return Response.status(200).entity(output).build();
-	 * 
-	 * }
-	 */
-
-}
+}   
