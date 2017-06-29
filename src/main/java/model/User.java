@@ -174,7 +174,7 @@ public class User implements Serializable {
 				+ gender + ", location=" + location + ", name=" + name
 				+ ", password=" + password + ", phone=" + phone
 				+ ", registerDate=" + registerDate + ", surname=" + surname
-				+ ", postits=" + postits + ", positionBean=" + position
+				+ ", postits=" + postits + ", position=" + position
 				+ "]";
 	}
 	

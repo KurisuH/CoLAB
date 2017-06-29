@@ -2,6 +2,7 @@
 
 package rest;
 
+import java.io.File;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -14,8 +15,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import model.Postit;
+import model.User;
 
 import org.eclipse.persistence.oxm.MediaType;
+
+
+
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -96,23 +102,68 @@ public class PostitService {
 
 	}
 
+	
+	@GET
+	@Produces("application/json")
+	@Path("findpostitresponses/{param}")
+	public Response findPostitResponses(@PathParam("param") int msg) {
+
+		String fulljson = "";
+
+		try {
+			List<Postit> result = PostitManagement.fetchByResponseTo(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+
+			Object jayson = fulljson;
+
+			return Response.status(200).entity(jayson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+
+
+
+
+
+
 	/**
 	 * TODO: Write Method that correctly parses a REST request.
-	 * 
+	 * Please refer for correct form to /Webtech2Project/src/main/resources/example_postit.json
 	 * @param x
 	 */
 	@POST
-	@Consumes("text/plain")
-	@Path("createpostit")
-	public void createPostitbyPlain(String x) {
-		System.out.println(x);
-	}
+	@Consumes("application/json")
+	@Path("create_postit_by_json")
+	public Response createPostitJson(File json) {
+		
+		try {
+			JsonUnmarshaller jc = new JsonUnmarshaller();
+			Postit postit = jc.UnmarshalJsonPostit(json);
+			PostitManagement.createPostitFromPostit(postit);
 
-	@POST
-	@Consumes("text/plain")
-	@Path("createpostitJson")
-	public void createPostitJson(String x) {
-		System.out.println(x);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			System.out
+					.println("Marshalling went wrong.");
+			
+			return Response.status(400).build();
+		}
+		System.out
+		.println("Added the new Note. No Errors.");
+		return Response.status(200).build();
+
 	}
 
 	@GET

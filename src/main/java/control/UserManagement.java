@@ -109,6 +109,24 @@ public class UserManagement {
 		entitymanager.close();
 		emfactory.close();
 	}
+	
+	
+	public static void createUserFromUser(User user) {
+
+		EntityManagerFactory emfactory = Persistence
+				.createEntityManagerFactory("Eclipselink_JPA");
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+		user.setRegisterDate(new Date());
+
+
+		entitymanager.persist(user);
+		// entitymanager.persist( position );
+		entitymanager.getTransaction().commit();
+
+		entitymanager.close();
+		emfactory.close();
+	}
 
 	public static void deleteUser(int id) {
 

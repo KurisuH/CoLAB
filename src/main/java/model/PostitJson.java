@@ -1,144 +1,122 @@
 package model;
 
-import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Date;
+
+
+
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+
 
 
 /**
- * The persistent class for the postit database table.
- * 
+ * Class used for unmarshalling from the provided XML.
+ * For usage please see PersonProcessor.java under control.
+ * @author Chris
+ *
  */
-@Entity
-@NamedQuery(name="Postit.findAll", query="SELECT p FROM Postit p")
-public class Postit implements Serializable {
-	private static final long serialVersionUID = 1L;
+@XmlRootElement (name = "postit")
+public class PostitJson {
 
-	@Id
+	@XmlElement(name = "id",required = true)
 	private int id;
-
+	@XmlElement(name = "answers",required = true)
 	private int answers;
-
+	@XmlElement(name = "clicks",required = true)
 	private int clicks;
-
-	@Column(name="content_image")
+	@XmlElement(name = "contentImage",required = true)
 	private String contentImage;
-
-	@Column(name="content_text")
+	@XmlElement(name = "contentText",required = true)
 	private String contentText;
-
-	@Temporal(TemporalType.TIMESTAMP)
+	@XmlElement(name = "date",required = true)
 	private Date date;
-
+	@XmlElement(name = "isPost",required = true)
 	private int isPost;
-
+	@XmlElement(name = "lastModified",required = true)
 	private Timestamp lastModified;
-
+	@XmlElement(name = "responseTo",required = true)
 	private int responseTo;
-
+	@XmlElement(name = "title",required = true)
 	private String title;
-
+	@XmlElement(name = "author",required = true)
 	private int author;
-
-	public Postit() {
-	}
-
+	
 	public int getId() {
-		return this.id;
+		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public int getAnswers() {
-		return this.answers;
+		return answers;
 	}
-
 	public void setAnswers(int answers) {
 		this.answers = answers;
 	}
-
 	public int getClicks() {
-		return this.clicks;
+		return clicks;
 	}
-
 	public void setClicks(int clicks) {
 		this.clicks = clicks;
 	}
-
 	public String getContentImage() {
-		return this.contentImage;
+		return contentImage;
 	}
-
 	public void setContentImage(String contentImage) {
 		this.contentImage = contentImage;
 	}
-
 	public String getContentText() {
-		return this.contentText;
+		return contentText;
 	}
-
 	public void setContentText(String contentText) {
 		this.contentText = contentText;
 	}
-
 	public Date getDate() {
-		return this.date;
+		return date;
 	}
-
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
 	public int getIsPost() {
-		return this.isPost;
+		return isPost;
 	}
-
 	public void setIsPost(int isPost) {
 		this.isPost = isPost;
 	}
-
 	public Timestamp getLastModified() {
-		return this.lastModified;
+		return lastModified;
 	}
-
 	public void setLastModified(Timestamp lastModified) {
 		this.lastModified = lastModified;
 	}
-
 	public int getResponseTo() {
-		return this.responseTo;
+		return responseTo;
 	}
-
 	public void setResponseTo(int responseTo) {
 		this.responseTo = responseTo;
 	}
-
 	public String getTitle() {
-		return this.title;
+		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 	public int getAuthor() {
-		return this.author;
+		return author;
 	}
-
 	public void setAuthor(int author) {
 		this.author = author;
 	}
-
-	@Override
-	public String toString() {
-		return "Postit [id=" + id + ", answers=" + answers + ", clicks="
-				+ clicks + ", contentImage=" + contentImage + ", contentText="
-				+ contentText + ", date=" + date + ", isPost=" + isPost
-				+ ", lastModified=" + lastModified + ", responseTo="
-				+ responseTo + ", title=" + title + ", author=" + author + "]";
-	}
+	
+	
+	
 
 }

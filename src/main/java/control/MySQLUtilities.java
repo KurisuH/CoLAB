@@ -1,6 +1,10 @@
 package control;
 
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -29,7 +33,13 @@ public class MySQLUtilities {
 	
     public static void main(String[] args) throws Exception {
     	
-    	
+    	//File sql = new File("src/main/resources/MySQL_Setup.sql");
+    	//List<String> lines = Files.readAllLines(Paths.get("src/main/resources/MySQL_Setup.sql"));
+    			
+    			
+    			
+    			
+    			
         //Initial Setup for positions Table.
         setupPositions();
         
@@ -89,6 +99,34 @@ public class MySQLUtilities {
     	System.out.println();
     	
 
+    }
+    /**
+     * Fills the database with some example postits. Just run the method in any environment.
+     * Only use it after running the MySQL Database setup. Drop the table beforehand if needed.
+     */
+    public static void fillWithPostit()
+    {
+    	PostitManagement.createPostit(1, "Lorem Ipsum!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed tortor et sem semper cursus. Suspendisse erat leo, ornare nec viverra eget, dictum at augue. Proin a vehicula mauris, eu malesuada mi. Curabitur lacinia est sit amet semper porta. Phasellus in turpis fermentum, fermentum urna ut, viverra justo. Curabitur fringilla velit non risus feugiat molestie. ", null , 0);
+    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
+    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
+    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
+    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
+
+    	
+    	PostitManagement.createPostit(3, "Lorem Ipsum!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed tortor et sem semper cursus. Suspendisse erat leo, ornare nec viverra eget, dictum at augue. Proin a vehicula mauris, eu malesuada mi. Curabitur lacinia est sit amet semper porta. Phasellus in turpis fermentum, fermentum urna ut, viverra justo. Curabitur fringilla velit non risus feugiat molestie. ", null , 0);
+    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
+    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
+    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
+    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
+    	
+    	PostitManagement.createPostit(3, "Malkurse! MALKURSE!" , "Tolle Malkurse fuer alle! Bei mir melden!", null , 0);
+    	PostitManagement.createPostit(4, "Malkurs!", "Yeah! Malkurs!", null , 11);
+    	PostitManagement.createPostit(4, "MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALKURS", "Hurra Malkurse!", null , 11);
+    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! ", null , 11);
+    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "Malkurs!", null , 11);
+    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "Malkurs!", null , 11);
+
+    	
     }
     
     public static void setupPositions()

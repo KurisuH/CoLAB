@@ -1,11 +1,14 @@
 package eclipselink.service;
 
-import java.util.Date;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
-import model.Position;
+import control.JsonUnmarshaller;
 import control.MySQLUtilities;
-import control.PostitManagement;
-import control.UserManagement;
+
 
 
 
@@ -17,7 +20,7 @@ import control.UserManagement;
  */
 public class test {
 	
-	public static void main (String[] args)
+	public static void main (String[] args) throws Exception
 	{
 		
 		//Position position = new Position();
@@ -32,7 +35,16 @@ public class test {
 		
 		//PostitManagement.CreatePostit(5, "TEST", "HEUTEMALKURS", null , 5);
 		//PostitManagement.FetchByResponseTo(5);
-		PostitManagement.fetchByAuthorOnlyPost(1);
+		//PostitManagement.fetchByAuthorOnlyPost(1);
+		MySQLUtilities.fillWithPostit();
+	//	List<String> lines = Files.readAllLines(Paths.get("src/main/resources/MySQL_Setup.sql"));
+	//	System.out.println(lines);
+		//File json = new File("src/main/resources/example_user.json");
+	//	File json_postit = new File("src/main/resources/example_postit.json");
+	//	JsonUnmarshaller jc = new JsonUnmarshaller();
+	//	jc.UnmarshalJsonPostit(json_postit);
+	//	jc.UnmarshalJsonUser(json);
+		
 	//	PostitManagement.FetchAllPostits();
 		//PostitManagement.FetchByAuthor(5);
 		//new Date(),"23123123","Test","avatar",null);

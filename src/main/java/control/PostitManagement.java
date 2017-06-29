@@ -52,6 +52,7 @@ public class PostitManagement {
 		postit.setContentText(content_text);
 		postit.setContentImage(content_image);
 		postit.setResponseTo(responseTo);
+		if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
 		postit.setDate(new Date());
 
 		entitymanager.persist(postit);
@@ -61,6 +62,27 @@ public class PostitManagement {
 		emfactory.close();
 
 	}
+	
+	public static void createPostitFromPostit(Postit postit) {
+
+		EntityManagerFactory emfactory = Persistence
+				.createEntityManagerFactory("Eclipselink_JPA");
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+
+		
+		if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
+		postit.setDate(new Date());
+
+		entitymanager.persist(postit);
+		entitymanager.getTransaction().commit();
+	
+
+		entitymanager.close();
+		emfactory.close();
+
+	}
+	
 
 	public static void deletePostitbyID(int id) {
 

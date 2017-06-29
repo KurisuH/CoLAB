@@ -2,6 +2,7 @@
 
 package rest;
 
+import java.io.File;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -13,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import model.Postit;
 import model.User;
 
 import org.eclipse.persistence.oxm.MediaType;
@@ -52,6 +54,8 @@ public class UserService {
 			Utilities utilities = new Utilities();
 
 			try {
+				
+				result.setPassword(null);
 				fulljson = utilities.toJson(result);
 			} catch (JsonProcessingException e) {
 
@@ -60,7 +64,7 @@ public class UserService {
 						.println("Something went wrong: With Converting String to Json");
 				return Response.status(404).entity(fulljson).build();
 			}
-
+			
 			Object jayson = fulljson;
 
 			return Response.status(200).entity(jayson).build();
@@ -79,6 +83,12 @@ public class UserService {
 			Utilities utilities = new Utilities();
 
 			try {
+				
+				for(User u : result)
+				{
+					u.setPassword(null);
+				}
+				
 				fulljson = utilities.toJsonList(result);
 			} catch (JsonProcessingException e) {
 
@@ -98,21 +108,31 @@ public class UserService {
 
 	/**
 	 * TODO: Write Method that correctly parses a REST request.
+	 * For correct form refer to \src\main\resources\example_user.json
 	 * 
 	 * @param x
 	 */
-	@POST
-	@Consumes("text/plain")
-	@Path("createuser")
-	public void createUserbyPlain(String x) {
-		System.out.println(x);
-	}
 
 	@POST
-	@Consumes("text/plain")
-	@Path("createuserjson")
-	public void createUserJson(String x) {
-		System.out.println(x);
+	@Consumes("application/json")
+	@Path("create_user_by_json")
+	public Response createUserJson(File json) {
+		
+		try {
+			JsonUnmarshaller jc = new JsonUnmarshaller();
+			User user = jc.UnmarshalJsonUser(json);
+			UserManagement.createUserFromUser(user);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			System.out
+					.println("Marshalling went wrong.");
+			
+			return Response.status(400).build();
+		}
+		return Response.status(200).build();
+
 	}
 
 	@GET
