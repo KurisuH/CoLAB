@@ -107,6 +107,38 @@ public class UserService {
 			return Response.status(404).entity(fulljson).build();
 		}
 	}
+	
+	
+	@GET
+	@Produces("application/json")
+	@Path("find_root/{param}")
+	public Response findUserWithRoot(@PathParam("param") int msg) {
+
+		String fulljson = "";
+
+		try {
+			User result = UserManagement.getUserbyID(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				
+				result.setPassword(null);
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+			fulljson = "{\"user\":" + fulljson + "}";
+			Object jayson = fulljson;
+
+			return Response.status(200).entity(jayson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
 
 	@GET
 	@Produces("application/json")
@@ -132,8 +164,8 @@ public class UserService {
 						.println("Something went wrong: With Converting String to Json");
 			}
 
-			Object jayson = fulljson;
-			return Response.status(200).entity(jayson).build();
+			
+			return Response.status(200).entity(fulljson).build();
 
 		} catch (Exception e) {
 			return Response.status(404).entity(fulljson).build();
