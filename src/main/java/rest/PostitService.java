@@ -77,6 +77,65 @@ public class PostitService {
 			return Response.status(404).entity(fulljson).build();
 		}
 	}
+	
+	
+	@GET
+	@Produces("application/json")
+	@Path("find_root/{param}")
+	public Response findPostitWithRoot(@PathParam("param") int msg) {
+
+		String fulljson = "";
+
+		try {
+			Postit result = PostitManagement.getPostitbyID(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+			fulljson = "{\"postit\":" + fulljson + "}";
+			Object jayson = fulljson;
+
+			return Response.status(200).entity(jayson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("find_root_bracket/{param}")
+	public Response findPostitWithRootBracket(@PathParam("param") int msg) {
+
+		String fulljson = "";
+
+		try {
+			Postit result = PostitManagement.getPostitbyID(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+			fulljson = "{\"postit\":[" + fulljson + "]}";
+			Object jayson = fulljson;
+
+			return Response.status(200).entity(jayson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
 
 	@GET
 	@Produces("application/json")
