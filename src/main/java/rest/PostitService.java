@@ -2,6 +2,17 @@
 
 package rest;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.Factory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import java.io.File;
 import java.util.List;
 
@@ -53,6 +64,11 @@ public class PostitService {
 	@Produces("application/json")
 	@Path("find/{param}")
 	public Response findPostit(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		String fulljson = "";
 
@@ -70,9 +86,9 @@ public class PostitService {
 				return Response.status(404).entity(fulljson).build();
 			}
 
-			Object jayson = fulljson;
+			fulljson = "{\"postit\":" + fulljson + "}";
 
-			return Response.status(200).entity(jayson).build();
+			return Response.status(200).entity(fulljson).build();
 		} catch (Exception e) {
 			return Response.status(404).entity(fulljson).build();
 		}
@@ -83,6 +99,11 @@ public class PostitService {
 	@Produces("application/json")
 	@Path("find_root/{param}")
 	public Response findPostitWithRoot(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		String fulljson = "";
 
@@ -112,6 +133,11 @@ public class PostitService {
 	@Produces("application/json")
 	@Path("find_root_bracket/{param}")
 	public Response findPostitWithRootBracket(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		String fulljson = "";
 
@@ -141,6 +167,14 @@ public class PostitService {
 	@Produces("application/json")
 	@Path("fetch_all")
 	public Response fetchAllPostits() {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		
+		
 		String fulljson = "";
 		try {
 			List<Postit> result = PostitManagement.fetchAllPostits();
@@ -155,7 +189,7 @@ public class PostitService {
 						.println("Something went wrong: With Converting String to Json");
 			}
 
-			Object jayson = fulljson;
+			String jayson = "{\"postit\":" + fulljson + "}";
 			return Response.status(200).entity(jayson).build();
 
 		} catch (Exception e) {
@@ -169,6 +203,11 @@ public class PostitService {
 	@Produces("application/json")
 	@Path("responses/{param}")
 	public Response findPostitResponses(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		String fulljson = "";
 
@@ -186,9 +225,9 @@ public class PostitService {
 				return Response.status(404).entity(fulljson).build();
 			}
 
-			Object jayson = fulljson;
+			fulljson = "{\"postit\":" + fulljson + "}";
 
-			return Response.status(200).entity(jayson).build();
+			return Response.status(200).entity(fulljson).build();
 		} catch (Exception e) {
 			return Response.status(404).entity(fulljson).build();
 		}
@@ -208,6 +247,11 @@ public class PostitService {
 	@Consumes("application/json")
 	@Path("create_by_json")
 	public Response createPostitJson(File json) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		
 		try {
 			JsonUnmarshaller jc = new JsonUnmarshaller();
@@ -235,7 +279,14 @@ public class PostitService {
 	@DELETE
 	@Path("delete/{param}")
 	public Response delete(@PathParam("param") int msg) {
+		
+		
 
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+		
 		try {
 			PostitManagement.deletePostitbyID(msg);
 
@@ -262,7 +313,10 @@ public class PostitService {
 	@Path("update/{id}")
 	public Response updatePostitByID(@PathParam("id") int id, File json) {
 		
-	
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		try {
 			JsonUnmarshaller jc = new JsonUnmarshaller();
 			Postit postit = jc.UnmarshalJsonPostit(json);

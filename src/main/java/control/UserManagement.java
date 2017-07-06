@@ -38,6 +38,56 @@ public class UserManagement {
 
 		return user;
 	}
+	
+	public static User getUserbyMail(String id) {
+
+		
+			
+	
+		User result = new User();
+		try {
+			EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+			EntityManager entitymanager = emfactory.createEntityManager();
+			entitymanager.getTransaction().begin();
+
+			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.email = :id", User.class);
+			query.setParameter("id", id);
+			result = query.getSingleResult();
+			
+
+				
+				System.out.println("User ID = " + result.getId());
+				System.out.println("User NAME = " + result.getName());
+				System.out.println("User surname = " + result.getSurname());
+		} catch (Exception e) {
+			System.out.println("Please specify n correct E-mail");
+			e.printStackTrace();
+		}
+	
+		return result;
+	}
+	
+	public static User getUserbyName(String id) {
+
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+
+		TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.name = :id", User.class);
+		query.setParameter("id", id);
+		User result = query.getSingleResult();
+		
+
+			
+			System.out.println("User ID = " + result.getId());
+			System.out.println("User NAME = " + result.getName());
+			System.out.println("User surname = " + result.getSurname());
+	
+		return result;
+	}
+	
+	
+	
 
 	public static void createUser(String email, String password, String name,
 			String surname, int position, String phone, Date birthDate,

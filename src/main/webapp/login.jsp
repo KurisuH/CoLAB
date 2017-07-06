@@ -17,7 +17,7 @@
     <input id ="password" type="text" placeholder="Enter Password" name="psw" value="test" required>
 
     <button type="button" onclick="fetch()">Fetch Credentials</button>
-    <button type="button" onclick="logout()" >logout</button>
+    <button type="button" onclick="login()" >Login</button>
     <button type="button" onclick="checklogin()" >Check login</button>
     <input type="checkbox" checked="checked"> Remember me
     	
@@ -32,11 +32,14 @@
 <button type="button" onclick="loadDoc()">Try a Fetch</button>
 <br><br>
 <p id="demo"></p>
+<p id="demo2"></p>
 
 <script type ="text/javascript">
 
-function logout(){
+function login(){
 	
+	 var name = document.getElementById("name").value;
+	 var pass = document.getElementById("password").value;
 	
 	 var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
@@ -44,12 +47,29 @@ function logout(){
 	    	document.getElementById("demo2").innerHTML = this.responseText;
 	    }
 	  };
-	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/login/logout", true);
+	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/login/" + name + "/" + pass, true);
 	  xhttp.send();
 
-
-    location.href = "login.jsp";
+	
+    location.href = "home.html";
 }
+
+
+
+function checklogin(){
+	
+		
+	 var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    	document.getElementById("demo2").innerHTML = this.responseText;
+	    }
+	  };
+	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/login/check", true);
+	  xhttp.send();
+
+}
+
 
 function loadDoc() {
 	
@@ -80,22 +100,6 @@ function fetch() {
 	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/userservice/find_name/" + tosearch, true);
 	  xhttp.send();
 	}
-	
-function checklogin(){
-	
-	
-	 var xhttp = new XMLHttpRequest();
-	  xhttp.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status == 200) {
-	    	document.getElementById("demo2").innerHTML = this.responseText;
-	    }
-	  };
-	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/login/check", true);
-	  xhttp.send();
-
-}
-
-
 </script>
 
 </body>

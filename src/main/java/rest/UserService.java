@@ -25,6 +25,14 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
+
+
+
+
+
+
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -49,8 +57,28 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
+
+
+
+
+
+
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+
 import model.Postit;
 import model.User;
+
+
+
+
+
+
+
+
 
 
 
@@ -81,6 +109,11 @@ public class UserService {
 	@Produces("application/json")
 	@Path("find/{param}")
 	public Response findUser(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		String fulljson = "";
 
@@ -100,19 +133,27 @@ public class UserService {
 				return Response.status(404).entity(fulljson).build();
 			}
 			
-			Object jayson = fulljson;
+			fulljson = "{\"user\":" + fulljson + "}";
 
-			return Response.status(200).entity(jayson).build();
+
+			return Response.status(200).entity(fulljson).build();
 		} catch (Exception e) {
 			return Response.status(404).entity(fulljson).build();
 		}
 	}
 	
 	
+	
+	
 	@GET
 	@Produces("application/json")
 	@Path("find_root/{param}")
 	public Response findUserWithRoot(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		String fulljson = "";
 
@@ -139,11 +180,93 @@ public class UserService {
 			return Response.status(404).entity(fulljson).build();
 		}
 	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("find_mail/{param}")
+	public Response findUserEmail(@PathParam("param") String msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		String fulljson = "";
+
+		try {
+			User result = UserManagement.getUserbyMail(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				
+				result.setPassword(null);
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+			
+			fulljson = "{\"user\":" + fulljson + "}";
+
+
+			return Response.status(200).entity(fulljson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+	
+	
+	@GET
+	@Produces("application/json")
+	@Path("find_name/{param}")
+	public Response findUserName(@PathParam("param") String msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		String fulljson = "";
+
+		try {
+			User result = UserManagement.getUserbyName(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				
+				result.setPassword(null);
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+			
+			fulljson = "{\"user\":" + fulljson + "}";
+
+
+			return Response.status(200).entity(fulljson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+	
 
 	@GET
 	@Produces("application/json")
 	@Path("fetchall")
 	public Response fetchAllUsers() {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+		
 		String fulljson = "";
 		try {
 			List<User> result = UserManagement.fetchAllUsers();
@@ -164,6 +287,7 @@ public class UserService {
 						.println("Something went wrong: With Converting String to Json");
 			}
 
+			fulljson = "{\"user\":" + fulljson + "}";
 			
 			return Response.status(200).entity(fulljson).build();
 
@@ -184,6 +308,11 @@ public class UserService {
 	@Consumes("application/json")
 	@Path("create_by_json")
 	public Response createUserJson(File json) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		
 		try {
 			JsonUnmarshaller jc = new JsonUnmarshaller();
@@ -209,6 +338,11 @@ public class UserService {
 	@DELETE
 	@Path("delete/{param}")
 	public Response delete(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		try {
 			UserManagement.deleteUser(msg);
@@ -228,6 +362,8 @@ public class UserService {
 	@GET
 	@Path("/test3")
 	public Response listShow() {
+		
+		
 
 		List<User> result = UserManagement.fetchAllUsers();
 		String output = "The Servlet will now display all Users";
@@ -249,6 +385,11 @@ public class UserService {
 	@Consumes("application/json")
 	@Path("update/{id}")
 	public Response updateUserByID(@PathParam("id") int id, File json) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		
 	
 		try {

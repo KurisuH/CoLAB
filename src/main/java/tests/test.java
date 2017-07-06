@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
+import model.User;
 import control.JsonUnmarshaller;
 import control.MySQLUtilities;
 import control.PostitManagement;
@@ -33,12 +35,28 @@ public class test {
 	//	UserManagement.updateUserByOption(1, "3", null,5);
 	//	String print = UserManagement.getUserbyID(1).toString();
 	//	System.out.println(print);
-		//UserManagement.createUser("Testest","TEST","MREST","SURTE",position,"12334342",new Date(),"m"
+		/*
+		User user = new User();
+		user.setEmail("test@test.de");
+		user.setPassword("student");
+		user.setName("student");
+		user.setSurname("test");
+		user.setGender("test");
+
+		user.setPosition(1);
+		user.setPhone("123");
+		user.setBirthDate(new Date());
+		user.setFax("123");
+		user.setLocation("Yoboi");
+		user.setAvatar("Its yoboi");
+		user.setRegisterDate(new Date());
+		UserManagement.createUserFromUser(user);
+		*/
 		
 		//PostitManagement.CreatePostit(5, "TEST", "HEUTEMALKURS", null , 5);
 		//PostitManagement.FetchByResponseTo(5);
 		//PostitManagement.fetchByAuthorOnlyPost(1);
-		MySQLUtilities.fillWithPostit();
+		//MySQLUtilities.fillWithPostit();
 	//	List<String> lines = Files.readAllLines(Paths.get("src/main/resources/MySQL_Setup.sql"));
 	//	System.out.println(lines);
 		//File json = new File("src/main/resources/example_user.json");
@@ -46,6 +64,7 @@ public class test {
 	//	JsonUnmarshaller jc = new JsonUnmarshaller();
 	//	jc.UnmarshalJsonPostit(json_postit);
 	//	jc.UnmarshalJsonUser(json);
+		//UserManagement.getUserbyMail("jimmie.duncan@example.com");
 		
 	//	PostitManagement.FetchAllPostits();
 		//PostitManagement.FetchByAuthor(5);
