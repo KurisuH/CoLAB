@@ -110,15 +110,21 @@ public class UserService {
 	@Path("find/{param}")
 	public Response findUser(@PathParam("param") int msg) {
 		
+	
+		String permission = Integer.toString(msg);
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
+
 		String fulljson = "";
 
 		try {
 			User result = UserManagement.getUserbyID(msg);
+			
+			
+			
 			Utilities utilities = new Utilities();
 
 			try {
@@ -138,6 +144,7 @@ public class UserService {
 
 			return Response.status(200).entity(fulljson).build();
 		} catch (Exception e) {
+			System.out.println("User not found!");
 			return Response.status(404).entity(fulljson).build();
 		}
 	}
@@ -177,6 +184,7 @@ public class UserService {
 
 			return Response.status(200).entity(jayson).build();
 		} catch (Exception e) {
+			System.out.println("User not found!");
 			return Response.status(404).entity(fulljson).build();
 		}
 	}
@@ -189,12 +197,17 @@ public class UserService {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		
-		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+	
+		if ( !currentUser.isAuthenticated()) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		String fulljson = "";
 
 		try {
 			User result = UserManagement.getUserbyMail(msg);
+
+			//if(UserManagement.canAccess(currentUser.getPrincipal().toString(), result.getEmail()) || currentUser.hasRole("1")){ 
+
+
 			Utilities utilities = new Utilities();
 
 			try {
@@ -213,9 +226,15 @@ public class UserService {
 
 
 			return Response.status(200).entity(fulljson).build();
+			
+			
+			//}else{System.out.println("Not permitted!"); return Response.status(403).entity("Not permitted!").build();}
+			
+			
 		} catch (Exception e) {
 			return Response.status(404).entity(fulljson).build();
 		}
+		
 	}
 	
 	
@@ -224,11 +243,15 @@ public class UserService {
 	@Path("find_name/{param}")
 	public Response findUserName(@PathParam("param") String msg) {
 		
+		
+		
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+		
 
+		
 		String fulljson = "";
 
 		try {
@@ -249,9 +272,10 @@ public class UserService {
 			
 			fulljson = "{\"user\":" + fulljson + "}";
 
-
+			
 			return Response.status(200).entity(fulljson).build();
 		} catch (Exception e) {
+			System.out.println("User not found!");
 			return Response.status(404).entity(fulljson).build();
 		}
 	}
@@ -292,6 +316,7 @@ public class UserService {
 			return Response.status(200).entity(fulljson).build();
 
 		} catch (Exception e) {
+			System.out.println("User not found!");
 			return Response.status(404).entity(fulljson).build();
 		}
 
@@ -345,7 +370,15 @@ public class UserService {
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 
 		try {
+			
+			User result = UserManagement.getUserbyID(msg);
+			if(UserManagement.canAccess(currentUser.getPrincipal().toString(), result.getEmail()) || currentUser.hasRole("1")){ 
+				
+			
+			
 			UserManagement.deleteUser(msg);
+			
+			}else{System.out.println("Not permitted!"); return Response.status(403).entity("Not permitted!").build();}
 
 			} catch (Exception e) {
 
@@ -395,9 +428,16 @@ public class UserService {
 		try {
 			JsonUnmarshaller jc = new JsonUnmarshaller();
 			User user = jc.UnmarshalJsonUser(json);
+			
+			
+			
+			User result = UserManagement.getUserbyID(id);
+			if(UserManagement.canAccess(currentUser.getPrincipal().toString(), result.getEmail()) || currentUser.hasRole("1")){ 
 
 			UserManagement.updateUser(id, user);
 
+			}else{System.out.println("Not permitted!"); return Response.status(403).entity("Not permitted!").build();}
+			
 		} catch (Exception e) {
 
 			e.printStackTrace();

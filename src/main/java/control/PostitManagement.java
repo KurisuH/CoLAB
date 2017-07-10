@@ -21,12 +21,17 @@ import model.User;
  *
  */
 
+
+
 public class PostitManagement {
+	
+	
+	static EntityManagerFactory emfactory = Persistence
+			.createEntityManagerFactory("Eclipselink_JPA");
 
 	public static Postit getPostitbyID(int id) {
 
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+
 		EntityManager entitymanager = emfactory.createEntityManager();
 		Postit postit = entitymanager.find(Postit.class, id);
 
@@ -34,14 +39,14 @@ public class PostitManagement {
 		System.out.println("Postit CONTENT = " + postit.getContentText());
 		System.out.println("Postit AUTHOR = " + postit.getAuthor());
 
+		entitymanager.close();
 		return postit;
+		
 	}
 
 	public static void createPostit(int author, String title,
 			String content_text, String content_image, int responseTo) {
-
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
@@ -59,17 +64,16 @@ public class PostitManagement {
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();
-		emfactory.close();
+
 
 	}
 	
 	public static void createPostitFromPostit(Postit postit) {
+		
 
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-
 		
 		if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
 		postit.setDate(new Date());
@@ -79,7 +83,7 @@ public class PostitManagement {
 	
 
 		entitymanager.close();
-		emfactory.close();
+
 
 	}
 	
@@ -88,8 +92,7 @@ public class PostitManagement {
 	
 	public static void updatePostit(int id, Postit update) {
 
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
@@ -105,7 +108,7 @@ public class PostitManagement {
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();
-		emfactory.close();
+
 	}
 	
 	
@@ -114,8 +117,7 @@ public class PostitManagement {
 
 	public static void deletePostitbyID(int id) {
 
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
@@ -123,13 +125,15 @@ public class PostitManagement {
 		entitymanager.remove(postit);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
-		emfactory.close();
+
 	}
+	
+	
+	
 
 	public static void updatePostitbyOption(int id, String content,
 			int options, Date date, Timestamp timestamp) {
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
@@ -222,13 +226,13 @@ public class PostitManagement {
 		}
 
 		entitymanager.getTransaction().commit();
+		entitymanager.close();
 
 	}
 
 	
 	public static List<Postit> fetchAllPostits() {
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
 
@@ -242,16 +246,60 @@ public class PostitManagement {
 			System.out.println("Postit CONTENT = " + n.getContentText());
 
 		}
+		entitymanager.close();
 
 		return result;
 	}
+	
+	public static List<Postit> fetchAllPostitsSortedByDate() {
+		
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+
+		TypedQuery<Postit> query = entitymanager.createQuery(
+				"SELECT n FROM Postit n ORDER BY n.date", Postit.class);
+		List<Postit> result = query.getResultList();
+
+		for (Postit n : result) {
+			System.out.println("Postit ID = " + n.getId());
+			System.out.println("Postit Author = " + n.getAuthor());
+			System.out.println("Postit CONTENT = " + n.getContentText());
+
+		}
+
+		entitymanager.close();
+		return result;
+	}
+	
+	public static List<Postit> fetchAllPostitsSortedByClicks() {
+		
+		EntityManager entitymanager = emfactory.createEntityManager();
+
+		entitymanager.getTransaction().begin();
+
+		TypedQuery<Postit> query = entitymanager.createQuery(
+				"SELECT n FROM Postit n ORDER BY n.clicks", Postit.class);
+		List<Postit> result = query.getResultList();
+
+		for (Postit n : result) {
+			System.out.println("Postit ID = " + n.getId());
+			System.out.println("Postit Author = " + n.getAuthor());
+			System.out.println("Postit CONTENT = " + n.getContentText());
+
+		}
+
+		entitymanager.close();
+		return result;
+	}
+	
+	
+	
 
 	public static List<Postit> fetchByResponseTo(int id)
 
 	{
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		TypedQuery<Postit> query = entitymanager
@@ -267,15 +315,15 @@ public class PostitManagement {
 
 		}
 
+		entitymanager.close();
 		return result;
 	}
 
 	public static List<Postit> fetchByAuthor(int id)
 
 	{
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		TypedQuery<Postit> query = entitymanager.createQuery(
@@ -290,6 +338,7 @@ public class PostitManagement {
 
 		}
 
+		entitymanager.close();
 		return result;
 	}
 	
@@ -299,9 +348,8 @@ public class PostitManagement {
 	public static List<Postit> fetchByAuthorOnlyPost(int id)
 
 	{
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		TypedQuery<Postit> query = entitymanager.createQuery(
@@ -316,6 +364,7 @@ public class PostitManagement {
 			System.out.println("Postit CONTENT = " + n.getContentText());
 
 		}
+		entitymanager.close();
 
 		return result;
 	}
@@ -323,9 +372,8 @@ public class PostitManagement {
 	public static List<Postit> fetchByAuthorOnlyNotPost(int id)
 
 	{
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		TypedQuery<Postit> query = entitymanager.createQuery(
@@ -340,6 +388,7 @@ public class PostitManagement {
 			System.out.println("Postit CONTENT = " + n.getContentText());
 
 		}
+		entitymanager.close();
 
 		return result;
 	}

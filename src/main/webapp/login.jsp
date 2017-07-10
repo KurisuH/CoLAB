@@ -11,14 +11,16 @@
 
 
     <label><b>Username</b></label>
-    <input id= "name" type="text" placeholder="Enter Username" name="uname" value="tester" required> 
+    <input id= "name" type="text" placeholder="Enter Username" name="uname" value="test@test.de" required> 
 
     <label><b>Password</b></label>
-    <input id ="password" type="text" placeholder="Enter Password" name="psw" value="test" required>
+    <input id ="password" type="text" placeholder="Enter Password" name="psw" value="student" required>
 
     <button type="button" onclick="fetch()">Fetch Credentials</button>
     <button type="button" onclick="login()" >Login</button>
+        <button type="button" onclick="logout()" >Logout</button>
     <button type="button" onclick="checklogin()" >Check login</button>
+            <button type="button" onclick="fetchUserData()" >Try Fetching User Data from a User </button>
     <input type="checkbox" checked="checked"> Remember me
     	
 
@@ -51,9 +53,41 @@ function login(){
 	  xhttp.send();
 
 	
-    location.href = "home.html";
 }
 
+
+function fetchUserData() {
+	
+	  var xhttp = new XMLHttpRequest();
+	  var tosearch = document.getElementById("name").value;
+
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    	document.getElementById("demo").innerHTML = this.responseText;
+	    	
+	    	
+	    }
+	    else if( this.readyState == 4 && this.status == 403 ){ document.getElementById("demo").innerHTML = "OH NO! NOT AUTHORIZED!";}
+	  };
+	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/userservice/find_mail/remedios.santos@example.com", true);
+	  xhttp.send();
+	}
+
+function logout(){
+	
+	
+	 var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    	document.getElementById("demo2").innerHTML = this.responseText;
+	    }
+	  };
+	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/login/logout", true);
+	  xhttp.send();
+
+
+   location.href = "login.jsp";
+}
 
 
 function checklogin(){
@@ -97,7 +131,7 @@ function fetch() {
 	    }
 	    else if( this.readyState == 4 && this.status == 403 ){ document.getElementById("demo").innerHTML = "OH NO! NOT AUTHORIZED!";}
 	  };
-	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/userservice/find_name/" + tosearch, true);
+	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/userservice/find_mail/" + tosearch, true);
 	  xhttp.send();
 	}
 </script>

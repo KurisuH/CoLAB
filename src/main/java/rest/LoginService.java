@@ -84,56 +84,61 @@ public class LoginService {
 	public Response login(@PathParam("name") String name, @PathParam("pass") String pass) {
 		
 
-	    log.info("My First Apache Shiro Application");
-
-	    //1.
-	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-
-	    //2.
-	    SecurityManager securityManager = factory.getInstance();
-
-	    //3.
-	    SecurityUtils.setSecurityManager(securityManager);
-	    
 	    Subject currentUser = SecurityUtils.getSubject();
 	    Session session = currentUser.getSession();
 	    session.setAttribute( "login", "YES!" );
 	    UsernamePasswordToken token = new UsernamePasswordToken( name, pass );
-	   //UsernamePasswordToken token = new UsernamePasswordToken( "student", "student" );
-	   
 	    token.setRememberMe(true);
-	    currentUser.login(token);
+	    
+		try {
+		currentUser.login(token);
+		
 	    System.out.println();System.out.println();
 	    log.info( "User [" + currentUser.getPrincipal() + "] logged in successfully." );
+	    
+
+	    if(currentUser.hasRole("3")){  log.info( "User [" + currentUser.getPrincipal() + "] is a User." );}
+
+	    if(currentUser.hasRole("2")){  log.info( "User [" + currentUser.getPrincipal() + "] is a Moderator." );}
+
+	    if(currentUser.hasRole("1")){  log.info( "User [" + currentUser.getPrincipal() + "] is an Admin." );}
+	    
 	    System.out.println();System.out.println();
 	    
+	
+
+
+		} catch ( UnknownAccountException uae ) {
+			 System.out.println("Unknown account.");
+			 return Response.status(400).entity("Unknown Account.").build();	
+		} catch ( IncorrectCredentialsException ice ) {
+			 System.out.println("Unknown account.");
+			 return Response.status(400).entity("Unknown Account.").build();	
+		} catch ( LockedAccountException lae ) {
+			 System.out.println("Locked Account.");
+			 return Response.status(400).entity("You have been banned, please contact our Staff for assistance.").build();	
+			
+		} catch(Exception e){  e.printStackTrace(); return Response.status(503).entity("Login appears not to be working, please contact our staff for assistance").build();}
+
 	    return Response.status(200).entity(session.getId().toString()).build();
-		
+
 }
+
 	
 	@GET
 	@Consumes("application/json")
 	@Path("/check")
-	public Response login() {
+	public Response checkLogin() {
 		
 
 		log.info( "Check if still logged in" );
-
-	    //1.
-	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-
-	    //2.
-	    SecurityManager securityManager = factory.getInstance();
-
-	    //3.
-	    SecurityUtils.setSecurityManager(securityManager);
-	    
+    
 	    Subject currentUser = SecurityUtils.getSubject();
 	    Session session = currentUser.getSession();
 	    session.setAttribute( "login", "YES!" );
 
 	    System.out.println();System.out.println();
-	    log.info( "User [" + currentUser.getPrincipal() + "] still logged in boss!." );
+	    log.info( "User [" + currentUser.getPrincipal() + "] is logged in!." );
 	    System.out.println();System.out.println();
 
 	    return Response.status(200).entity(session.getId().toString()).build();
@@ -147,15 +152,6 @@ public class LoginService {
 		
 
 		log.info( "Commence log out.");
-
-	    //1.
-	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-
-	    //2.
-	    SecurityManager securityManager = factory.getInstance();
-
-	    //3.
-	    SecurityUtils.setSecurityManager(securityManager);
 	    
 	    Subject currentUser = SecurityUtils.getSubject();
 	    Session session = currentUser.getSession();

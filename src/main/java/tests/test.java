@@ -35,7 +35,7 @@ public class test {
 	//	UserManagement.updateUserByOption(1, "3", null,5);
 	//	String print = UserManagement.getUserbyID(1).toString();
 	//	System.out.println(print);
-		/*
+		
 		User user = new User();
 		user.setEmail("test@test.de");
 		user.setPassword("student");
@@ -51,7 +51,32 @@ public class test {
 		user.setAvatar("Its yoboi");
 		user.setRegisterDate(new Date());
 		UserManagement.createUserFromUser(user);
-		*/
+		
+		
+		
+		//PostitManagement.fetchAllPostitsSortedByDate();
+		//UserManagement.getUserbyID(12).toString();
+		//UserManagement.getUserbyID(13).toString();
+		
+		
+		
+		user = new User();
+		user.setEmail("admin@admin.de");
+		user.setPassword("admin");
+		user.setName("admin");
+		user.setSurname("test");
+		user.setGender("test");
+
+		user.setPosition(3);
+		user.setPhone("123");
+		user.setBirthDate(new Date());
+		user.setFax("123");
+		user.setLocation("Yoboi");
+		user.setAvatar("Its yoboi");
+		user.setRegisterDate(new Date());
+		UserManagement.createUserFromUser(user);
+		
+		
 		
 		//PostitManagement.CreatePostit(5, "TEST", "HEUTEMALKURS", null , 5);
 		//PostitManagement.FetchByResponseTo(5);

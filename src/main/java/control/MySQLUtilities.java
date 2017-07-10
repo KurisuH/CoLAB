@@ -42,9 +42,11 @@ public class MySQLUtilities {
     			
         //Initial Setup for positions Table.
         setupPositions();
+       
         
         new MySQLUtilities().processPerson(MySQLUtilities.class
                 .getResourceAsStream("DatabaseExamplePopulation.xml"));
+        fillWithPostit();
     }
 
     // TODO: Instead of throws Exception, all exceptions should be wrapped
@@ -135,12 +137,12 @@ public class MySQLUtilities {
     	Position admin = new Position();
     	admin.setId(1);
     	admin.setName("Admin");
-    	admin.setPermissionLevel(9);
+    	admin.setPermissionLevel(1);
     	
       	Position  mod = new Position();
     	mod.setId(2);
     	mod.setName("Moderator");
-    	mod.setPermissionLevel(5);
+    	mod.setPermissionLevel(2);
     	
     	Position user = new Position();
     	user.setId(3);

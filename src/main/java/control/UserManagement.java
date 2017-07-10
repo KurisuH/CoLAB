@@ -23,12 +23,17 @@ import java.util.*;
  * @author Chris
  *
  */
+
+
 public class UserManagement {
+	
+	static EntityManagerFactory emfactory = Persistence
+			.createEntityManagerFactory("Eclipselink_JPA");
 
 	public static User getUserbyID(int id) {
 
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
 		User user = entitymanager.find(User.class, id);
 
@@ -36,18 +41,17 @@ public class UserManagement {
 		System.out.println("User NAME = " + user.getName());
 		System.out.println("User surname = " + user.getSurname());
 
+		entitymanager.close();
 		return user;
 	}
 	
 	public static User getUserbyMail(String id) {
 
-		
-			
+		EntityManager entitymanager = emfactory.createEntityManager();
 	
 		User result = new User();
 		try {
-			EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
-			EntityManager entitymanager = emfactory.createEntityManager();
+
 			entitymanager.getTransaction().begin();
 
 			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.email = :id", User.class);
@@ -64,13 +68,120 @@ public class UserManagement {
 			e.printStackTrace();
 		}
 	
+		entitymanager.close();
 		return result;
+	}
+	
+	
+	
+	public static boolean canAccess(String id, String username) {
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+	
+		User result = new User();
+		try {
+
+			entitymanager.getTransaction().begin();
+
+			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.email = :id", User.class);
+			query.setParameter("id", id);
+			result = query.getSingleResult();
+
+		} catch (Exception e) {
+			System.out.println("Please specify n correct E-mail");
+			e.printStackTrace();
+		}
+	
+		entitymanager.close();
+		
+		if(username.equals(result.getEmail())){return true;}
+		
+
+		return false;
+	}
+	
+	public static boolean canAccessId(int id, int principal_id) {
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+	
+		User result = new User();
+		try {
+
+			entitymanager.getTransaction().begin();
+
+			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.id = :id", User.class);
+			query.setParameter("id", id);
+			result = query.getSingleResult();
+
+		} catch (Exception e) {
+			System.out.println("Please specify a correct id");
+			e.printStackTrace();
+		}
+	
+		entitymanager.close();
+		
+		if(result.getId()==id){return true;}
+		
+
+		return false;
+	}
+	
+	public static boolean isAdmin(String id, String username) {
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+	
+		User result = new User();
+		try {
+
+			entitymanager.getTransaction().begin();
+
+			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.email = :id", User.class);
+			query.setParameter("id", id);
+			result = query.getSingleResult();
+
+		} catch (Exception e) {
+			System.out.println("Please specify n correct E-mail");
+			e.printStackTrace();
+		}
+	
+		entitymanager.close();
+		
+		if(result.getPosition()==3){return true;}
+		
+
+		return false;
+	}
+	
+	public static boolean isModerator(String id, String username) {
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+	
+		User result = new User();
+		try {
+
+			entitymanager.getTransaction().begin();
+
+			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.email = :id", User.class);
+			query.setParameter("id", id);
+			result = query.getSingleResult();
+
+		} catch (Exception e) {
+			System.out.println("Please specify n correct E-mail");
+			e.printStackTrace();
+		}
+	
+		entitymanager.close();
+		
+		if(result.getPosition()==2){return true;}
+		
+
+		return false;
 	}
 	
 	public static User getUserbyName(String id) {
 
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.name = :id", User.class);
@@ -83,6 +194,7 @@ public class UserManagement {
 			System.out.println("User NAME = " + result.getName());
 			System.out.println("User surname = " + result.getSurname());
 	
+			entitymanager.close();
 		return result;
 	}
 	
@@ -94,9 +206,8 @@ public class UserManagement {
 			String gender, Date registerDate, String fax, String location,
 			String avatar, List<Postit> postits) {
 
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		User user = new User();
@@ -120,7 +231,7 @@ public class UserManagement {
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();
-		emfactory.close();
+
 
 	}
 
@@ -132,9 +243,8 @@ public class UserManagement {
 	 */
 	public static void createUserFromPerson(Person person) {
 
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		User user = new User();
@@ -144,7 +254,7 @@ public class UserManagement {
 		user.setSurname(person.getSurname());
 		user.setGender(person.getGender());
 
-		user.setPosition(1);
+		user.setPosition(3);
 		user.setPhone(person.getPhone());
 		user.setBirthDate(person.getDate());
 		user.setFax(person.getFax());
@@ -157,15 +267,14 @@ public class UserManagement {
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();
-		emfactory.close();
+
 	}
 	
 	
 	public static void createUserFromUser(User user) {
-
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 		user.setRegisterDate(new Date());
 
@@ -175,21 +284,20 @@ public class UserManagement {
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();
-		emfactory.close();
+
 	}
 
 	public static void deleteUser(int id) {
-
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		User User = entitymanager.find(User.class, id);
 		entitymanager.remove(User);
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
-		emfactory.close();
+
 	}
 
 	/**
@@ -220,9 +328,9 @@ public class UserManagement {
 	 */
 	public static void updateUserByOption(int id, String content, Date date,
 			int options) {
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		User user = entitymanager.find(User.class, id);
@@ -290,14 +398,15 @@ public class UserManagement {
 		}
 
 		entitymanager.getTransaction().commit();
+		entitymanager.close();
 
 	}
 	
 	public static void updateUser(int id, User update) {
-
-		EntityManagerFactory emfactory = Persistence
-				.createEntityManagerFactory("Eclipselink_JPA");
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
+
+
 		entitymanager.getTransaction().begin();
 
 		User user = entitymanager.find(User.class, id);
@@ -321,13 +430,14 @@ public class UserManagement {
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();
-		emfactory.close();
+
 	}
 
 
 	public static List<User> fetchAllUsers() {
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("Eclipselink_JPA");
+		
 		EntityManager entitymanager = emfactory.createEntityManager();
+
 		entitymanager.getTransaction().begin();
 
 		TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n", User.class);
@@ -341,8 +451,11 @@ public class UserManagement {
 
 		}
 
+		entitymanager.close();
 		return result;
 
 	}
+	
+	
 
 }

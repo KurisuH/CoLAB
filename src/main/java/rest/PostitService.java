@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+
+
 import java.io.File;
 import java.util.List;
 
@@ -30,6 +32,8 @@ import model.Postit;
 import model.User;
 
 import org.eclipse.persistence.oxm.MediaType;
+
+
 
 
 
@@ -197,6 +201,78 @@ public class PostitService {
 		}
 
 	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("fetch_all_sort_clicks")
+	public Response fetchAllPostitsSortByClicks() {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		
+		
+		String fulljson = "";
+		try {
+			List<Postit> result = PostitManagement.fetchAllPostitsSortedByClicks();
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+			}
+
+			String jayson = "{\"postit\":" + fulljson + "}";
+			return Response.status(200).entity(jayson).build();
+
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+
+	}
+	
+	
+	@GET
+	@Produces("application/json")
+	@Path("fetch_all_sort_date")
+	public Response fetchAllPostitsSortByDate() {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		
+		
+		String fulljson = "";
+		try {
+			List<Postit> result = PostitManagement.fetchAllPostitsSortedByDate();
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+			}
+
+			String jayson = "{\"postit\":" + fulljson + "}";
+			return Response.status(200).entity(jayson).build();
+
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+
+	}
+	
 
 	
 	@GET
@@ -282,14 +358,23 @@ public class PostitService {
 		
 		
 
+		
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
+		
+		
+		
 		
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		
 		try {
+			
+			Postit result = PostitManagement.getPostitbyID(msg);
+			
+			if(UserManagement.canAccess(currentUser.getPrincipal().toString(), UserManagement.getUserbyID(result.getAuthor()).getEmail()) || currentUser.hasRole("1")){ 
+			
 			PostitManagement.deletePostitbyID(msg);
-
+			}else{System.out.println("Not permitted!"); return Response.status(403).entity("Not permitted!").build();}
 			} catch (Exception e) {
 
 				e.printStackTrace();
@@ -318,10 +403,16 @@ public class PostitService {
 		
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		try {
+			
+			Postit result = PostitManagement.getPostitbyID(id);
+			if(UserManagement.canAccess(currentUser.getPrincipal().toString(), UserManagement.getUserbyID(result.getAuthor()).getEmail()) || currentUser.hasRole("1")){ 
+			
 			JsonUnmarshaller jc = new JsonUnmarshaller();
 			Postit postit = jc.UnmarshalJsonPostit(json);
 
 			PostitManagement.updatePostit(id, postit);
+			
+			}else{System.out.println("Not permitted!"); return Response.status(403).entity("Not permitted!").build();}
 
 		} catch (Exception e) {
 

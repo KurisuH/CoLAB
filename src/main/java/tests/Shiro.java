@@ -30,7 +30,7 @@ public class Shiro {
 	    Subject currentUser = SecurityUtils.getSubject();
 	    Session session = currentUser.getSession();
 	    session.setAttribute( "someKey", "aValue" );
-	    UsernamePasswordToken token = new UsernamePasswordToken( "tester", "test" );
+	    UsernamePasswordToken token = new UsernamePasswordToken( "admin@admin.de", "admin" );
 	   //UsernamePasswordToken token = new UsernamePasswordToken( "student", "student" );
 	   
 	   token.setRememberMe(true);
@@ -39,15 +39,23 @@ public class Shiro {
 	    log.info( "User [" + currentUser.getPrincipal() + "] logged in successfully." );
 	    System.out.println();System.out.println();
 	    
-	   
+	    if ( currentUser.isPermitted("52") )  {
+	    	
+	        log.info("User is permitted." );
+	    } else {
+	        log.info( "Not permitted." );
+	    }
+
 	    
 	    
 	    if ( currentUser.hasRole( "1" ) ) {
+	    	
 	        log.info("Yes Admin!" );
 	    } else {
 	        log.info( "No Admin!." );
 	    }
 
+	   System.out.println( currentUser.toString());
 
 	    System.exit(0);
 	}
