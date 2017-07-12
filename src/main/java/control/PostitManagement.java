@@ -98,12 +98,12 @@ public class PostitManagement {
 
 		Postit postit = entitymanager.find(Postit.class, id);
 		
-		postit.setAuthor(update.getAuthor());
+		//postit.setAuthor(update.getAuthor());
 		postit.setTitle(update.getTitle());
 		postit.setContentText(update.getContentText());
 		postit.setContentImage(update.getContentImage());
-		postit.setResponseTo(update.getResponseTo());
-		if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
+		//postit.setResponseTo(update.getResponseTo());
+		//if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
 
 		entitymanager.getTransaction().commit();
 
@@ -128,108 +128,6 @@ public class PostitManagement {
 
 	}
 	
-	
-	
-
-	public static void updatePostitbyOption(int id, String content,
-			int options, Date date, Timestamp timestamp) {
-
-		EntityManager entitymanager = emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
-
-		Postit postit = entitymanager.find(Postit.class, id);
-
-		switch (options) {
-
-		case 0:
-			try {
-				int newId = Integer.parseInt(content);
-				postit.setId(newId);
-			}
-
-			catch (NumberFormatException e) {
-				System.out.println("Please specify a valid int for this input");
-			}
-			break;
-
-		case 1:
-			try {
-				int newId = Integer.parseInt(content);
-				postit.setAuthor(newId);
-			}
-
-			catch (NumberFormatException e) {
-				System.out.println("Please specify a valid int for this input");
-			}
-			break;
-
-		case 2:
-			postit.setTitle(content);
-			break;
-		case 3:
-			postit.setContentText(content);
-			break;
-		case 4:
-			postit.setContentImage(content);
-			break;
-
-		case 5:
-			try {
-				int newId = Integer.parseInt(content);
-				postit.setClicks(newId);
-			}
-
-			catch (NumberFormatException e) {
-				System.out.println("Please specify a valid int for this input");
-			}
-			break;
-
-		case 6:
-			try {
-				int newId = Integer.parseInt(content);
-				postit.setAnswers(newId);
-			}
-
-			catch (NumberFormatException e) {
-				System.out.println("Please specify a valid int for this input");
-			}
-			break;
-
-		case 7:
-			try {
-
-				int newId = Integer.parseInt(content);
-				if (newId == 0 || newId == 1) {
-					postit.setIsPost(Byte.parseByte(content));
-				} else {
-					System.out
-							.println("Please specify a value between 1 and 0 for the column 'isPost'");
-				}
-			}
-
-			catch (NumberFormatException e) {
-				System.out.println("Please specify a valid int for this input");
-			}
-			break;
-
-		case 8:
-			postit.setDate(date);
-			break;
-
-		case 9:
-			postit.setLastModified(timestamp);
-			break;
-		default:
-			System.out
-					.println("Please specify a Number in Range from 1 to 9, refer to the Javadoc for details.");
-			break;
-		}
-
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
-
-	}
-
 	
 	public static List<Postit> fetchAllPostits() {
 		

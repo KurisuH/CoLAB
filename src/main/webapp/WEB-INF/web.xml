@@ -6,6 +6,12 @@
     version="3.0">
     
 	<display-name>Restful Web Application</display-name>
+	
+	
+	
+	
+
+	
 
 	<servlet>
 		<servlet-name>User-Servlet</servlet-name>
@@ -14,20 +20,47 @@
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>rest</param-value>
 		</init-param>
+		
+		
+	<context-param>
+        <param-name>avatar.upload</param-name>
+        <param-value>C:\Users\Chris\colab\resources\avatar</param-value>
+    </context-param>
+    
+    
+    	  <context-param>
+        <param-name>C:\Users\Chris\colab\resources\postit</param-name>
+        <param-value>postit.upload</param-value>
+    </context-param>
+		
+		
+		
+		
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	
 	
 		<servlet>
+		
+		
+		
 		<servlet-name>upload</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>rest</param-value>
 		</init-param>
+		
+		
+		
+
+		
+		
+		
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
 	
 	
 	

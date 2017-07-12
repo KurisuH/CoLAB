@@ -6,6 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -13,47 +17,97 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import model.User;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+
+import control.UserManagement;
 
 @Path("/file")
 public class UploadFileService {
 
 	@POST
-	@Path("upload")
+	@Path("/avatar")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile(
+	public Response uploadAvatar(
 		@FormDataParam("file") InputStream uploadedInputStream,
 		@FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
 
-		 try {
-			System.out.println(new File(".").getCanonicalPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		File file = new File(new File(".").getCanonicalPath() + "/resources/img/avatar/" + fileDetail.getFileName());
-		file.getParentFile().mkdirs();
-		FileWriter writer = new FileWriter(file);
-		String uploadedFileLocation = new File(".").getCanonicalPath() + "/resources/img/avatar/" + fileDetail.getFileName();
-		//String uploadedFileLocation = "C://Users/Chris/git/Webtech2Project/src/main/resources/img/avatar/" + fileDetail.getFileName();
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+		
 
-		// save it
+		String home = System.getProperty("catalina.base");
+		String location = "/webapps/colab/resources/avatar/";
+		home = home + location;
+		
+		String userid = Integer.toString(UserManagement.getUserbyMail(SecurityUtils.getSubject().getPrincipal().toString()).getId());
+		
+		String uploadedFileLocation = home  + userid + ".jpg";
+
 		writeToFile(uploadedInputStream, uploadedFileLocation);
 
-		String output = "File uploaded to : " + uploadedFileLocation;
+		String output = location +  userid + ".jpg";
+	
 		
-		System.out.println("File Uploaded to: "+  new File(".").getCanonicalPath() + "/resources/img/avatar/" + fileDetail.getFileName());
+		System.out.println("File Uploaded to: " + uploadedFileLocation);
 
+		
+		return Response.status(200).entity(output).build();
+
+	}
+	
+	
+
+	@POST
+	@Path("/postit")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response uploadPostit(
+		@FormDataParam("file") InputStream uploadedInputStream,
+		@FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
+
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+		
+
+		String home = System.getProperty("catalina.base");
+		String location = "/webapps/colab/resources/postit/";
+		home = home + location;
+		
+		
+		
+		User current = UserManagement.getUserbyMail(SecurityUtils.getSubject().getPrincipal().toString());
+		String userid = Integer.toString(current.getId());
+		int index = new File(home).listFiles().length;
+		String uploadedFileLocation = home  + userid + "-" + index +  ".jpg";
+
+		writeToFile(uploadedInputStream, uploadedFileLocation);
+
+		String output =  location + userid + "-" + index +  ".jpg";
+	
+		
+		
+		System.out.println("File Uploaded to: " + uploadedFileLocation);
+
+		
 		return Response.status(200).entity(output).build();
 
 	}
 
+
+
 	// save uploaded file to new location
 	private void writeToFile(InputStream uploadedInputStream,
 		String uploadedFileLocation) {
-		System.out.println("HELLO!");
 
 		try {
 			OutputStream out = new FileOutputStream(new File(

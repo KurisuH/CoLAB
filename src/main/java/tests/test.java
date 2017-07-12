@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServlet;
+
 import model.User;
 import control.JsonUnmarshaller;
 import control.MySQLUtilities;
@@ -22,7 +24,7 @@ import control.UserManagement;
  * @author Chris
  *
  */
-public class test {
+public class test extends HttpServlet{
 	
 	public static void main (String[] args) throws Exception
 	{
@@ -35,7 +37,7 @@ public class test {
 	//	UserManagement.updateUserByOption(1, "3", null,5);
 	//	String print = UserManagement.getUserbyID(1).toString();
 	//	System.out.println(print);
-		
+		/*
 		User user = new User();
 		user.setEmail("test@test.de");
 		user.setPassword("student");
@@ -75,6 +77,13 @@ public class test {
 		user.setAvatar("Its yoboi");
 		user.setRegisterDate(new Date());
 		UserManagement.createUserFromUser(user);
+		*/
+		
+	    Object request;
+	    
+	    
+	    System.out.println( Files.readAllLines(Paths.get("src/main/resources/avatar.upload")));
+
 		
 		
 		

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -47,6 +48,40 @@ public class MySQLUtilities {
         new MySQLUtilities().processPerson(MySQLUtilities.class
                 .getResourceAsStream("DatabaseExamplePopulation.xml"));
         fillWithPostit();
+        
+        
+        //Add admin und Test Account
+		User user = new User();
+		user.setEmail("test@test.de");
+		user.setPassword("test");
+		user.setName("student");
+		user.setSurname("test");
+		user.setGender("test");
+
+		user.setPosition(1);
+		user.setPhone("123");
+		user.setBirthDate(new Date());
+		user.setFax("123");
+		user.setLocation("Yoboi");
+		user.setAvatar("Its yoboi");
+		user.setRegisterDate(new Date());
+		UserManagement.createUserFromUser(user);
+		
+		user = new User();
+		user.setEmail("admin@admin.de");
+		user.setPassword("admin");
+		user.setName("admin");
+		user.setSurname("test");
+		user.setGender("test");
+
+		user.setPosition(3);
+		user.setPhone("123");
+		user.setBirthDate(new Date());
+		user.setFax("123");
+		user.setLocation("Yoboi");
+		user.setAvatar("Its yoboi");
+		user.setRegisterDate(new Date());
+		UserManagement.createUserFromUser(user);
     }
 
     // TODO: Instead of throws Exception, all exceptions should be wrapped

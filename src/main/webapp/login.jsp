@@ -3,9 +3,12 @@
    
    <body>
     Choose file to upload<br>
-    <form action="http://localhost:8080/Webtech2Project/rest/file/upload" method="post" enctype="multipart/form-data">
+    <form action="http://localhost:8080/Webtech2Project/rest/file/postit" method="post" enctype="multipart/form-data">
     	<input name="file" id="filename" type="file" /><br><br>
     	<button name="submit" type="submit">Upload</button>
+    	<br>
+    	<br>
+    	
 
 
 
@@ -14,7 +17,7 @@
     <input id= "name" type="text" placeholder="Enter Username" name="uname" value="test@test.de" required> 
 
     <label><b>Password</b></label>
-    <input id ="password" type="text" placeholder="Enter Password" name="psw" value="student" required>
+    <input id ="password" type="text" placeholder="Enter Password" name="psw" value="test" required>
 
     <button type="button" onclick="fetch()">Fetch Credentials</button>
     <button type="button" onclick="login()" >Login</button>
