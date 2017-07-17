@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 
 
 
+
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -32,6 +34,7 @@ import model.Postit;
 import model.User;
 
 import org.eclipse.persistence.oxm.MediaType;
+
 
 
 
@@ -228,6 +231,115 @@ public class PostitService {
 
 	}
 	
+	
+	
+	@GET
+	@Produces("application/json")
+	@Path("postits_by/{param}")
+	public Response fetchAllPostitsBy(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		String fulljson = "";
+
+		try {
+			List<Postit> result = PostitManagement.fetchByAuthor(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+
+			fulljson = "{\"postit\":" + fulljson + "}";
+
+			return Response.status(200).entity(fulljson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+	
+	
+	
+	
+	@GET
+	@Produces("application/json")
+	@Path("postits_responses_by/{param}")
+	public Response fetchAllPostitsResponsesOnlyBy(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		String fulljson = "";
+
+		try {
+			List<Postit> result = PostitManagement.fetchByAuthorOnlyNotPost(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+
+			fulljson = "{\"postit\":" + fulljson + "}";
+
+			return Response.status(200).entity(fulljson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("postits_only_posts/{param}")
+	public Response fetchAllPostitsPostOnly(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		String fulljson = "";
+
+		try {
+			List<Postit> result = PostitManagement.fetchByAuthorOnlyPost(msg);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+				return Response.status(404).entity(fulljson).build();
+			}
+
+			fulljson = "{\"postit\":" + fulljson + "}";
+
+			return Response.status(200).entity(fulljson).build();
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+	}
+	
+	
+	
 	@GET
 	@Produces("application/json")
 	@Path("fetch_all_sort_clicks")
@@ -237,8 +349,7 @@ public class PostitService {
 		Session session = currentUser.getSession();
 		
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
-
-		
+	
 		
 		String fulljson = "";
 		try {
@@ -298,6 +409,46 @@ public class PostitService {
 		}
 
 	}
+	
+	
+	
+	
+	@GET
+	@Produces("application/json")
+	@Path("fetch_all_sort_date_oldest")
+	public Response fetchAllPostitsSortByDateOldest() {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		
+		
+		String fulljson = "";
+		try {
+			List<Postit> result = PostitManagement.fetchAllPostitsSortedByDate();
+			Collections.reverse(result);
+			Utilities utilities = new Utilities();
+
+			try {
+				fulljson = utilities.toJson(result);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+			}
+
+			String jayson = "{\"postit\":" + fulljson + "}";
+			return Response.status(200).entity(jayson).build();
+
+		} catch (Exception e) {
+			return Response.status(404).entity(fulljson).build();
+		}
+
+	}
+
 	
 
 	
@@ -366,12 +517,10 @@ public class PostitService {
 					UserManagement.getUserbyID(postit.getAuthor()).getEmail())
 					|| currentUser.hasRole("1")) {
 			
-			
-			
-			if (postit.getContentImage().equals(null) && postit.getContentText().equals(null) || postit.getContentImage().equals("") && postit.getContentText().equals(""))
-			{
-				return Response.status(400).entity("Either text or picture requiered.").build();
-			}
+				if (postit.getContentImage() == null && postit.getContentText() == null  || postit.getContentImage() =="" || postit.getContentText()=="")
+				{
+					return Response.status(400).entity("Either text or picture requiered.").build();
+				}
 			PostitManagement.createPostitFromPostit(postit);
 			
 			try {
@@ -396,7 +545,7 @@ public class PostitService {
 			
 			return Response.status(400).build();
 		}
-		
+	
 		fulljson = "{\"postit\":" + fulljson + "}";
 		System.out
 		.println("Added the new Note. No Errors.");
@@ -473,7 +622,7 @@ public class PostitService {
 				JsonUnmarshaller jc = new JsonUnmarshaller();
 				Postit postit = jc.UnmarshalJsonPostit(json);
 
-				if (postit.getContentImage().equals(null) && postit.getContentText().equals(null) || postit.getContentImage().equals("") && postit.getContentText().equals(""))
+				if (postit.getContentImage() == null && postit.getContentText() == null  || postit.getContentImage() =="" || postit.getContentText()=="")
 				{
 					return Response.status(400).entity("Either text or picture requiered.").build();
 				}
@@ -493,8 +642,9 @@ public class PostitService {
 						e.printStackTrace();
 						System.out
 								.println("Something went wrong: With Converting String to Json");
+						return Response.status(400).entity("Invalid JSON, check for correct syntax. Either text or picture requiered.").build();
 					}
-
+					fulljson = utilities.toJson(new_postit);
 					fulljson = "{\"postit\":" + fulljson + "}";
 
 				} catch (Exception e) {

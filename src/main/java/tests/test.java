@@ -78,19 +78,19 @@ public class test extends HttpServlet{
 		user.setRegisterDate(new Date());
 		UserManagement.createUserFromUser(user);
 		*/
-		
+		/*
 	    Object request;
 	    
 	    
 	    System.out.println( Files.readAllLines(Paths.get("src/main/resources/avatar.upload")));
-
+*/
 		
 		
 		
 		//PostitManagement.CreatePostit(5, "TEST", "HEUTEMALKURS", null , 5);
 		//PostitManagement.FetchByResponseTo(5);
 		//PostitManagement.fetchByAuthorOnlyPost(1);
-		//MySQLUtilities.fillWithPostit();
+		MySQLUtilities.fillWithPostit();
 	//	List<String> lines = Files.readAllLines(Paths.get("src/main/resources/MySQL_Setup.sql"));
 	//	System.out.println(lines);
 		//File json = new File("src/main/resources/example_user.json");
