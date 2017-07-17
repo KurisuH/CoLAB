@@ -368,7 +368,10 @@ public class PostitService {
 			
 			
 			
-			
+			if (postit.getContentImage().equals(null) && postit.getContentText().equals(null) || postit.getContentImage().equals("") && postit.getContentText().equals(""))
+			{
+				return Response.status(400).entity("Either text or picture requiered.").build();
+			}
 			PostitManagement.createPostitFromPostit(postit);
 			
 			try {
@@ -470,6 +473,12 @@ public class PostitService {
 				JsonUnmarshaller jc = new JsonUnmarshaller();
 				Postit postit = jc.UnmarshalJsonPostit(json);
 
+				if (postit.getContentImage().equals(null) && postit.getContentText().equals(null) || postit.getContentImage().equals("") && postit.getContentText().equals(""))
+				{
+					return Response.status(400).entity("Either text or picture requiered.").build();
+				}
+				
+				
 				PostitManagement.updatePostit(id, postit);
 
 				try {
