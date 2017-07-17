@@ -24,6 +24,7 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,18 +49,16 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
 import model.Postit;
 import model.User;
+
 
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import control.*;
-
-
-
-
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -78,7 +77,8 @@ public class LoginService {
 	 private static final transient Logger log = LoggerFactory.getLogger(LoginService.class);
 
 
-	@GET
+	 /*
+	@POST
 	@Consumes("application/json")
 	@Path("/{name}/{pass}")
 	public Response login(@PathParam("name") String name, @PathParam("pass") String pass) {
@@ -123,6 +123,59 @@ public class LoginService {
 	    return Response.status(200).entity(session.getId().toString()).build();
 
 }
+	
+	*/
+	
+	
+	@POST
+	@Consumes("application/json")
+	@Path("/json")
+	public Response loginJson(File json) {
+		
+		JsonUnmarshaller jc = new JsonUnmarshaller();
+		User user = jc.UnmarshalJsonUser(json);
+
+	    Subject currentUser = SecurityUtils.getSubject();
+	    Session session = currentUser.getSession();
+	    session.setAttribute( "login", "YES!" );
+	    UsernamePasswordToken token = new UsernamePasswordToken( user.getEmail(), user.getPassword() );
+	    token.setRememberMe(true);
+	    
+		try {
+		currentUser.login(token);
+		
+	    System.out.println();System.out.println();
+	    log.info( "User [" + currentUser.getPrincipal() + "] logged in successfully." );
+	    
+
+	    if(currentUser.hasRole("3")){  log.info( "User [" + currentUser.getPrincipal() + "] is a User." );}
+
+	    if(currentUser.hasRole("2")){  log.info( "User [" + currentUser.getPrincipal() + "] is a Moderator." );}
+
+	    if(currentUser.hasRole("1")){  log.info( "User [" + currentUser.getPrincipal() + "] is an Admin." );}
+	    
+	    System.out.println();System.out.println();
+	    
+	
+
+
+		} catch ( UnknownAccountException uae ) {
+			 System.out.println("Unknown account.");
+			 return Response.status(400).entity("Unknown Account.").build();	
+		} catch ( IncorrectCredentialsException ice ) {
+			 System.out.println("Unknown account.");
+			 return Response.status(400).entity("Unknown Account.").build();	
+		} catch ( LockedAccountException lae ) {
+			 System.out.println("Locked Account.");
+			 return Response.status(400).entity("You have been banned, please contact our Staff for assistance.").build();	
+			
+		} catch(Exception e){  e.printStackTrace(); return Response.status(503).entity("Login appears not to be working, please contact our staff for assistance").build();}
+
+	    return Response.status(200).entity(session.getId().toString()).build();
+
+}
+
+	
 
 	
 	@GET
@@ -145,7 +198,7 @@ public class LoginService {
 		
 }
 	
-	@GET
+	@POST
 	@Consumes("application/json")
 	@Path("/logout")
 	public Response logout() {

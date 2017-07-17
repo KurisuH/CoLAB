@@ -1,6 +1,7 @@
 package control;
 
-import java.sql.Timestamp;
+
+import java.security.Timestamp;
 import java.util.*;
 
 import javax.management.Query;
@@ -43,6 +44,26 @@ public class PostitManagement {
 		return postit;
 		
 	}
+	
+	
+	public static Postit incrementById(int id) {
+
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Postit postit = entitymanager.find(Postit.class, id);
+		entitymanager.getTransaction().begin();
+
+		postit.setClicks(postit.getClicks()+1);
+
+		entitymanager.persist(postit);
+		entitymanager.getTransaction().commit();
+
+		entitymanager.close();
+		
+		return postit;
+		
+	}
+	
 
 	public static void createPostit(int author, String title,
 			String content_text, String content_image, int responseTo) {
@@ -102,6 +123,7 @@ public class PostitManagement {
 		postit.setTitle(update.getTitle());
 		postit.setContentText(update.getContentText());
 		postit.setContentImage(update.getContentImage());
+				
 		//postit.setResponseTo(update.getResponseTo());
 		//if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
 

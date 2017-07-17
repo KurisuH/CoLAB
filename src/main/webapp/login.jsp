@@ -3,7 +3,7 @@
    
    <body>
     Choose file to upload<br>
-    <form action="http://localhost:8080/Webtech2Project/rest/file/postit" method="post" enctype="multipart/form-data">
+    <form action="http://localhost:8080/Webtech2Project/rest/file/avatar" method="post" enctype="multipart/form-data">
     	<input name="file" id="filename" type="file" /><br><br>
     	<button name="submit" type="submit">Upload</button>
     	<br>

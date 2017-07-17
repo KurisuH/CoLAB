@@ -99,6 +99,32 @@ public class PostitService {
 	}
 	
 	
+	@POST
+	@Produces("application/json")
+	@Path("increment_clicks/{param}")
+	public Response incrementClicks(@PathParam("param") int msg) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		
+		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+
+		String fulljson = "";
+
+		try {
+			PostitManagement.incrementById(msg);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Something went wrong with the increment");
+			e.printStackTrace();
+		}
+		
+		return Response.status(200).build();
+
+	}
+	
+	
 	@GET
 	@Produces("application/json")
 	@Path("find_root/{param}")
@@ -324,15 +350,40 @@ public class PostitService {
 	@Path("create_by_json")
 	public Response createPostitJson(File json) {
 		
+		String fulljson = "";
+		
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		
 		try {
+			Utilities utilities = new Utilities();
 			JsonUnmarshaller jc = new JsonUnmarshaller();
 			Postit postit = jc.UnmarshalJsonPostit(json);
+			
+			if (UserManagement.canAccess(currentUser.getPrincipal().toString(),
+					UserManagement.getUserbyID(postit.getAuthor()).getEmail())
+					|| currentUser.hasRole("1")) {
+			
+			
+			
+			
 			PostitManagement.createPostitFromPostit(postit);
+			
+			try {
+				fulljson = utilities.toJson(postit);
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+				System.out
+						.println("Something went wrong: With Converting String to Json");
+			}
+			
+			}
+			else{ 						System.out.println("Not permitted!");
+				return Response.status(403).entity("Not permitted!").build();
+			}
 
 		} catch (Exception e) {
 
@@ -342,9 +393,12 @@ public class PostitService {
 			
 			return Response.status(400).build();
 		}
+		
+		fulljson = "{\"postit\":" + fulljson + "}";
 		System.out
 		.println("Added the new Note. No Errors.");
-		return Response.status(201).build();
+		return Response.status(201).entity(fulljson).build();
+
 
 	}
 	
@@ -393,40 +447,68 @@ public class PostitService {
 	 * @param json the body json with all the relevant information.
 	 * @return
 	 */
-	@PUT
+	@POST
 	@Consumes("application/json")
 	@Path("update/{id}")
 	public Response updatePostitByID(@PathParam("id") int id, File json) {
-		
+
+		String fulljson = "";
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
-		
-		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
-		try {
-			
-			Postit result = PostitManagement.getPostitbyID(id);
-			if(UserManagement.canAccess(currentUser.getPrincipal().toString(), UserManagement.getUserbyID(result.getAuthor()).getEmail()) || currentUser.hasRole("1")){ 
-			
-			JsonUnmarshaller jc = new JsonUnmarshaller();
-			Postit postit = jc.UnmarshalJsonPostit(json);
 
-			PostitManagement.updatePostit(id, postit);
-			
-			}else{System.out.println("Not permitted!"); return Response.status(403).entity("Not permitted!").build();}
+		if (!currentUser.isAuthenticated()) {
+			System.out.println("Not authenticated!");
+			return Response.status(403).build();
+		}
+		try {
+
+			Postit result = PostitManagement.getPostitbyID(id);
+			if (UserManagement.canAccess(currentUser.getPrincipal().toString(),
+					UserManagement.getUserbyID(result.getAuthor()).getEmail())
+					|| currentUser.hasRole("1")) {
+
+				JsonUnmarshaller jc = new JsonUnmarshaller();
+				Postit postit = jc.UnmarshalJsonPostit(json);
+
+				PostitManagement.updatePostit(id, postit);
+
+				try {
+
+					Postit new_postit = PostitManagement.getPostitbyID(id);
+					Utilities utilities = new Utilities();
+
+					try {
+						fulljson = utilities.toJson(result);
+					} catch (JsonProcessingException e) {
+
+						e.printStackTrace();
+						System.out
+								.println("Something went wrong: With Converting String to Json");
+					}
+
+					fulljson = "{\"postit\":" + fulljson + "}";
+
+				} catch (Exception e) {
+					return Response.status(404).entity(fulljson).build();
+				}
+
+			}
+
+			else {
+				System.out.println("Not permitted!");
+				return Response.status(403).entity("Not permitted!").build();
+			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			System.out
-					.println("Marshalling went wrong.");
-			
+			System.out.println("Marshalling went wrong.");
+
 			return Response.status(400).build();
 		}
-		return Response.status(200).build();
+		return Response.status(200).entity(fulljson).build();
 
 	}
-
-	
 	
 
 	@GET
