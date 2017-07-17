@@ -77,9 +77,8 @@ public class LoginService {
 	 private static final transient Logger log = LoggerFactory.getLogger(LoginService.class);
 
 
-	 /*
+	 
 	@POST
-	@Consumes("application/json")
 	@Path("/{name}/{pass}")
 	public Response login(@PathParam("name") String name, @PathParam("pass") String pass) {
 		
@@ -124,7 +123,7 @@ public class LoginService {
 
 }
 	
-	*/
+	
 	
 	
 	@POST
@@ -174,6 +173,7 @@ public class LoginService {
 	    return Response.status(200).entity(session.getId().toString()).build();
 
 }
+
 
 	
 

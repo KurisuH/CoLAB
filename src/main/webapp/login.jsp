@@ -1,6 +1,11 @@
    <!DOCTYPE html>
    <html>
    
+   
+   
+   
+   
+   
    <body>
     Choose file to upload<br>
     <form action="http://localhost:8080/Webtech2Project/rest/file/avatar" method="post" enctype="multipart/form-data">
@@ -52,7 +57,7 @@ function login(){
 	    	document.getElementById("demo2").innerHTML = this.responseText;
 	    }
 	  };
-	  xhttp.open("GET", "http://localhost:8080/Webtech2Project/rest/login/" + name + "/" + pass, true);
+	  xhttp.open("POST", "http://localhost:8080/Webtech2Project/rest/login/" + name + "/" + pass, true);
 	  xhttp.send();
 
 	
