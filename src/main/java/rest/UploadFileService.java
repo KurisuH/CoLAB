@@ -39,11 +39,14 @@ public class UploadFileService {
 		@FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
 
 		
+		System.out.println("-------------------------------------------------- 1");
+		
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		
 
+		System.out.println("-------------------------------------------------- 2");
 		String home = System.getProperty("catalina.base");
 		String location = "/webapps/colab/resources/avatar/";
 		home = home + location;
