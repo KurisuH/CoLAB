@@ -4,7 +4,7 @@ package control;
 import java.security.Timestamp;
 import java.util.*;
 
-import javax.management.Query;
+import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -65,7 +65,7 @@ public class PostitManagement {
 	}
 	
 
-	public static void createPostit(int author, String title,
+	public static int createPostit(int author, String title,
 			String content_text, String content_image, int responseTo) {
 		
 		EntityManager entitymanager = emfactory.createEntityManager();
@@ -79,17 +79,42 @@ public class PostitManagement {
 		postit.setContentImage(content_image);
 		postit.setResponseTo(responseTo);
 		if(postit.getResponseTo() <= 0 ){postit.setIsPost(1);} else {postit.setIsPost(0);}
-		postit.setDate(new Date());
+		
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MILLISECOND, 0);
+		Date date = cal.getTime();
+		postit.setDate(date);
+		
 
 		entitymanager.persist(postit);
+		
+	//	entitymanager.flush();
+		
 		entitymanager.getTransaction().commit();
+		
+	
+		
+		int result = postit.getId();
 
+		
 		entitymanager.close();
+		
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		
+
+		Postit newPostit = getLastPostit(postit.getAuthor(),postit.getTitle(),postit.getDate());
+		System.out.println(newPostit.getContentText());
+		return result;
+
+		
 
 
 	}
 	
-	public static void createPostitFromPostit(Postit postit) {
+	//TODO find elegant way to get the id of a newly persisted postit
+	public static int createPostitFromPostit(Postit postit) {
 		
 
 
@@ -97,7 +122,10 @@ public class PostitManagement {
 		entitymanager.getTransaction().begin();
 		
 		if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
-		postit.setDate(new Date());
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MILLISECOND, 0);
+		Date date = cal.getTime();
+		postit.setDate(date);
 
 		entitymanager.persist(postit);
 		entitymanager.getTransaction().commit();
@@ -105,6 +133,11 @@ public class PostitManagement {
 
 		entitymanager.close();
 
+		
+
+		
+		Postit result = getLastPostit(postit.getAuthor(),postit.getTitle(),postit.getDate());
+		return result.getId();
 
 	}
 	
@@ -234,6 +267,50 @@ public class PostitManagement {
 			System.out.println("Postit CONTENT = " + n.getContentText());
 
 		}
+
+		entitymanager.close();
+		return result;
+	}
+	
+	//TODO find elegant way to get the id of a newly persisted postit
+	public static Postit getLastPostit(int author, String title,Date date)
+
+	{
+		EntityManager entitymanager = emfactory.createEntityManager();
+
+		entitymanager.getTransaction().begin();
+
+		/*
+		TypedQuery<Postit> query = entitymanager
+				.createQuery("SELECT n FROM Postit n WHERE n.responseTo = :id and WHERE n.author = :author and WHERE n.date = :date AND n.title AND WHERE n.content_text := content_text AND WHERE n.content_image",
+						Postit.class);
+		 *///"SELECT n FROM Postit n WHERE n.responseTo = :id",
+		//TypedQuery<Postit> query = entitymanager
+			//	.createQuery("SELECT n FROM Postit n WHERE n.author = :author and WHERE n.date = :date",
+			//			Postit.class);
+		
+		
+		Query query = entitymanager.createNativeQuery("SELECT * from postit where author = ? and title = ? and date = ?", Postit.class);
+		query.setParameter(1, author);
+		query.setParameter(2, title);
+		query.setParameter(3, date);
+		
+		Postit result = (Postit) query.getSingleResult();
+		
+		
+		//((javax.persistence.Query) query).setParameter(2, "Smith");
+	/*	query.setParameter("content_text",content_text);
+		query.setParameter("content_image", content_image);
+		query.setParameter("date", date);
+		*/
+		
+
+
+			System.out.println("Postit ID = " + result.getId());
+			System.out.println("Postit Author = " + result.getAuthor());
+			System.out.println("Postit CONTENT = " + result.getContentText());
+
+
 
 		entitymanager.close();
 		return result;

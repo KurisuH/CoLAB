@@ -87,10 +87,16 @@ public class test extends HttpServlet{
 		
 		
 		
-		//PostitManagement.CreatePostit(5, "TEST", "HEUTEMALKURS", null , 5);
+		//Postit result = getLastPostit(null,null, null, null, null, null);
+		int result = PostitManagement.createPostit(5, "TEST", "HEUTEMALKURS", null , 5);
+		System.out.println(result);
+		System.out.println(result);
+		System.out.println(result);
+		System.out.println(result);
+		System.out.println(result);
 		//PostitManagement.FetchByResponseTo(5);
 		//PostitManagement.fetchByAuthorOnlyPost(1);
-		MySQLUtilities.fillWithPostit();
+		//MySQLUtilities.fillWithPostit();
 	//	List<String> lines = Files.readAllLines(Paths.get("src/main/resources/MySQL_Setup.sql"));
 	//	System.out.println(lines);
 		//File json = new File("src/main/resources/example_user.json");

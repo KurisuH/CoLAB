@@ -521,9 +521,10 @@ public class PostitService {
 				{
 					return Response.status(400).entity("Either text or picture requiered.").build();
 				}
-			PostitManagement.createPostitFromPostit(postit);
+			int postit_id = PostitManagement.createPostitFromPostit(postit);
 			
 			try {
+				postit.setId(postit_id);
 				fulljson = utilities.toJson(postit);
 			} catch (JsonProcessingException e) {
 
