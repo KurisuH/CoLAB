@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 
 
+
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,7 @@ import model.Postit;
 import model.User;
 
 import org.eclipse.persistence.oxm.MediaType;
+
 
 
 
@@ -513,6 +515,8 @@ public class PostitService {
 			JsonUnmarshaller jc = new JsonUnmarshaller();
 			Postit postit = jc.UnmarshalJsonPostit(json);
 			
+			
+			
 			if (UserManagement.canAccess(currentUser.getPrincipal().toString(),
 					UserManagement.getUserbyID(postit.getAuthor()).getEmail())
 					|| currentUser.hasRole("1")) {
@@ -522,9 +526,10 @@ public class PostitService {
 					return Response.status(400).entity("Either text or picture requiered.").build();
 				}
 			int postit_id = PostitManagement.createPostitFromPostit(postit);
+			postit.setId(postit_id);
 			
 			try {
-				postit.setId(postit_id);
+				
 				fulljson = utilities.toJson(postit);
 			} catch (JsonProcessingException e) {
 

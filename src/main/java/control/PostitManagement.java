@@ -4,6 +4,9 @@ package control;
 import java.security.Timestamp;
 import java.util.*;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -65,6 +68,7 @@ public class PostitManagement {
 	}
 	
 
+	@GeneratedValue 
 	public static int createPostit(int author, String title,
 			String content_text, String content_image, int responseTo) {
 		
@@ -89,7 +93,8 @@ public class PostitManagement {
 
 		entitymanager.persist(postit);
 		
-	//	entitymanager.flush();
+		entitymanager.flush();
+		
 		
 		entitymanager.getTransaction().commit();
 		
@@ -99,13 +104,10 @@ public class PostitManagement {
 
 		
 		entitymanager.close();
+
 		
-		EntityManager em = emfactory.createEntityManager();
-		em.getTransaction().begin();
 		
 
-		Postit newPostit = getLastPostit(postit.getAuthor(),postit.getTitle(),postit.getDate());
-		System.out.println(newPostit.getContentText());
 		return result;
 
 		
@@ -114,6 +116,7 @@ public class PostitManagement {
 	}
 	
 	//TODO find elegant way to get the id of a newly persisted postit
+	@GeneratedValue 
 	public static int createPostitFromPostit(Postit postit) {
 		
 
@@ -128,6 +131,7 @@ public class PostitManagement {
 		postit.setDate(date);
 
 		entitymanager.persist(postit);
+		entitymanager.flush();
 		entitymanager.getTransaction().commit();
 	
 
@@ -136,8 +140,9 @@ public class PostitManagement {
 		
 
 		
-		Postit result = getLastPostit(postit.getAuthor(),postit.getTitle(),postit.getDate());
-		return result.getId();
+		
+
+		return postit.getId();
 
 	}
 	
