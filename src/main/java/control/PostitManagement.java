@@ -277,49 +277,6 @@ public class PostitManagement {
 		return result;
 	}
 	
-	//TODO find elegant way to get the id of a newly persisted postit
-	public static Postit getLastPostit(int author, String title,Date date)
-
-	{
-		EntityManager entitymanager = emfactory.createEntityManager();
-
-		entitymanager.getTransaction().begin();
-
-		/*
-		TypedQuery<Postit> query = entitymanager
-				.createQuery("SELECT n FROM Postit n WHERE n.responseTo = :id and WHERE n.author = :author and WHERE n.date = :date AND n.title AND WHERE n.content_text := content_text AND WHERE n.content_image",
-						Postit.class);
-		 *///"SELECT n FROM Postit n WHERE n.responseTo = :id",
-		//TypedQuery<Postit> query = entitymanager
-			//	.createQuery("SELECT n FROM Postit n WHERE n.author = :author and WHERE n.date = :date",
-			//			Postit.class);
-		
-		
-		Query query = entitymanager.createNativeQuery("SELECT * from postit where author = ? and title = ? and date = ?", Postit.class);
-		query.setParameter(1, author);
-		query.setParameter(2, title);
-		query.setParameter(3, date);
-		
-		Postit result = (Postit) query.getSingleResult();
-		
-		
-		//((javax.persistence.Query) query).setParameter(2, "Smith");
-	/*	query.setParameter("content_text",content_text);
-		query.setParameter("content_image", content_image);
-		query.setParameter("date", date);
-		*/
-		
-
-
-			System.out.println("Postit ID = " + result.getId());
-			System.out.println("Postit Author = " + result.getAuthor());
-			System.out.println("Postit CONTENT = " + result.getContentText());
-
-
-
-		entitymanager.close();
-		return result;
-	}
 
 	public static List<Postit> fetchByAuthor(int id)
 
