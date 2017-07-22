@@ -59,7 +59,8 @@ public class UploadFileService {
 
 		System.out.println("-------------------------------------------------- 2");
 		String home = System.getProperty("catalina.base");
-		String location = "/webapps/colab/resources/avatar/";
+		 String location = "/webapps/colab/resources/avatar/";
+		 String location2 = "/colab/resources/avatar/";
 		home = home + location;
 		
 		String userid = Integer.toString(UserManagement.getUserbyMail(SecurityUtils.getSubject().getPrincipal().toString()).getId());
@@ -68,8 +69,8 @@ public class UploadFileService {
 
 		writeToFile(stream, uploadedFileLocation);
 
-		String output = location +  userid + ".jpg";
-	
+		// String output = location +  userid + ".jpg";
+		String output =  "{ \"location\":\"" + location2 + userid + ".jpg"+"\"}";
 		
 		System.out.println("File Uploaded to: " + uploadedFileLocation);
 
@@ -99,6 +100,7 @@ public class UploadFileService {
 
 		String home = System.getProperty("catalina.base");
 		String location = "/webapps/colab/resources/postit/";
+		String location2 = "/colab/resources/postit/";
 		home = home + location;
 		
 		
@@ -110,7 +112,7 @@ public class UploadFileService {
 
 		writeToFile(stream, uploadedFileLocation);
 
-		String output =  location + userid + "-" + index +  ".jpg";
+		String output =  "{ \"location\":\"" + location2 + userid + "-" + index +  ".jpg"+"\"}";
 	
 		
 		
