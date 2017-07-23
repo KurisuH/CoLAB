@@ -527,6 +527,10 @@ public class PostitService {
 				}
 			int postit_id = PostitManagement.createPostitFromPostit(postit);
 			postit.setId(postit_id);
+			User u = UserManagement.getUserbyID(postit.getAuthor());
+			postit.setAuthor_name(u.getName());
+			postit.setAvatar_path(u.getAvatar());
+			postit.setAuthor_surname(u.getSurname());
 			
 			try {
 				
