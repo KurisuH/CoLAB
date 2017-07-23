@@ -42,6 +42,11 @@ public class PostitManagement {
 		System.out.println("Postit ID = " + postit.getId());
 		System.out.println("Postit CONTENT = " + postit.getContentText());
 		System.out.println("Postit AUTHOR = " + postit.getAuthor());
+		
+		User author = UserManagement.getUserbyID(postit.getAuthor());
+		postit.setAuthor_name(author.getName());
+		postit.setAvatar_path(author.getAvatar());
+		postit.setAuthor_surname(author.getSurname());
 
 		entitymanager.close();
 		return postit;
@@ -198,10 +203,18 @@ public class PostitManagement {
 				"SELECT n FROM Postit n", Postit.class);
 		List<Postit> result = query.getResultList();
 
+
 		for (Postit n : result) {
+			User author = UserManagement.getUserbyID(n.getAuthor());
+			n.setAuthor_name(author.getName());
+			n.setAvatar_path(author.getAvatar());
+			n.setAuthor_surname(author.getSurname());
+			
+			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
 			System.out.println("Postit CONTENT = " + n.getContentText());
+			*/
 
 		}
 		entitymanager.close();
@@ -218,10 +231,18 @@ public class PostitManagement {
 				"SELECT n FROM Postit n ORDER BY n.date", Postit.class);
 		List<Postit> result = query.getResultList();
 
+
 		for (Postit n : result) {
+			User author = UserManagement.getUserbyID(n.getAuthor());
+			n.setAuthor_name(author.getName());
+			n.setAvatar_path(author.getAvatar());
+			n.setAuthor_surname(author.getSurname());
+			
+			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
 			System.out.println("Postit CONTENT = " + n.getContentText());
+			*/
 
 		}
 
@@ -239,10 +260,18 @@ public class PostitManagement {
 				"SELECT n FROM Postit n ORDER BY n.clicks", Postit.class);
 		List<Postit> result = query.getResultList();
 
+
 		for (Postit n : result) {
+			User author = UserManagement.getUserbyID(n.getAuthor());
+			n.setAuthor_name(author.getName());
+			n.setAvatar_path(author.getAvatar());
+			n.setAuthor_surname(author.getSurname());
+			
+			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
 			System.out.println("Postit CONTENT = " + n.getContentText());
+			*/
 
 		}
 
@@ -266,10 +295,18 @@ public class PostitManagement {
 		query.setParameter("id", id);
 		List<Postit> result = query.getResultList();
 
+
 		for (Postit n : result) {
+			User author = UserManagement.getUserbyID(n.getAuthor());
+			n.setAuthor_name(author.getName());
+			n.setAvatar_path(author.getAvatar());
+			n.setAuthor_surname(author.getSurname());
+			
+			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
 			System.out.println("Postit CONTENT = " + n.getContentText());
+			*/
 
 		}
 
@@ -290,10 +327,18 @@ public class PostitManagement {
 		query.setParameter("id", id);
 		List<Postit> result = query.getResultList();
 
+
 		for (Postit n : result) {
+			User author = UserManagement.getUserbyID(n.getAuthor());
+			n.setAuthor_name(author.getName());
+			n.setAvatar_path(author.getAvatar());
+			n.setAuthor_surname(author.getSurname());
+			
+			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
 			System.out.println("Postit CONTENT = " + n.getContentText());
+			*/
 
 		}
 
@@ -317,10 +362,18 @@ public class PostitManagement {
 		query.setParameter("id", id);
 		List<Postit> result = query.getResultList();
 
+
 		for (Postit n : result) {
+			User author = UserManagement.getUserbyID(n.getAuthor());
+			n.setAuthor_name(author.getName());
+			n.setAvatar_path(author.getAvatar());
+			n.setAuthor_surname(author.getSurname());
+			
+			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
 			System.out.println("Postit CONTENT = " + n.getContentText());
+			*/
 
 		}
 		entitymanager.close();
@@ -341,10 +394,18 @@ public class PostitManagement {
 		query.setParameter("id", id);
 		List<Postit> result = query.getResultList();
 
+		UserManagement um = new UserManagement();
 		for (Postit n : result) {
+			User author = um.getUserbyID(n.getAuthor());
+			n.setAuthor_name(author.getName());
+			n.setAvatar_path(author.getAvatar());
+			n.setAuthor_surname(author.getSurname());
+			
+			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
 			System.out.println("Postit CONTENT = " + n.getContentText());
+			*/
 
 		}
 		entitymanager.close();

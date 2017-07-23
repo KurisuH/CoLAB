@@ -41,6 +41,14 @@ public class Postit implements Serializable {
 	private String title;
 
 	private int author;
+	
+	@Transient
+	private String author_name;
+	@Transient
+	private String author_surname;
+	@Transient 
+	private String avatar_path;
+
 
 	public Postit() {
 	}
@@ -131,6 +139,31 @@ public class Postit implements Serializable {
 
 	public void setAuthor(int author) {
 		this.author = author;
+	}
+
+
+	public String getAuthor_name() {
+		return author_name;
+	}
+
+	public void setAuthor_name(String author_name) {
+		this.author_name = author_name;
+	}
+
+	public String getAvatar_path() {
+		return avatar_path;
+	}
+
+	public void setAvatar_path(String avatar_path) {
+		this.avatar_path = avatar_path;
+	}
+
+	public String getAuthor_surname() {
+		return author_surname;
+	}
+
+	public void setAuthor_surname(String author_surname) {
+		this.author_surname = author_surname;
 	}
 
 	@Override
