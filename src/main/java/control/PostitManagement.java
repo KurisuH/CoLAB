@@ -287,6 +287,9 @@ public class PostitManagement {
 			*/
 
 		}
+		
+		Collections.sort(result);
+		Collections.reverse(result);
 
 		entitymanager.close();
 		return result;

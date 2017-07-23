@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @NamedQuery(name="Postit.findAll", query="SELECT p FROM Postit p")
-public class Postit implements Serializable {
+public class Postit implements Serializable, Comparable<Postit> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -183,6 +183,20 @@ public class Postit implements Serializable {
 				+ contentText + ", date=" + date + ", isPost=" + isPost
 				+ ", lastModified=" + lastModified + ", responseTo="
 				+ responseTo + ", title=" + title + ", author=" + author + "]";
+	}
+
+	@Override
+	public int compareTo(Postit o) {
+	if(postit_replies == o.postit_replies) {
+		return 0;
+	}
+	
+	if (postit_replies > o.postit_replies)
+	{
+		return 1;
+	}
+	return -1;
+		
 	}
 
 }
