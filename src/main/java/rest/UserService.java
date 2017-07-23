@@ -424,7 +424,7 @@ public class UserService {
 	 * @param json the body json with all the relevant information.
 	 * @return
 	 */
-	@PUT
+	@POST
 	@Consumes("application/json")
 	@Path("update/{id}")
 	public Response updateUserByID(@PathParam("id") int id, File json) {

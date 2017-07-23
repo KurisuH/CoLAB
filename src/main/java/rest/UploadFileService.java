@@ -49,8 +49,7 @@ public class UploadFileService {
 	) {
 	
 		if(stream == null){System.out.println("FUCKING NULL!");}
-		
-		System.out.println("-------------------------------------------------- 1");
+
 		
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();

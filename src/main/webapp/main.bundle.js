@@ -45,7 +45,7 @@ __decorate([
     __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */]) === "function" && _a || Object)
 ], AnswerComponent.prototype, "data", void 0);
 AnswerComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({ selector: 'answer',
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({ selector: 'answer',
         template: "<div class=\"content answer\">\n                 <div class=\"flexcol\">\n                   <div class=\"flexrow\" >\n                     <div class=\"flexcol\" style=\"flex-basis: 8%\">\n                       <div class=\"item stats\">\n                         <img src=\"pic.jpg\" class=\"feedpic\">\n                           <div class=\"text\">\n                             <ul class=\"ulstat\">\n                               <li>Likes</li>\n                               <li>{{data.clicks}}w</li>\n                             </ul>\n                            </div>\n                        </div>\n                     </div>                     \n                     <div class=\"item_2 flexcol\">\n                        <div class=\"item\">\n                           <h1> {{data.title}} </h1>\n                              {{data.content_text}} \n                        </div>\n                            <br>\n                             <span class=\"created\">Created: 02.06.2017 17:31 Last modified: 03.06.2017 11:30</span>\n                        </div>\n                     <div class=\"item_4 symbols\">\n                        <a href=\"#\" class=\"nounder\" (click)=\"editPost()\">\n                          <i class=\"material-icons\">create</i>\n                        </a>\n                        <br>\n                        <br>\n                        <a href=\"#\" class=\"nounder\" (click)=\"deletePost()\">\n                          <i class=\"material-icons\">clear</i>\n                        </a>\n                     </div>\n                   </div>\n                 </div>\n                </div> "
     })
 ], AnswerComponent);
@@ -100,7 +100,7 @@ var AppComponent = (function () {
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'app-root',
         template: "   \n   \n    <div *ngIf=\"isLoggedIn\">\n    <navbar> </navbar>\n    </div>\n   <router-outlet></router-outlet>\n  ",
     }),
@@ -136,6 +136,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__feed_service__ = __webpack_require__("../../../../../src/app/feed.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__login_component__ = __webpack_require__("../../../../../src/app/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__auth_guard_service__ = __webpack_require__("../../../../../src/app/auth-guard.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__settings_component__ = __webpack_require__("../../../../../src/app/settings.component.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -143,6 +144,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -181,7 +183,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_10__edit_component__["a" /* EditComponent */],
             __WEBPACK_IMPORTED_MODULE_13__mainpage_component__["a" /* MainpageComponent */],
             __WEBPACK_IMPORTED_MODULE_15__profile_component__["a" /* ProfileComponent */],
-            __WEBPACK_IMPORTED_MODULE_18__login_component__["a" /* LoginComponent */]
+            __WEBPACK_IMPORTED_MODULE_18__login_component__["a" /* LoginComponent */],
+            __WEBPACK_IMPORTED_MODULE_20__settings_component__["a" /* SettingsComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -201,10 +204,21 @@ AppModule = __decorate([
                 }, {
                     path: 'login',
                     component: __WEBPACK_IMPORTED_MODULE_18__login_component__["a" /* LoginComponent */]
-                }, {
+                },
+                {
+                    path: 'settings',
+                    component: __WEBPACK_IMPORTED_MODULE_20__settings_component__["a" /* SettingsComponent */],
+                    canActivate: [__WEBPACK_IMPORTED_MODULE_19__auth_guard_service__["a" /* AuthGuard */]]
+                },
+                {
                     path: '',
                     component: __WEBPACK_IMPORTED_MODULE_13__mainpage_component__["a" /* MainpageComponent */],
                     canActivate: [__WEBPACK_IMPORTED_MODULE_19__auth_guard_service__["a" /* AuthGuard */]]
+                },
+                {
+                    path: 'logout',
+                    redirectTo: 'login',
+                    pathMatch: 'full'
                 },
                 {
                     path: '*',
@@ -392,8 +406,8 @@ var ChoiceComponent = (function () {
     ChoiceComponent.prototype.updateImage = function () {
         var _this = this;
         var files = this.imgUp2.nativeElement.files;
-        if (files.length === 0) {
-            console.log("RETURNED SINCE EMPTYX");
+        if (files.length === 0 || files.length != 1) {
+            console.log("RETURNED SINCE EMPTYX or TOO LARGE");
             return;
         }
         ;
@@ -561,15 +575,15 @@ var ChoiceComponent = (function () {
     return ChoiceComponent;
 }());
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('imgUpload'),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* ViewChild */])('imgUpload'),
     __metadata("design:type", Object)
 ], ChoiceComponent.prototype, "imgUp", void 0);
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('imgUpload2'),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* ViewChild */])('imgUpload2'),
     __metadata("design:type", Object)
 ], ChoiceComponent.prototype, "imgUp2", void 0);
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('imgUpload3'),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* ViewChild */])('imgUpload3'),
     __metadata("design:type", Object)
 ], ChoiceComponent.prototype, "imgUp3", void 0);
 __decorate([
@@ -597,7 +611,7 @@ __decorate([
     __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */]) === "function" && _b || Object)
 ], ChoiceComponent.prototype, "topLevelPost", void 0);
 ChoiceComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({ selector: 'choice',
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({ selector: 'choice',
         template: "    \n    \n    <div *ngIf=\"isNewPost === true\">\n        <div *ngIf=\"type == 0\">\n            <div (click)=\"writeText($event)\">\n                Write a text  \n            </div>\n          <div (click)=\"uploadImage($event)\">\n            Or upload an image!\n          </div>\n          \n        </div>\n        \n        <div *ngIf=\"type == 1\">\n          <form (ngSubmit)=\"sendWithText()\" (click)=\"testLog()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\" placeholder=\"Give your post a title!\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" placeholder=\"Give your post some content!\"></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack()\">\n    \n          </form>\n        </div>\n        <div *ngIf=\"type == 2\">\n          <form (ngSubmit)=\"sendWithImage()\"> \n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\" placeholder=\"Give your post a title!\"></textarea>\n          <br> Upload your image! <br> <br>    \n          <input type=\"file\" #imgUpload accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack($event)\">\n          </form>\n        </div>\n    </div>\n    \n    <div *ngIf=\"isNewPost === false\">\n      <!--Aufpassen mit type: Bearbeiten eines Posts hat nur 2 Types, img und text\n       Deshalb; Hier OnInit MEthode, die guckt welcher der Inputs leer ist und welcher nicht -->\n      <div *ngIf=\"type == 1\">\n        <div (click)=\"editModeText($event)\">\n          Edit text\n        </div>\n        <div (click)=\"editModeImage($event)\">\n          Replace your text with an image!\n        </div>\n        <div (click)=\"cancel($event)\"> Cancel edit\n        </div>\n      </div>\n\n      <div *ngIf=\"type == 2\">\n        <div (click)=\"editModeImage($event)\">\n          Choose a different image to upload\n        </div>\n        <div (click)=\"editModeText($event)\">\n          Replace your image with a text\n        </div>\n        <div (click)=\"cancel($event)\"> Cancel edit\n        </div>\n      </div>\n      \n      <div *ngIf=\"type == 3\">\n        <form (ngSubmit)=\"updateText()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" ></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>        \n      </div>\n\n      <div *ngIf=\"type == 4\">\n        <form (ngSubmit)=\"updateImage()\" enctype=\"multipart/form-data\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <br> Upload your new image! <br> <br>\n          <input type=\"file\" #imgUpload2 accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n      \n      <div *ngIf=\"type == 5\">\n        <div (click)=\"replyText($event)\">\n          Reply with text\n        </div>\n        <div (click)=\"replyImage($event)\">\n          Reply with an image instead!\n        </div>\n        <div (click)=\"cancelReply($event)\"> Cancel edit\n        </div>        \n      </div>\n\n      <div *ngIf=\"type == 6\">\n        <form (ngSubmit)=\"postReplyText()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" ></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n\n      <div *ngIf=\"type == 7\">\n        <form (ngSubmit)=\"postReplyImage()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <br> Upload your image! <br> <br>\n          <input type=\"file\" #imgUpload3 accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n\n    </div>\n    \n  ",
         providers: [__WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]]
     }),
@@ -648,7 +662,7 @@ __decorate([
     __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */]) === "function" && _a || Object)
 ], EditComponent.prototype, "selPost", void 0);
 EditComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({ selector: 'edit',
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({ selector: 'edit',
         template: "\n   <div *ngIf=\"type == 1\">\n     <div>\n       Edit text\n     </div>\n     <div>\n       Replace your text with an image!\n     </div>\n     <div> Cancel edit\n     </div>\n   </div>\n   \n   <div *ngIf=\"type == 2\">\n      <div>\n        Choose a different image to upload\n      </div>\n      <div>\n        Replace your image with a text\n      </div>\n      <div> Cancel edit\n      </div>\n   </div> \n \t\n  "
     })
 ], EditComponent);
@@ -872,6 +886,7 @@ var LoginComponent = (function () {
         this.userService = userService;
         this.router = router;
         this.type = 0;
+        this.checkpw = '';
         this.tempUser = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]();
     }
     LoginComponent.prototype.ngOnInit = function () {
@@ -883,7 +898,6 @@ var LoginComponent = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
         this.http.post('http://localhost:8080/Webtech2Project/rest/login/' + this.tempUser.email + '/' + this.tempUser.password, body, options).subscribe(function (data) { return _this.check(data); });
-        //  /Webtech2Project/rest/login/test@test.de/test
     };
     LoginComponent.prototype.check = function (data) {
         var _this = this;
@@ -902,6 +916,7 @@ var LoginComponent = (function () {
             var usr = data.json().user;
             this.userService.setUser(usr);
             this.router.navigate(['/']);
+            this.tempUser = this.userService.getGlobalUser();
         }
         else {
             console.log("error while trying to fetch user");
@@ -916,16 +931,23 @@ var LoginComponent = (function () {
         this.tempUser = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]();
     };
     LoginComponent.prototype.tryRegister = function () {
-        console.log("try register called");
-        this.userService.createUser(this.tempUser);
-        this.type = 0;
+        if (this.checkpw === this.tempUser.password) {
+            console.log("try register called and password matches");
+            this.userService.createUser(this.tempUser).subscribe(function (data) { return console.log("res was " + data); });
+            this.type = 0;
+            this.tempUser = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]();
+            this.checkpw = '';
+        }
+        else {
+            console.log("passoword doesnt match, try again");
+        }
     };
     return LoginComponent;
 }());
 LoginComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'login',
-        template: "\t\n    <div *ngIf=\"type == 0\">\n  \n    <form>\n      \n      <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n      <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n      <input type=\"submit\" value=\"Login\" (click)=\"tryLogin()\">      \n    </form>\n    \n    Dont have an account yet? Click <span (click)=\"signup()\">here</span> to crete one!\n\n    </div>\n    \n    <div *ngIf=\"type == 1 \">\n      Register now!\n      <br>\n      Simply fill out the fields below and you are ready to go!\n      <br>\n      <form>\n\n        <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n        <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n        <input type=\"date\" [(ngModel)]=\"tempUser.birth_date\" name=\"whytho3\" placeholder=\"Birth date\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.name\" name=\"whytho4\" placeholder=\"first name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.surname\" name=\"whytho5\" placeholder=\"last name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.location\" name=\"whytho6\" placeholder=\"Your location inside the company\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.phone\" name=\"whytho7\" placeholder=\"your phone\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.fax\" name=\"whytho8\" placeholder=\"your fax\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.gender\" name=\"whytho9\" placeholder=\"your gender\">        \n        \n       \n        <input type=\"submit\" value=\"Register\" (click)=\"tryRegister()\">\n      </form>\n      \n      <span (click)=\"goBack()\">Go back</span>\n    </div>\n  ",
+        template: "\t\n    <div *ngIf=\"type == 0\">\n  \n    <form>\n      \n      <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n      <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n      <input type=\"submit\" value=\"Login\" (click)=\"tryLogin()\">      \n    </form>\n    \n    Dont have an account yet? Click <span (click)=\"signup()\">here</span> to crete one!\n\n    </div>\n    \n    <div *ngIf=\"type == 1 \">\n      Register now!\n      <br>\n      Simply fill out the fields below and you are ready to go!\n      <br>\n      <form>\n\n        <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n        <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n        <input type=\"password\" [(ngModel)]=\"checkpw\" name=\"whytho25\" placeholder=\"enter password again\">\n        <input type=\"date\" [(ngModel)]=\"tempUser.birth_date\" name=\"whytho3\" placeholder=\"Birth date (YYYY-MM-DD)\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.name\" name=\"whytho4\" placeholder=\"first name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.surname\" name=\"whytho5\" placeholder=\"last name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.location\" name=\"whytho6\" placeholder=\"Your location inside the company\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.phone\" name=\"whytho7\" placeholder=\"your phone\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.fax\" name=\"whytho8\" placeholder=\"your fax\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.gender\" name=\"whytho9\" placeholder=\"your gender\">        \n        \n       \n        <input type=\"submit\" value=\"Register\" (click)=\"tryRegister()\">\n      </form>\n      \n      <span (click)=\"goBack()\">Go back</span>\n    </div>\n  ",
         providers: []
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object])
@@ -959,7 +981,7 @@ var MainpageComponent = (function () {
     return MainpageComponent;
 }());
 MainpageComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'mainpage',
         template: "   <main>\n    <div class=\"col_1\">\n      <profileBadge>\n      </profileBadge>\n    </div>\n    <div class=\"col_2\">\n      <h2>Das ist ein Test: </h2>\n      <div class=\"formdiv\">\n        <choice [isNewPost]=\"true\">\n        </choice>\n      </div>\n      <h2 class=\"morespace\">See what everyone in your company is up to!</h2>\n\n      <post></post>\n    </div>\n\n    <div class=\"col_3\">\n      <sortby></sortby>\n    </div>\n  </main>\n  "
     })
@@ -974,6 +996,7 @@ MainpageComponent = __decorate([
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavbarComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -981,18 +1004,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 var NavbarComponent = (function () {
-    function NavbarComponent() {
+    function NavbarComponent(userService) {
+        this.userService = userService;
     }
+    NavbarComponent.prototype.logUserOut = function () {
+        this.userService.logOut();
+    };
     return NavbarComponent;
 }());
 NavbarComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({ selector: 'navbar',
-        template: "<div class=\"navbar\">\n                <nav>\n                  <ul class=\"navul\">\n                     <li class=\"mmenu midmenu\" routerLink=\"/profile\"> <i class=\"material-icons\">account_circle</i><span class=\"atest\">PROFILE</span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/settings\"><i class=\"material-icons\">build</i><span class=\"atest\">SETTINGS</span></li>\n                     <li class=\"mmenu colab\" routerLink=\"\" ><span class=\"co\"><i class=\"material-icons\">keyboard_arrow_right</i>Co</span><span class=\"lab\">LAB<i class=\"material-icons\">keyboard_arrow_left</i></span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/logout\" (click)=\"logOut()\"><i class=\"material-icons\">power_settings_new</i><span class=\"atest\">SIGN OUT</span></li>\n                     <li class=\"mmenu midmenu searchbar\">                       \n                       <form action=\"#\">\n                           <input type=\"search\" name=\"search\" class=\"mainsearch\" placeholder=\"Search for things\">\n                       </form>\n                    </li>\n                  </ul>\n                </nav>\n                </div>\n   "
-    })
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({ selector: 'navbar',
+        template: "<div class=\"navbar\">\n                <nav>\n                  <ul class=\"navul\">\n                     <li class=\"mmenu midmenu\" routerLink=\"/profile\"> <i class=\"material-icons\">account_circle</i><span class=\"atest\">PROFILE</span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/settings\"><i class=\"material-icons\">build</i><span class=\"atest\">SETTINGS</span></li>\n                     <li class=\"mmenu colab\" routerLink=\"\" ><span class=\"co\"><i class=\"material-icons\">keyboard_arrow_right</i>Co</span><span class=\"lab\">LAB<i class=\"material-icons\">keyboard_arrow_left</i></span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/logout\" (click)=\"logUserOut()\"><i class=\"material-icons\">power_settings_new</i><span class=\"atest\">SIGN OUT</span></li>\n                     <li class=\"mmenu midmenu searchbar\">                       \n                       <form action=\"#\">\n                           <input type=\"search\" name=\"search\" class=\"mainsearch\" placeholder=\"Search for things\">\n                       </form>\n                    </li>\n                  </ul>\n                </nav>\n                </div>\n   "
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */]) === "function" && _a || Object])
 ], NavbarComponent);
 
+var _a;
 //# sourceMappingURL=nav.component.js.map
 
 /***/ }),
@@ -1023,6 +1056,7 @@ var Post = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__postit_service__ = __webpack_require__("../../../../../src/app/postit.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__feed_service__ = __webpack_require__("../../../../../src/app/feed.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PostComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1038,13 +1072,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 // IN MODULE AUSLAGERN
 var PostComponent = (function () {
-    function PostComponent(postService, userService, feedService) {
+    function PostComponent(postService, userService, feedService, router) {
         var _this = this;
         this.postService = postService;
         this.userService = userService;
         this.feedService = feedService;
+        this.router = router;
         this.title = 'CoLAB';
         // -------------------
         this.feedPosts = this.feedService.getFeedPost();
@@ -1054,13 +1090,11 @@ var PostComponent = (function () {
         this.subscriptionReply = this.feedService.needToUpdateReply.subscribe(function (val) {
             _this.repliesForCurrent = _this.feedService.getRepliesForCurrent();
             console.log("update me");
-            for (var _i = 0, _a = _this.repliesForCurrent; _i < _a.length; _i++) {
-                var elem = _a[_i];
-                console.log("######### " + elem.contentText);
-            }
         });
     }
-    // TODO DELETE, USER, RELOAD FIXEWN
+    PostComponent.prototype.gotoProfile = function (sel) {
+        this.router.navigate(['profile/' + sel.author]);
+    };
     PostComponent.prototype.onSelectAnswer = function (selected, ev) {
         this.selectedAnswer = selected;
         ev.stopPropagation();
@@ -1089,9 +1123,6 @@ var PostComponent = (function () {
     };
     PostComponent.prototype.onSelect = function (selected, ev) {
         var _this = this;
-        // for(let eleme of this.feedPosts) {
-        //     console.log("--------------- " + eleme.id);
-        //   }
         ev.stopPropagation();
         if (this.selectedPost === selected) {
             // if is already showing replies --> hide
@@ -1259,15 +1290,15 @@ var PostComponent = (function () {
     return PostComponent;
 }());
 PostComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'post',
-        template: "    <!-- TODO Eventuell Style wegen Umrandung und Markierung welcher selected ist anpassen\n        Jquery In Angular: https://stackoverflow.com/questions/30623825/how-to-use-jquery-with-angular2\n        Scrollen mit Jquery: https://stackoverflow.com/questions/6677035/jquery-scroll-to-element\n     -->\n \n      <div *ngFor=\"let current of feedPosts\" (click)=\"onSelect(current, $event)\" > <!-- [class.selected]=\"current === selectedPost\"-->\n      <div class=\"content\" >\n    <div class=\"flexcol\">\n      <div class=\"flexrow\">\n        <div class=\"item stats\">\n          <span class=\"markertest\">\n            \n          </span>\n          <img class=\"feedpic\" src=\"\">\n\n          <div class=\"text\">\n            <ul class=\"ulstat\">\n              <li>Likes: TODO </li>\n              <li>Replies: TODO {{current.answers}}</li>\n              <li>Views: TODO {{current.clicks}}</li>\n            </ul>\n          </div>\n        </div>\n        <div class=\"item_2 flexcol\">\n         <div *ngIf=\"current.isBeingEdited == true\">\n           <choice [selPost] = \"selectedPost\" [isNewPost]=\"false\">                 \n                </choice>\n         </div>\n        <div *ngIf=\"current.isBeingEdited == false\"> \n          <div *ngIf=\"!current.contentImage\"> \n             <div class=\"item\">\n                 <h1>{{current.title}}</h1>\n             </div>\n            <br>\n            {{current.contentText}}\n          </div>\n\n          <div *ngIf=\"!current.contentText\">\n            <div class=\"item\">\n              <h1>{{current.title}}</h1>\n            </div>\n            <br>\n           <img src=\"{{current.contentImage}}\">\n          </div>\n          <span class=\"created\"> Created: {{current.date}} Last modified: {{current.lmod}} </span>\n          </div>          \n       </div>\n        <div class=\"item_4 symbols\">\n         <div *ngIf=\"current.id == user.id\">         \n            <a href=\"#\" class=\"nounder\" (click)=\"editPost(current,$event)\">\n              <i class=\"material-icons\">create</i>\n            </a>\n            <br>\n            <br>\n        </div>\n           <div *ngIf=\"current.id == user.id\"> \n            <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n              <i class=\"material-icons\">clear</i>\n            </a>\n            <br>\n            <br>            \n         </div>\n       \n          <a href=\"#\" class=\"nounder\" (click)=\"reply(current, $event)\">\n            <i class=\"material-icons\">reply</i>\n          </a>\n        </div>\n    </div>\n  </div>\n       <div *ngFor=\"let answers of repliesForCurrent\" (click)=\"onSelectAnswer(current, $event)\">\n         <div *ngIf=\"current.repliesVisible\">\n           <div class=\"content answer\" style=\"background-color: green;\">\n             <div class=\"flexcol\">\n               <div class=\"flexrow\" >\n                 <div class=\"flexcol\" style=\"flex-basis: 8%\">\n                   <div class=\"item stats\">\n                     <img src=\"pic.jpg\" class=\"feedpic\">\n                     <div class=\"text\">\n                       <ul class=\"ulstat\">\n                         <li>Likes</li>\n                         <li>{{answers.clicks}}</li>\n                       </ul>\n                     </div>\n                   </div>\n                 </div>\n                 <div class=\"item_2 flexcol\">\n                   <div class=\"item\">\n                     <div *ngIf=\"answers.isBeingEdited == true\">\n                       <choice [selPost] = \"answers\" [isNewPost]=\"false\">\n                       </choice>\n                     </div>                     \n                     <div *ngIf=\"answers.isBeingEdited == false\">\n                       <div *ngIf=\"answers.isTypingReply == true\">\n                         <choice (endReply)=\"cancelReply(answers)\" [topLevelPost]=\"current\" [selPost] = \"answers\" [isNewPost]=\"false\">\n                         </choice>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false \">\n                        <div *ngIf=\"!answers.contentImage\">\n                         <h1> {{answers.title}} </h1>\n                         {{answers.contentText}}\n                        </div>\n                         <div *ngIf=\"!answers.contentText\">\n                           <h1> {{answers.title}} </h1>\n                           <img src=\"{{answers.contentImage}}\">\n                         </div>\n                       </div>\n                       <span class=\"created\">Created: {{answers.date}} Last modified: {{answers.lastModified}}</span>\n                   </div>\n                   <br>                \n                 </div>\n                 </div>              \n                 <div class=\"item_4 symbols\">\n                   <div *ngIf=\"answers.id == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\"answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"editAnswer(answers, $event)\">\n                       <i class=\"material-icons\">create</i>\n                     </a>\n                     <br>\n                     <br>\n                   </div>\n                   <div *ngIf=\" answers.id == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\" answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"deletePost(answers, $event)\">\n                       <i class=\"material-icons\">clear</i>\n                     </a>\n                   </div>                  \n                 </div>\n               </div>\n             </div>\n           </div>           \n         </div>         \n       </div>        \n      </div>\n    </div>\n  ",
+        template: "    <!-- TODO Eventuell Style wegen Umrandung und Markierung welcher selected ist anpassen\n        Jquery In Angular: https://stackoverflow.com/questions/30623825/how-to-use-jquery-with-angular2\n        Scrollen mit Jquery: https://stackoverflow.com/questions/6677035/jquery-scroll-to-element\n     -->\n \n      <div *ngFor=\"let current of feedPosts\" (click)=\"onSelect(current, $event)\" > <!-- [class.selected]=\"current === selectedPost\"-->\n      <div class=\"content\" >\n    <div class=\"flexcol\">\n      <div class=\"flexrow\">\n        <div class=\"item stats\">\n          <span class=\"markertest\">\n            \n          </span>\n          <img class=\"feedpic\" src=\"http://localhost:8080/{{current.avatar_path}}\" (click)=\"gotoProfile(current)\">\n\n          <div class=\"text\">\n            <ul class=\"ulstat\">\n              <li></li>\n              <li>by {{current.author_name}} {{current.author_surname}}</li>\n              <li>Replies: {{current.answers}}</li>             \n            </ul>\n          </div>\n        </div>\n        <div class=\"item_2 flexcol\">\n         <div *ngIf=\"current.isBeingEdited == true\">\n           <choice [selPost] = \"selectedPost\" [isNewPost]=\"false\">                 \n                </choice>\n         </div>\n        <div *ngIf=\"current.isBeingEdited == false\"> \n          <div *ngIf=\"!current.contentImage\"> \n             <div class=\"item\">\n                 <h1>{{current.title}}</h1>\n             </div>\n            <br>\n            {{current.contentText}}\n          </div>\n\n          <div *ngIf=\"!current.contentText\">\n            <div class=\"item\">\n              <h1>{{current.title}}</h1>\n            </div>\n            <br>\n           <img src=\"{{current.contentImage}}\">\n          </div>\n          <span class=\"created\"> Created: {{current.date}} Last modified: {{ ( current.lastModified *1000 | date )}} </span>\n          </div>          \n       </div>\n        <div class=\"item_4 symbols\">\n         <div *ngIf=\"current.id == user.id\">         \n            <a href=\"#\" class=\"nounder\" (click)=\"editPost(current,$event)\">\n              <i class=\"material-icons\">create</i>\n            </a>\n            <br>\n            <br>\n        </div>\n           <div *ngIf=\"current.id == user.id\"> \n            <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n              <i class=\"material-icons\">clear</i>\n            </a>\n            <br>\n            <br>            \n         </div>\n       \n          <a href=\"#\" class=\"nounder\" (click)=\"reply(current, $event)\">\n            <i class=\"material-icons\">reply</i>\n          </a>\n        </div>\n    </div>\n  </div>\n       <div *ngFor=\"let answers of repliesForCurrent\" (click)=\"onSelectAnswer(current, $event)\">\n         <div *ngIf=\"current.repliesVisible\">\n           <div class=\"content answer\" style=\"background-color: green;\">\n             <div class=\"flexcol\">\n               <div class=\"flexrow\" >\n                 <div class=\"flexcol\" style=\"flex-basis: 8%\">\n                   <div class=\"item stats\">\n                     <img src=\"pic.jpg\" class=\"feedpic\" (click)=\"gotoProfile(answers)\">\n                     <div class=\"text\">\n                       <ul class=\"ulstat\">\n                         <li>Likes</li>\n                         <li>{{answers.clicks}}</li>\n                       </ul>\n                     </div>\n                   </div>\n                 </div>\n                 <div class=\"item_2 flexcol\">\n                   <div class=\"item\">\n                     <div *ngIf=\"answers.isBeingEdited == true\">\n                       <choice [selPost] = \"answers\" [isNewPost]=\"false\">\n                       </choice>\n                     </div>                     \n                     <div *ngIf=\"answers.isBeingEdited == false\">\n                       <div *ngIf=\"answers.isTypingReply == true\">\n                         <choice (endReply)=\"cancelReply(answers)\" [topLevelPost]=\"current\" [selPost] = \"answers\" [isNewPost]=\"false\">\n                         </choice>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false \">\n                        <div *ngIf=\"!answers.contentImage\">\n                         <h1> {{answers.title}} </h1>\n                         {{answers.contentText}}\n                        </div>\n                         <div *ngIf=\"!answers.contentText\">\n                           <h1> {{answers.title}} </h1>\n                           <img src=\"{{answers.contentImage}}\">\n                         </div>\n                       </div>\n                       <span class=\"created\">Created: {{answers.date}} Last modified: {{( current.lastModified *1000 | date ) }} </span>\n                   </div>\n                   <br>                \n                 </div>\n                 </div>              \n                 <div class=\"item_4 symbols\">\n                   <div *ngIf=\"answers.id == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\"answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"editAnswer(answers, $event)\">\n                       <i class=\"material-icons\">create</i>\n                     </a>\n                     <br>\n                     <br>\n                   </div>\n                   <div *ngIf=\" answers.id == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\" answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"deletePost(answers, $event)\">\n                       <i class=\"material-icons\">clear</i>\n                     </a>\n                   </div>                  \n                 </div>\n               </div>\n             </div>\n           </div>           \n         </div>         \n       </div>        \n      </div>\n    </div>\n  ",
         providers: [__WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_router__["b" /* Router */]) === "function" && _d || Object])
 ], PostComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=postit.component.js.map
 
 /***/ }),
@@ -1465,10 +1496,11 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__postit_service__ = __webpack_require__("../../../../../src/app/postit.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_switchMap__ = __webpack_require__("../../../../rxjs/add/operator/switchMap.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_switchMap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user__ = __webpack_require__("../../../../../src/app/user.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__postit_service__ = __webpack_require__("../../../../../src/app/postit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_switchMap__ = __webpack_require__("../../../../rxjs/add/operator/switchMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_switchMap__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1485,6 +1517,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProfileComponent = (function () {
     function ProfileComponent(userService, postService, route, location) {
         this.userService = userService;
@@ -1492,6 +1525,7 @@ var ProfileComponent = (function () {
         this.route = route;
         this.location = location;
         this.title = 'CoLAB';
+        this.user = new __WEBPACK_IMPORTED_MODULE_3__user__["a" /* User */]();
     }
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1506,22 +1540,26 @@ var ProfileComponent = (function () {
         if (isNaN(this.id)) {
             // getGlobalUser details for profile page
             this.postService.getAllPostsByUser(this.userService.getGlobalUser().id).then(function (res) { return _this.profilePosts = res; });
+            this.user = this.userService.getGlobalUser();
+            this.path = 'http://localhost:8080/' + this.user.avatar;
+            this.id = this.user.id;
         }
         else {
             // get details for User with param ID from URL
             this.postService.getAllPostsByUser(this.id).then(function (res) { return _this.profilePosts = res; });
+            this.userService.getUser(this.id).then(function (res) { return _this.user = res; });
+            this.path = 'http://localhost:8080/' + this.user.avatar;
         }
-        this.user = this.userService.getGlobalUser();
     };
-    ProfileComponent.prototype.showAll = function (id) {
+    ProfileComponent.prototype.showAll = function () {
         var _this = this;
         this.postService.getAllPostsByUser(this.id).then(function (res) { return _this.profilePosts = res; });
     };
-    ProfileComponent.prototype.onlyOwnPosts = function (id) {
+    ProfileComponent.prototype.onlyOwnPosts = function () {
         var _this = this;
         this.postService.getOnlyPostsByUser(this.id).then(function (res) { return _this.profilePosts = res; });
     };
-    ProfileComponent.prototype.onlyOwnReplies = function (id) {
+    ProfileComponent.prototype.onlyOwnReplies = function () {
         var _this = this;
         this.postService.getOnlyRepliesByUser(this.id).then(function (res) { return _this.profilePosts = res; });
     };
@@ -1531,12 +1569,12 @@ var ProfileComponent = (function () {
     return ProfileComponent;
 }());
 ProfileComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'profilepage',
-        template: "\n    <main>\n      <div class=\"col_4\">\n        <div class=\"infos\">\n          <div class=\"avatar\">\n            <img src=\"vivalderino.jpg\" class=\"profpicfull\">\n          </div>\n\n          <div class=\"contactinfos\">\n            <span class=\"contact\"><i class=\"material-icons\">face</i> {{user.name}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">business</i>{{user.location}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">phone</i>{{user.phone}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">print</i>{{user.fax}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">cake</i>{{user.birth_date}}</span>\n          </div>\n        </div>\n\n        <div class=\"sort\">\n          <span class=\"sortspan\" (click)=\"showAll()\">Alles anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnPosts()\">Nur eigene Posts anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnReplies()\">Nur Antworten anzeigen</span>\n        </div>\n\n        <div *ngFor=\"let posts of profilePosts\">\n          <div class=\"results\">\n            <div class=\"content\">\n              <div class=\"flexcol\">\n                <div class=\"flexrow\">\n                  <div class=\"item stats\">\n                    <img class=\"feedpic\" src=\"kermit.jpg\">\n  \n                    <div class=\"text\">\n                      <ul class=\"ulstat\">\n                        <li>Likes: TODO</li>\n                        <li>Replies:TODO</li>\n                        <li>Views: TODO</li>\n                      </ul>\n                    </div>\n                  </div>\n                  <div class=\"item_2 flexcol\">\n                   <div *ngIf=\"!posts.contentImage\">\n                     <div class=\"item\">\n                       <h1>{{posts.title}} </h1>\n                       {{posts.contentText}}\n                       </div>\n                   </div>\n                    <div *ngIf=\"!posts.contentText\">\n                      <div class=\"item\">\n                        <h1>{{posts.title}} </h1>\n                            TODO: ADD IMAGE SRC (PROFILE COMPONENT)\n                      </div>\n                    </div>\n                    <!--  <div class=\"item lmod\">\n                                      Created: 01.06.2017 13:37. Last modified: -\n                                  </div> -->\n                    <br>\n                    <span class=\"created\"> Created: 02.06.2017 17:31 Last modified: - </span>\n                  </div>\n                 <!-- <div class=\"item_4 symbols\">\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">create</i>\n                    </a>\n                    <br>\n                    <br>\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">clear</i>\n                    </a>\n                    <br>\n                    <br>\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">reply</i>\n                    </a>\n                  </div> -->\n                </div>\n            </div>\n          </div>\n          </div>\n        </div>\n      </div>        \n    </main> ",
-        providers: [__WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */]]
+        template: "\n    <main>\n      <div class=\"col_4\">\n        <div class=\"infos\">\n          <div class=\"avatar\">\n            <img src=\"http://localhost:8080/{{user?.avatar}}\" class=\"profpicfull\"/>\n          </div>\n\n          <div class=\"contactinfos\">\n            <span class=\"contact\"><i class=\"material-icons\">face</i> {{user?.name}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">business</i>{{user?.location}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">phone</i>{{user?.phone}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">print</i>{{user?.fax}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">cake</i>{{user?.birth_date}}</span>\n          </div>\n        </div>\n\n        <div class=\"sort\">\n          <span class=\"sortspan\" (click)=\"showAll()\">Alles anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnPosts()\">Nur eigene Posts anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnReplies()\">Nur Antworten anzeigen</span>\n        </div>\n\n        <div *ngFor=\"let posts of profilePosts\">\n          <div class=\"results\">\n            <div class=\"content\">\n              <div class=\"flexcol\">\n                <div class=\"flexrow\">\n                  <div class=\"item stats\">\n                    <img class=\"feedpic\" src=\"http://localhost:8080/{{posts.avatar_path}}\">\n  \n                    <div class=\"text\">\n                      <ul class=\"ulstat\">\n                        <li>by {{posts.author_name}}  {{posts.author_surname}}</li>\n                        <li>Replies:{{posts.answers}}</li>\n                      </ul>\n                    </div>\n                  </div>\n                  <div class=\"item_2 flexcol\">\n                   <div *ngIf=\"!posts.contentImage\">\n                     <div class=\"item\">\n                       <h1>{{posts.title}} </h1>\n                       {{posts.contentText}}\n                       </div>\n                   </div>\n                    <div *ngIf=\"!posts.contentText\">\n                      <div class=\"item\">\n                        <h1>{{posts.title}} </h1>\n                          <img src=\"{{posts.contentImage}}\" />\n                      </div>\n                    </div>\n                    <!--  <div class=\"item lmod\">\n                                      Created: 01.06.2017 13:37. Last modified: -\n                                  </div> -->\n                    <br>\n                    <span class=\"created\"> Created: {{ ( posts.date | date )}} Last modified: {{ ( posts.lastModified | date ) }}</span>\n                  </div>\n                 <!-- <div class=\"item_4 symbols\">\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">create</i>\n                    </a>\n                    <br>\n                    <br>\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">clear</i>\n                    </a>\n                    <br>\n                    <br>\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">reply</i>\n                    </a>\n                  </div> -->\n                </div>\n            </div>\n          </div>\n          </div>\n        </div>\n      </div>        \n    </main> ",
+        providers: [__WEBPACK_IMPORTED_MODULE_5__postit_service__["a" /* PostService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__postit_service__["a" /* PostService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */]) === "function" && _d || Object])
 ], ProfileComponent);
 
 var _a, _b, _c, _d;
@@ -1569,19 +1607,110 @@ var ProfileBadge = (function () {
     ProfileBadge.prototype.ngOnInit = function () {
         this.user = this.userService.getGlobalUser();
         console.log(this.user.name);
+        this.path = 'http://localhost:8080/' + this.user.avatar;
+        console.log("AVATAR PATH : " + this.user.avatar);
+    };
+    ProfileBadge.prototype.logUserOut = function () {
+        this.userService.logOut();
     };
     return ProfileBadge;
 }());
 ProfileBadge = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'profileBadge',
-        template: "\t\t\n    <div class=\"col_1_adjusted\">\n      <div class=\"feedtext\">\n        You\n      </div>\n\n      <img src=\"{{user.avatar}}\" class=\"profilepic\">\n      <br>\n      <div class=\"profilestats\">\n        Amount of posts:\n        <br> {{user.postits.length}}\n       <!-- <br>\n        Amount of views:\n        <br>\n        1337 -->\n      </div>\n      <br>\n      <div class=\"profstatdiv\">\n        <ul class=\"profilestatul\">\n          <li class=\"leftli\" routerLink=\"\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Feed</a></li>\n          <li class=\"leftli\" routerLink=\"/profile\"><a ><i class=\"material-icons\">keyboard_arrow_right</i> Profile</a></li>\n          <li class=\"leftli\" routerLink=\"/settings\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Settings</a></li>\n          <li class=\"leftli\" routerLink=\"/logout\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Signout</a></li>\n        </ul>\n      </div>\n    </div>\n  ",
+        template: "\t\t\n    <div class=\"col_1_adjusted\">\n      <div class=\"feedtext\">\n        You\n      </div>\n      <img src={{path}} class=\"profilepic\"/>\n      <br>\n      <div class=\"profilestats\">\n        Amount of posts:\n        <br> {{user.postits.length}}\n       <!-- <br>\n        Amount of views:\n        <br>\n        1337 -->\n      </div>\n      <br>\n      <div class=\"profstatdiv\">\n        <ul class=\"profilestatul\">\n          <li class=\"leftli\" routerLink=\"\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Feed</a></li>\n          <li class=\"leftli\" routerLink=\"/profile\"><a ><i class=\"material-icons\">keyboard_arrow_right</i> Profile</a></li>\n          <li class=\"leftli\" routerLink=\"/settings\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Settings</a></li>\n          <li class=\"leftli\" routerLink=\"/logout\" (click)=\"logUserOut()\" ><a><i class=\"material-icons\">keyboard_arrow_right</i> Signout</a></li>\n        </ul>\n      </div>\n    </div>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */]) === "function" && _a || Object])
 ], ProfileBadge);
 
 var _a;
 //# sourceMappingURL=profilebadge.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/settings.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SettingsComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var SettingsComponent = (function () {
+    function SettingsComponent(http, userService, router) {
+        this.http = http;
+        this.userService = userService;
+        this.router = router;
+        this.checkpw = '';
+        this.tempUser = userService.getGlobalUser();
+    }
+    SettingsComponent.prototype.ngOnInit = function () {
+    };
+    SettingsComponent.prototype.tryUpdate = function () {
+        var _this = this;
+        if (this.checkpw == '' || this.tempUser.password == '') {
+            return;
+        }
+        if (!this.checkpw === this.tempUser.password) {
+            console.log("Passwords dont match. try again");
+            return;
+        }
+        var files = this.imgUp.nativeElement.files;
+        if (files.length > 1) {
+            console.log("RETURNED SINCE EMPTYX or TOO LARGE");
+            return;
+        }
+        ;
+        var formData = new FormData();
+        formData.append("image", files[0]);
+        console.log(files);
+        if (files.length == 0) {
+            this.http.post('http://localhost:8080/Webtech2Project/rest/file/avatar', formData).subscribe(function (res) {
+                if (res.status == 200) {
+                    var loc = res.json().location;
+                    _this.tempUser.avatar = loc;
+                    _this.userService.updateUser(_this.tempUser).subscribe(function (data) { return _this.userService.refreshUser(); });
+                }
+                else {
+                    console.log("Settings Component: Res status was other than 200");
+                }
+            });
+        }
+        else {
+            this.userService.updateUser(this.tempUser).subscribe(function (data) { return _this.userService.refreshUser(); });
+        }
+    };
+    return SettingsComponent;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* ViewChild */])('imgUpload'),
+    __metadata("design:type", Object)
+], SettingsComponent.prototype, "imgUp", void 0);
+SettingsComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
+        selector: 'settings',
+        template: "\n   \n    Update your personal information here!\n      <form>\n        <input type=\"file\" #imgUpload accept=\"image/*\">\n\n        <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"new email\">\n        <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"change password\">\n        <input type=\"password\" [(ngModel)]=\"changepw\" name=\"whytho25\" placeholder=\"confirm new password\">\n        <input type=\"date\" [(ngModel)]=\"tempUser.birth_date\" name=\"whytho3\" placeholder=\"change Birth date (YYYY-MM-DD)\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.name\" name=\"whytho4\" placeholder=\"change first name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.surname\" name=\"whytho5\" placeholder=\"change last name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.location\" name=\"whytho6\" placeholder=\"Change your location inside the company\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.phone\" name=\"whytho7\" placeholder=\"Change your phone\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.fax\" name=\"whytho8\" placeholder=\"Change your fax\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.gender\" name=\"whytho9\" placeholder=\"Change your gender\">\n\n\n        <input type=\"submit\" value=\"Register\" (click)=\"tryUpdate()\">\n      </form>\n\n  ",
+        providers: []
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]) === "function" && _c || Object])
+], SettingsComponent);
+
+var _a, _b, _c;
+//# sourceMappingURL=settings.component.js.map
 
 /***/ }),
 
@@ -1680,7 +1809,7 @@ var SortBy = (function () {
     return SortBy;
 }());
 SortBy = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'sortby',
         template: "\t\t\t<div class=\"sortby\">\n    <div class=\"sortheading\">\n      <i class=\"material-icons\">sort</i> Sort feed\n    </div>\n    <div class=\"ulersatz\">\n      <a href=\"#\">\n        <!-- <span class=\"marker\">&nbsp;</span> --><span (click)=\"sortNewest()\">Newest</span>\n      </a>\n    </div>\n    <div class=\"ulersatz\">\n      <a href=\"#\">\n        <!-- <span class=\"marker\">&nbsp;</span> --><span (click)=\"sortOldest()\">Oldest</span>\n      </a>\n    </div>\n    <div class=\"ulersatz\">\n      <a href=\"#\">\n        <!-- <span class=\"marker\">&nbsp;</span> --><span (click)=\"sortPopular()\">Most popular</span>\n      </a>\n    </div>\n  </div>\n",
         providers: [__WEBPACK_IMPORTED_MODULE_1__postit_service__["a" /* PostService */]]
@@ -1756,12 +1885,32 @@ var UserService = (function () {
     };
     UserService.prototype.createUser = function (tempUser) {
         console.log("Create user called");
-        var body = ' {"user":{"id":-1,"avatar":"colab/resources/avatar/default.jpg","birthDate":' + tempUser.birth_date + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
+        var d = new Date(tempUser.birth_date);
+        var t = d.getTime();
+        console.log("t; " + t);
+        var body = ' {"user":{"id":-1,"avatar":"colab/resources/avatar/default.jpg","birthDate":' + t + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
         var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
         var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* RequestOptions */]({ headers: headers });
         console.log("create user : body : " + body);
-        this.http.post('http://localhost:8080/Webtech2Project/rest/userservice/create_by_json', body, options);
+        return this.http.post('http://localhost:8080/Webtech2Project/rest/userservice/create_by_json', body, options);
         // {"user":{"id":2,"avatar":"https://randomuser.me/api/portraits/men/14.jpg","birthDate":1500242400000,"email":"nicolas.lavigne@example.com","fax":"284-484-5005","gender":"male","location":"stratford","name":"nicolas","password":null,"phone":"647-028-3924","registerDate":1500310302217,"surname":"lavigne","postits":[],"position":3}}
+    };
+    UserService.prototype.updateUser = function (tempUser) {
+        console.log("Create user called");
+        var d = new Date(tempUser.birth_date);
+        var t = d.getTime();
+        var body = ' {"user":{"id":-1,"avatar":"' + tempUser.avatar + '","birthDate":' + t + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        console.log("create user : body : " + body);
+        return this.http.post('http://localhost:8080/Webtech2Project/rest/userservice/update/' + tempUser.id, body, options);
+    };
+    UserService.prototype.refreshUser = function () {
+        var _this = this;
+        this.http.get('http://localhost:8080/Webtech2Project/rest/userservice/find_mail/' + this.testUser.email).subscribe(function (res) {
+            _this.testUser = res.json().user;
+            _this.updateUserStatus.next(true);
+        });
     };
     return UserService;
 }());
