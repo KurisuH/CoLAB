@@ -1,5 +1,7 @@
 package control;
 
+import static java.lang.Math.toIntExact;
+import java.util.List;
 import java.util.UUID;
 
 import javax.management.Query;
@@ -7,6 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
+import org.eclipse.persistence.jpa.config.NamedQuery;
 
 import model.Person;
 import model.Position;
@@ -40,6 +46,7 @@ public class UserManagement {
 		System.out.println("User ID = " + user.getId());
 		System.out.println("User NAME = " + user.getName());
 		System.out.println("User surname = " + user.getSurname());
+		user.setPostit_count(UserManagement.countPostitsByUser(user.getId()));
 
 		entitymanager.close();
 		return user;
@@ -49,27 +56,30 @@ public class UserManagement {
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 	
-		User result = new User();
+		User user = new User();
 		try {
 
 			entitymanager.getTransaction().begin();
 
 			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.email = :id", User.class);
 			query.setParameter("id", id);
-			result = query.getSingleResult();
+			user = query.getSingleResult();
 			
 
 				
-				System.out.println("User ID = " + result.getId());
-				System.out.println("User NAME = " + result.getName());
-				System.out.println("User surname = " + result.getSurname());
+				System.out.println("User ID = " + user.getId());
+				System.out.println("User NAME = " + user.getName());
+				System.out.println("User surname = " + user.getSurname());
+				
+				
 		} catch (Exception e) {
 			System.out.println("Please specify n correct E-mail");
 			e.printStackTrace();
 		}
 	
+		user.setPostit_count(UserManagement.countPostitsByUser(user.getId()));
 		entitymanager.close();
-		return result;
+		return user;
 	}
 	
 	public static boolean EmailExists(String id) {
@@ -475,15 +485,41 @@ public class UserManagement {
 
 		for (User n : result) {
 			
+			n.setPostit_count(UserManagement.countPostitsByUser(n.getId()));
 			System.out.println("User ID = " + n.getId());
 			System.out.println("User NAME = " + n.getName());
 			System.out.println("User surname = " + n.getSurname());
 
 		}
 
+		
 		entitymanager.close();
 		return result;
 
+	}
+	
+	public static int countPostitsByUser(int id)
+	{
+	
+		EntityManager em = emfactory.createEntityManager();
+
+	
+		TypedQuery<Long> query = em.createQuery(
+				"SELECT COUNT(n) FROM Postit n WHERE n.author = :id",
+				Long.class);
+		query.setParameter("id", id);
+		Long result_long = query.getSingleResult().longValue();
+		
+		int result_int =  toIntExact(result_long);
+
+		return result_int;
+		/*
+		TypedQuery<Postit> query = entitymanager.createQuery(
+				"SELECT n FROM Postit n WHERE n.author = :id AND n.isPost = 0",
+				Postit.class);
+		*/
+		
+                
 	}
 	
 	

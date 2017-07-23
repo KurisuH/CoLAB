@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +53,10 @@ public class User implements Serializable {
 
 	private int position;
 
+	@Transient 
+	private int postit_count;
+
+	
 
 
 	public User() {
@@ -167,6 +173,14 @@ public class User implements Serializable {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+	public int getPostit_count() {
+		return postit_count;
+	}
+
+	public void setPostit_count(int postit_count) {
+		this.postit_count = postit_count;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", avatar=" + avatar + ", birthDate="

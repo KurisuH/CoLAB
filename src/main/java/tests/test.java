@@ -88,7 +88,8 @@ public class test extends HttpServlet{
 		
 		
 		//Postit result = getLastPostit(null,null, null, null, null, null);
-		int result = PostitManagement.createPostit(5, "TEST", "HEUTEMALKURS", null , 5);
+	//	int result = PostitManagement.createPostit(5, "TEST", "HEUTEMALKURS", null , 5);
+		long result = UserManagement.countPostitsByUser(4);
 		System.out.println(result);
 		System.out.println(result);
 		System.out.println(result);
