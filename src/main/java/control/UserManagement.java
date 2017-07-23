@@ -72,6 +72,36 @@ public class UserManagement {
 		return result;
 	}
 	
+	public static boolean EmailExists(String id) {
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+	
+		
+		try {
+
+			entitymanager.getTransaction().begin();
+
+			TypedQuery<User> query = entitymanager.createQuery("SELECT n FROM User n WHERE n.email = :id", User.class);
+			query.setParameter("id", id);
+			List<User>result = query.getResultList();
+			
+			entitymanager.close();
+			if (result.size() == 0){ return false;} 
+			
+
+		} catch (Exception e) {
+			System.out.println("Please specify a correct E-mail");
+			e.printStackTrace();
+		}
+		return true;
+	
+
+
+	}
+	
+	
+	
+	
 	
 	
 	public static boolean canAccess(String id, String username) {
@@ -455,6 +485,8 @@ public class UserManagement {
 		return result;
 
 	}
+	
+	
 	
 	
 

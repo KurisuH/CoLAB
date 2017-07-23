@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -18,6 +20,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+
 
 
 
@@ -65,12 +69,16 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import model.Postit;
 import model.User;
+
+
 
 
 
@@ -342,6 +350,8 @@ public class UserService {
 		try {
 			JsonUnmarshaller jc = new JsonUnmarshaller();
 			User user = jc.UnmarshalJsonUser(json);
+			if(UserManagement.EmailExists(user.getEmail())){ return Response.status(400).entity("E-Mail already exists.").build();}
+			if(!isValidEmailAddress(user.getEmail())){ return Response.status(400).entity("E-Mail has incorrect Syntax.").build();}
 			UserManagement.createUserFromUser(user);
 
 		} catch (Exception e) {
@@ -449,5 +459,16 @@ public class UserService {
 		return Response.status(200).build();
 
 	}
+	
+	public static boolean isValidEmailAddress(String email) {
+		   boolean result = true;
+		   try {
+		      InternetAddress emailAddr = new InternetAddress(email);
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+		      result = false;
+		   }
+		   return result;
+		}
 	
 }   
