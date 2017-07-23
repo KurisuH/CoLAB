@@ -337,7 +337,7 @@ public class UserService {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		
-		if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+		// if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
 		
 		try {
 			JsonUnmarshaller jc = new JsonUnmarshaller();

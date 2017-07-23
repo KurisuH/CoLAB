@@ -75,15 +75,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var Test = 1;
 var AppComponent = (function () {
     function AppComponent(userService) {
+        var _this = this;
         this.userService = userService;
         this.title = 'CoLAB';
         this.tempNewPost = new __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */]();
         this.profbadge = {
             amountposts: 1
         };
+        this.isLoggedIn = userService.isLoggedIn;
+        this.subscriptionUser = this.userService.updateUserStatus.subscribe(function (val) { return _this.isLoggedIn = userService.isLoggedIn; });
+        // this.subscriptionFeed = this.feedService.needToUpdateFeed.subscribe( (val) =>  { this.feedPosts = this.feedService.getFeedPost(); console.log("update me"); });
     }
     AppComponent.prototype.ngOnInit = function () {
     };
@@ -99,7 +102,7 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'app-root',
-        template: "    <navbar> </navbar>\n   <router-outlet></router-outlet>\n  ",
+        template: "   \n   \n    <div *ngIf=\"isLoggedIn\">\n    <navbar> </navbar>\n    </div>\n   <router-outlet></router-outlet>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */]) === "function" && _a || Object])
 ], AppComponent);
@@ -129,6 +132,10 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__mainpage_component__ = __webpack_require__("../../../../../src/app/mainpage.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__profile_component__ = __webpack_require__("../../../../../src/app/profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__sort_service__ = __webpack_require__("../../../../../src/app/sort.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__feed_service__ = __webpack_require__("../../../../../src/app/feed.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__login_component__ = __webpack_require__("../../../../../src/app/login.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__auth_guard_service__ = __webpack_require__("../../../../../src/app/auth-guard.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -136,6 +143,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
 
 
 
@@ -169,7 +180,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_7__sortfeed_component__["a" /* SortBy */],
             __WEBPACK_IMPORTED_MODULE_10__edit_component__["a" /* EditComponent */],
             __WEBPACK_IMPORTED_MODULE_13__mainpage_component__["a" /* MainpageComponent */],
-            __WEBPACK_IMPORTED_MODULE_15__profile_component__["a" /* ProfileComponent */]
+            __WEBPACK_IMPORTED_MODULE_15__profile_component__["a" /* ProfileComponent */],
+            __WEBPACK_IMPORTED_MODULE_18__login_component__["a" /* LoginComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -178,24 +190,81 @@ AppModule = __decorate([
             // TODO Settings, Logout, 404, Login form
             __WEBPACK_IMPORTED_MODULE_14__angular_router__["a" /* RouterModule */].forRoot([
                 {
-                    path: '', component: __WEBPACK_IMPORTED_MODULE_13__mainpage_component__["a" /* MainpageComponent */]
-                },
-                {
                     path: 'profile/:id',
-                    component: __WEBPACK_IMPORTED_MODULE_15__profile_component__["a" /* ProfileComponent */]
+                    component: __WEBPACK_IMPORTED_MODULE_15__profile_component__["a" /* ProfileComponent */],
+                    canActivate: [__WEBPACK_IMPORTED_MODULE_19__auth_guard_service__["a" /* AuthGuard */]]
                 },
                 {
                     path: 'profile',
-                    component: __WEBPACK_IMPORTED_MODULE_15__profile_component__["a" /* ProfileComponent */]
+                    component: __WEBPACK_IMPORTED_MODULE_15__profile_component__["a" /* ProfileComponent */],
+                    canActivate: [__WEBPACK_IMPORTED_MODULE_19__auth_guard_service__["a" /* AuthGuard */]]
+                }, {
+                    path: 'login',
+                    component: __WEBPACK_IMPORTED_MODULE_18__login_component__["a" /* LoginComponent */]
+                }, {
+                    path: '',
+                    component: __WEBPACK_IMPORTED_MODULE_13__mainpage_component__["a" /* MainpageComponent */],
+                    canActivate: [__WEBPACK_IMPORTED_MODULE_19__auth_guard_service__["a" /* AuthGuard */]]
+                },
+                {
+                    path: '*',
+                    component: __WEBPACK_IMPORTED_MODULE_13__mainpage_component__["a" /* MainpageComponent */],
+                    canActivate: [__WEBPACK_IMPORTED_MODULE_19__auth_guard_service__["a" /* AuthGuard */]]
                 }
             ])
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_9__user_service__["a" /* UserService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__user_service__["a" /* UserService */], __WEBPACK_IMPORTED_MODULE_16__sort_service__["a" /* SortService */], __WEBPACK_IMPORTED_MODULE_17__feed_service__["a" /* FeedService */], __WEBPACK_IMPORTED_MODULE_19__auth_guard_service__["a" /* AuthGuard */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
 
 //# sourceMappingURL=app.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/auth-guard.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AuthGuard = (function () {
+    function AuthGuard(router, userService) {
+        this.router = router;
+        this.userService = userService;
+    }
+    AuthGuard.prototype.canActivate = function (route, state) {
+        if (this.userService.isLoggedIn) {
+            console.log("auth guard : user IS logged in ");
+            return true;
+        }
+        console.log("User is NOT logged in!");
+        this.router.navigate(['/login']);
+        return false;
+    };
+    return AuthGuard;
+}());
+AuthGuard = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */]) === "function" && _b || Object])
+], AuthGuard);
+
+var _a, _b;
+//# sourceMappingURL=auth-guard.service.js.map
 
 /***/ }),
 
@@ -206,6 +275,8 @@ AppModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__post__ = __webpack_require__("../../../../../src/app/post.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__postit_service__ = __webpack_require__("../../../../../src/app/postit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sort_service__ = __webpack_require__("../../../../../src/app/sort.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__feed_service__ = __webpack_require__("../../../../../src/app/feed.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChoiceComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -219,9 +290,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var ChoiceComponent = (function () {
-    function ChoiceComponent(postService) {
+    function ChoiceComponent(postService, sortService, feedService) {
         this.postService = postService;
+        this.sortService = sortService;
+        this.feedService = feedService;
         this.onFinished = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]();
         this.editMode = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]();
         this.endReply = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]();
@@ -239,11 +314,7 @@ var ChoiceComponent = (function () {
         console.log("Edite clicked");
         ev.stopPropagation();
     };
-    /* ngOnChanges() : void {
-     this.calculateType();
-   } */
     ChoiceComponent.prototype.ngOnInit = function () {
-        console.log("INIT CHOICE with " + this.isNewPost);
         this.calculateType();
         this.tempNewPost = Object.assign({}, this.selPost);
     };
@@ -251,13 +322,32 @@ var ChoiceComponent = (function () {
     // Mozilla API zu FormData
     // Alle ELemente (ist hier nur 1)  aus FileList in FormData packen, die dann posten für image
     // TODO Popup falls was schiefgeht bzw handleError mit Popup einbauen
+    // Create Post Text
     ChoiceComponent.prototype.sendWithText = function () {
         var _this = this;
         var res;
-        console.log("tempnewpost before sending" + this.tempNewPost.title + " --- " + this.tempNewPost.contentText);
-        res = this.postService.createPostText(this.tempNewPost).subscribe(function (data) { return _this.reset(); }, function (error) { return _this.handleError(); });
-        console.log(res);
-        this.reset();
+        res = this.postService.createPostText(this.tempNewPost).subscribe(function (data) {
+            _this.reset();
+            _this.addAffected(data);
+        }, function (error) { return _this.handleError(); });
+    };
+    // TODO: Use AddAffected!
+    ChoiceComponent.prototype.sendWithImage = function () {
+        var _this = this;
+        var files = this.imgUp.nativeElement.files;
+        if (files.length === 0) {
+            console.log("RETURNED SINCE EMPTYX");
+            return;
+        }
+        ;
+        var formData = new FormData();
+        formData.append("image", files[0]);
+        console.log(files);
+        this.postService.uploadImage(formData).subscribe(function (data) { return _this.sendCreation(data); }, function (error) { return _this.handleError(); });
+    };
+    ChoiceComponent.prototype.sendCreation = function (data) {
+        var _this = this;
+        this.postService.createPostImage(data, this.tempNewPost.title).subscribe(function (res) { _this.reset(); _this.addAffected(res); }, function (error) { return _this.handleError(); });
     };
     ChoiceComponent.prototype.editModeText = function (ev) {
         this.type = 3;
@@ -283,80 +373,135 @@ var ChoiceComponent = (function () {
         this.editMode.emit(true);
         ev.stopPropagation();
     };
-    ChoiceComponent.prototype.sendWithImage = function () {
+    // Update Post / reply Text
+    ChoiceComponent.prototype.updateText = function () {
         var _this = this;
-        var files = this.imgUp.nativeElement.files;
+        // is post
+        if (this.selPost.isPost == 0) {
+            this.postService.updatePostText(this.selPost.id, this.tempNewPost).subscribe(function (data) { return _this.updateAffected(data); });
+        }
+        else {
+            this.postService.updatePostText(this.selPost.id, this.tempNewPost).subscribe(function (data) { return _this.updateAffectedReply(data); });
+        }
+        this.reset();
+        this.cancel(new Event("egal"));
+    };
+    // Update Post / reply Image
+    // TODO Implement this!
+    // TODO Use updateAffected in doing so!!!
+    ChoiceComponent.prototype.updateImage = function () {
+        var _this = this;
+        var files = this.imgUp2.nativeElement.files;
         if (files.length === 0) {
             console.log("RETURNED SINCE EMPTYX");
             return;
         }
         ;
         var formData = new FormData();
-        formData.append(files[0].name, files[0]);
+        formData.append("image", files[0]);
         console.log(files);
-        this.postService.createPostImage(formData, this.tempNewPost.title)
-            .subscribe(function (data) { return _this.reset(); }, function (error) { return _this.handleError(); });
-        this.reset();
-    };
-    ChoiceComponent.prototype.updateText = function () {
-        var _this = this;
-        console.log("Selected post is  " + this.selPost.title + " --- " + this.selPost.contentText);
-        this.postService.updatePostText(this.selPost.id, this.tempNewPost).subscribe(function (data) { return _this.updateAffected(data); });
-        this.reset();
+        this.postService.uploadImage(formData).subscribe(function (data) { return _this.sendUpdate(data); }, function (error) { return _this.handleError(); });
         this.cancel(new Event("egal"));
     };
-    ChoiceComponent.prototype.updateImage = function () {
-        this.reset();
-        this.cancel(new Event("egal"));
-    };
-    // TODO ANzeige bug fixen
-    ChoiceComponent.prototype.updateAffected = function (data) {
+    ChoiceComponent.prototype.sendUpdate = function (data) {
         var _this = this;
-        if (data.status == 200 || data.status == 201) {
-            console.log("response was ok");
-            console.log("Array length : " + this.fp.length);
-            var ind_1 = this.fp.indexOf(this.selPost, 0);
-            // get by id and then set to post ion array
-            this.postService.getById(this.tempNewPost.id).then(function (res) {
-                if (res.status == 200) {
-                    console.log(("0: Index" + ind_1));
-                    console.log("1 : " + _this.fp[ind_1].title);
-                    res = res.json().postit;
-                    console.log("RES SHOULD BE JSON NOW : " + res);
-                    _this.fp[ind_1] = Object.assign({}, res);
-                    _this.type = 100;
-                    _this.fp[ind_1].isBeingEdited = false;
-                    _this.fp[ind_1].isTypingReply = false;
-                    console.log("2: " + _this.fp[ind_1].title);
-                }
-                else {
-                    console.log("update response was not ok");
-                    _this.handleError();
-                }
-            });
+        if (this.selPost.isPost == 0) {
+            this.postService.updatePostImage(data, this.tempNewPost.title, this.selPost.id).subscribe(function (data) { return _this.updateAffected(data); });
+            console.log("pls compare : " + this.selPost.title + " to  " + this.tempNewPost.title);
         }
         else {
-            console.log("data status was not ok");
+            this.postService.updatePostImage(data, this.tempNewPost.title, this.selPost.id).subscribe(function (data) { return _this.updateAffectedReply(data); });
+        }
+        this.reset();
+    };
+    // TODO: Wait for chris to fix id in response!
+    ChoiceComponent.prototype.addAffected = function (data) {
+        var temp = data.json().postit;
+        var order = this.sortService.getSortOrder();
+        if (data.status == 201) {
+            if (temp.isPost == 1) {
+                console.log("is reply, so sort order can only be -1");
+                // this.rp.push(temp);
+                this.feedService.movePostedReply();
+                this.feedService.repliesPush(temp);
+                this.feedService.callUpdateReply();
+            }
+            else {
+                if (order == 0) {
+                    console.log("SortOrder 0 --> must have been newest");
+                    // this.fp.unshift(temp);
+                    this.feedService.feedUnshift(temp);
+                    this.feedService.callUpdateFeed();
+                }
+                if (order == 1) {
+                    console.log("SortOrder 1 --> must have been oldest");
+                    // this.fp.push(temp);
+                    this.feedService.feedPush(temp);
+                    this.feedService.callUpdateFeed();
+                }
+                if (order == 2) {
+                    this.feedService.feedPush(temp);
+                    this.feedService.callUpdateFeed();
+                }
+            }
+        }
+        else {
+            console.log("http response statust was not 201. there must have been an error!");
+        }
+    };
+    ChoiceComponent.prototype.updateAffected = function (data) {
+        if (data.status == 200) {
+            var temp = data.json().postit;
+            this.feedService.updatePost(this.selPost, temp);
+            this.type = 100;
+        }
+        else {
+            this.handleError();
+        }
+    };
+    ChoiceComponent.prototype.updateAffectedReply = function (data) {
+        if (data.status == 200) {
+            var temp = data.json().postit;
+            this.feedService.updateReply(this.selPost, temp);
+            this.type = 100;
+        }
+        else {
             this.handleError();
         }
     };
     ChoiceComponent.prototype.handleError = function () {
     };
     ChoiceComponent.prototype.reset = function () {
+        console.log("reset called");
         this.type = 0;
         this.tempNewPost = Object.assign({}, this.selPost);
         this.editMode.emit(false);
         this.emit();
     };
-    // TODO: Aus der Response muss JSON geparst werden und dann in das entsprechende objekt gepackt werden!
-    // Sowohl bei new Post als auch bei new reply
-    // dafür von auf chris warten (hab ID ja vorher nicht)
     ChoiceComponent.prototype.postReplyText = function () {
         var _this = this;
-        this.postService.createReplyText(this.tempNewPost, this.topLevelPost).subscribe(function (data) { return _this.updateAffected(data); });
+        this.postService.createReplyText(this.tempNewPost, this.topLevelPost).subscribe(function (data) { return _this.addAffected(data); });
         this.reset();
     };
+    // TODO IMplement this! using AddAffected
     ChoiceComponent.prototype.postReplyImage = function () {
+        var _this = this;
+        var files = this.imgUp3.nativeElement.files;
+        if (files.length === 0) {
+            console.log("RETURNED SINCE EMPTYX");
+            return;
+        }
+        ;
+        var formData = new FormData();
+        formData.append("image", files[0]);
+        console.log(files);
+        this.postService.uploadImage(formData).subscribe(function (data) { return _this.sendReply(data); }, function (error) { return _this.handleError(); });
+        this.cancel(new Event("egal"));
+    };
+    ChoiceComponent.prototype.sendReply = function (data) {
+        var _this = this;
+        this.postService.createReplyImage(this.tempNewPost, this.topLevelPost, data).subscribe(function (data) { return _this.updateAffectedReply(data); });
+        this.reset();
     };
     ChoiceComponent.prototype.goBack = function (ev) {
         this.reset();
@@ -390,7 +535,6 @@ var ChoiceComponent = (function () {
     };
     ChoiceComponent.prototype.calculateType = function () {
         if (this.isNewPost) {
-            console.log("New post");
             this.type = 0;
         }
         else {
@@ -401,22 +545,14 @@ var ChoiceComponent = (function () {
             else {
                 if (this.selPost.isTypingReply == true) {
                     this.type = 5;
-                    console.log("author == null");
-                    console.log("should be a new reply without yet an author");
                 }
                 else {
-                    console.log("AUTHOR NOT NULL!!");
                     // Post was passed --> check if post contained image or not
                     if (this.selPost.contentImage === null) {
                         this.type = 1;
-                        console.log("IMG = NULL");
-                        console.log("ContentIMG undefined, should be text");
                     }
                     else {
-                        console.log("NTEXT = NULL");
-                        console.log("THIS ; " + this.selPost.author);
                         this.type = 2;
-                        console.log("ContentImg defined, shold be IMG");
                     }
                 }
             }
@@ -428,6 +564,14 @@ __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('imgUpload'),
     __metadata("design:type", Object)
 ], ChoiceComponent.prototype, "imgUp", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('imgUpload2'),
+    __metadata("design:type", Object)
+], ChoiceComponent.prototype, "imgUp2", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('imgUpload3'),
+    __metadata("design:type", Object)
+], ChoiceComponent.prototype, "imgUp3", void 0);
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Output */])(),
     __metadata("design:type", Object)
@@ -450,21 +594,17 @@ __decorate([
 ], ChoiceComponent.prototype, "selPost", void 0);
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Input */])(),
-    __metadata("design:type", Array)
-], ChoiceComponent.prototype, "fp", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Input */])(),
     __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */]) === "function" && _b || Object)
 ], ChoiceComponent.prototype, "topLevelPost", void 0);
 ChoiceComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({ selector: 'choice',
-        template: "    \n    \n    <div *ngIf=\"isNewPost === true\">\n        <div *ngIf=\"type == 0\">\n            <div (click)=\"writeText($event)\">\n                Write a text  \n            </div>\n          <div (click)=\"uploadImage($event)\">\n            Or upload an image!\n          </div>\n          \n        </div>\n        \n        <div *ngIf=\"type == 1\">\n          <form (ngSubmit)=\"sendWithText()\" (click)=\"testLog()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\" placeholder=\"Give your post a title!\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" placeholder=\"Give your post some content!\"></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack()\">\n    \n          </form>\n        </div>\n        <div *ngIf=\"type == 2\">\n          <form (ngSubmit)=\"sendWithImage()\" enctype=\"multipart/form-data\"> \n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\" placeholder=\"Give your post a title!\"></textarea>\n          <br> Upload your image! <br> <br>    \n          <input type=\"file\" #imgUpload accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack($event)\">\n          </form>\n        </div>\n    </div>\n    \n    <div *ngIf=\"isNewPost === false\">\n      <!--Aufpassen mit type: Bearbeiten eines Posts hat nur 2 Types, img und text\n       Deshalb; Hier OnInit MEthode, die guckt welcher der Inputs leer ist und welcher nicht -->\n      <div *ngIf=\"type == 1\">\n        <div (click)=\"editModeText($event)\">\n          Edit text\n        </div>\n        <div (click)=\"editModeImage($event)\">\n          Replace your text with an image!\n        </div>\n        <div (click)=\"cancel($event)\"> Cancel edit\n        </div>\n      </div>\n\n      <div *ngIf=\"type == 2\">\n        <div (click)=\"editModeImage($event)\">\n          Choose a different image to upload\n        </div>\n        <div (click)=\"editModeText($event)\">\n          Replace your image with a text\n        </div>\n        <div (click)=\"cancel($event)\"> Cancel edit\n        </div>\n      </div>\n      \n      <div *ngIf=\"type == 3\">\n        <form (ngSubmit)=\"updateText()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" ></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>        \n      </div>\n\n      <div *ngIf=\"type == 4\">\n        <form (ngSubmit)=\"updateImage()\" enctype=\"multipart/form-data\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <br> Upload your new image! <br> <br>\n          <input type=\"file\" #imgUpload accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n      \n      <div *ngIf=\"type == 5\">\n        <div (click)=\"replyText($event)\">\n          Reply with text\n        </div>\n        <div (click)=\"replyImage($event)\">\n          Reply with an image instead!\n        </div>\n        <div (click)=\"cancelReply($event)\"> Cancel edit\n        </div>        \n      </div>\n\n      <div *ngIf=\"type == 6\">\n        <form (ngSubmit)=\"postReplyText()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" ></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n\n      <div *ngIf=\"type == 7\">\n        <form (ngSubmit)=\"postReplyImage()\">\n          <br> Upload your new image! <br> <br>\n          <input type=\"file\" #imgUpload accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n\n    </div>\n    \n  ",
+        template: "    \n    \n    <div *ngIf=\"isNewPost === true\">\n        <div *ngIf=\"type == 0\">\n            <div (click)=\"writeText($event)\">\n                Write a text  \n            </div>\n          <div (click)=\"uploadImage($event)\">\n            Or upload an image!\n          </div>\n          \n        </div>\n        \n        <div *ngIf=\"type == 1\">\n          <form (ngSubmit)=\"sendWithText()\" (click)=\"testLog()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\" placeholder=\"Give your post a title!\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" placeholder=\"Give your post some content!\"></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack()\">\n    \n          </form>\n        </div>\n        <div *ngIf=\"type == 2\">\n          <form (ngSubmit)=\"sendWithImage()\"> \n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\" placeholder=\"Give your post a title!\"></textarea>\n          <br> Upload your image! <br> <br>    \n          <input type=\"file\" #imgUpload accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack($event)\">\n          </form>\n        </div>\n    </div>\n    \n    <div *ngIf=\"isNewPost === false\">\n      <!--Aufpassen mit type: Bearbeiten eines Posts hat nur 2 Types, img und text\n       Deshalb; Hier OnInit MEthode, die guckt welcher der Inputs leer ist und welcher nicht -->\n      <div *ngIf=\"type == 1\">\n        <div (click)=\"editModeText($event)\">\n          Edit text\n        </div>\n        <div (click)=\"editModeImage($event)\">\n          Replace your text with an image!\n        </div>\n        <div (click)=\"cancel($event)\"> Cancel edit\n        </div>\n      </div>\n\n      <div *ngIf=\"type == 2\">\n        <div (click)=\"editModeImage($event)\">\n          Choose a different image to upload\n        </div>\n        <div (click)=\"editModeText($event)\">\n          Replace your image with a text\n        </div>\n        <div (click)=\"cancel($event)\"> Cancel edit\n        </div>\n      </div>\n      \n      <div *ngIf=\"type == 3\">\n        <form (ngSubmit)=\"updateText()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" ></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>        \n      </div>\n\n      <div *ngIf=\"type == 4\">\n        <form (ngSubmit)=\"updateImage()\" enctype=\"multipart/form-data\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <br> Upload your new image! <br> <br>\n          <input type=\"file\" #imgUpload2 accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n      \n      <div *ngIf=\"type == 5\">\n        <div (click)=\"replyText($event)\">\n          Reply with text\n        </div>\n        <div (click)=\"replyImage($event)\">\n          Reply with an image instead!\n        </div>\n        <div (click)=\"cancelReply($event)\"> Cancel edit\n        </div>        \n      </div>\n\n      <div *ngIf=\"type == 6\">\n        <form (ngSubmit)=\"postReplyText()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <textarea [(ngModel)]=\"tempNewPost.contentText\" name=\"why2\" class=\"materialize-textarea\" ></textarea>\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n\n      <div *ngIf=\"type == 7\">\n        <form (ngSubmit)=\"postReplyImage()\">\n          <textarea [(ngModel)]=\"tempNewPost.title\" name=\"why\" class=\"materialize-textarea\"></textarea>\n          <br> Upload your image! <br> <br>\n          <input type=\"file\" #imgUpload3 accept=\"image/*\">\n          <input type=\"submit\" class=\"btn\" value=\"Post\">\n          <input type=\"submit\" class=\"btn\" value=\"Go back\" (click)=\"goBack_2($event)\">\n        </form>\n      </div>\n\n    </div>\n    \n  ",
         providers: [__WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__sort_service__["a" /* SortService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__sort_service__["a" /* SortService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */]) === "function" && _e || Object])
 ], ChoiceComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=choice.component.js.map
 
 /***/ }),
@@ -518,6 +658,284 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/feed.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sort_service__ = __webpack_require__("../../../../../src/app/sort.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeedService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var FeedService = (function () {
+    function FeedService(sortService, userService) {
+        this.sortService = sortService;
+        this.userService = userService;
+        this.feedPosts = [];
+        this.repliesForCurrent = [];
+        this.needToUpdateFeed = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
+        this.needToUpdateReply = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
+    }
+    FeedService.prototype.ngOnInit = function () {
+        this.feedPosts = [];
+        this.repliesForCurrent = [];
+    };
+    FeedService.prototype.setFeedPosts = function (p) {
+        this.feedPosts = p;
+    };
+    FeedService.prototype.setRepliesForCurrent = function (p) {
+        this.repliesForCurrent = p;
+    };
+    FeedService.prototype.initFeed = function () {
+        for (var _i = 0, _a = this.feedPosts; _i < _a.length; _i++) {
+            var elem = _a[_i];
+            elem.repliesVisible = false;
+            elem.isBeingEdited = false;
+            elem.isTypingReply = false;
+            console.log("isTypingReply = false [35]");
+        }
+    };
+    FeedService.prototype.initReplies = function () {
+        for (var _i = 0, _a = this.repliesForCurrent; _i < _a.length; _i++) {
+            var elem = _a[_i];
+            elem.repliesVisible = false;
+            elem.isBeingEdited = false;
+            elem.isTypingReply = false;
+            console.log("isTypingReply = false [43]");
+        }
+    };
+    FeedService.prototype.deleteFromFeed = function (p) {
+        var ind = this.feedPosts.indexOf(p);
+        this.feedPosts.splice(ind, 1);
+    };
+    FeedService.prototype.deleteFromReplies = function (p) {
+        var ind = this.repliesForCurrent.indexOf(p);
+        this.repliesForCurrent.splice(ind, 1);
+    };
+    FeedService.prototype.feedUnshift = function (p) {
+        var order = this.sortService.getSortOrder();
+        this.feedPosts.unshift(p);
+        this.feedPosts[0].repliesVisible = false;
+        this.feedPosts[0].isBeingEdited = false;
+        this.feedPosts[0].isTypingReply = false;
+        console.log("isTypingReply = false [63]");
+    };
+    FeedService.prototype.feedPush = function (p) {
+        var order = this.sortService.getSortOrder();
+        var n = this.feedPosts.push(p);
+        this.feedPosts[n - 1].repliesVisible = false;
+        this.feedPosts[n - 1].isBeingEdited = false;
+        this.feedPosts[n - 1].isTypingReply = false;
+        console.log("isTypingReply = false [70]");
+        return n;
+    };
+    FeedService.prototype.repliesUnshift = function (p) {
+        this.repliesForCurrent.unshift(p);
+        this.repliesForCurrent[0].isBeingEdited = false;
+    };
+    FeedService.prototype.repliesShift = function () {
+        this.repliesForCurrent.shift();
+    };
+    FeedService.prototype.repliesPush = function (p) {
+        var n = this.repliesForCurrent.push(p);
+        this.repliesForCurrent[n - 1].isBeingEdited = false;
+        this.repliesForCurrent[n - 1].isTypingReply = false;
+        this.repliesForCurrent[n - 1].repliesVisible = false;
+        console.log("rep : " + this.repliesForCurrent[n - 1].contentText);
+        return n;
+    };
+    FeedService.prototype.movePostedReply = function () {
+        var a = this.repliesForCurrent.shift();
+        console.log("replies size is now 1 less, it is " + this.repliesForCurrent.length);
+        // this.repliesPush(a);
+    };
+    FeedService.prototype.getFeedPost = function () {
+        return this.feedPosts;
+    };
+    FeedService.prototype.getRepliesForCurrent = function () {
+        return this.repliesForCurrent;
+    };
+    FeedService.prototype.spliceFeed = function (a, b) {
+        this.feedPosts.splice(a, b);
+    };
+    FeedService.prototype.spliceReplies = function (a, b) {
+        this.repliesForCurrent.splice(a, b);
+    };
+    FeedService.prototype.resetReplies = function () {
+        this.repliesForCurrent = [];
+    };
+    FeedService.prototype.resetFeed = function () {
+        this.feedPosts = [];
+    };
+    FeedService.prototype.printInternalFeed = function () {
+        console.log("compare to internal feed in FPS:");
+        for (var _i = 0, _a = this.feedPosts; _i < _a.length; _i++) {
+            var elem = _a[_i];
+            console.log("~~~~~~~~~~~~~~~~~~~~~ " + elem.id);
+        }
+    };
+    FeedService.prototype.setIsTyping = function () {
+        this.repliesForCurrent[0].isTypingReply = true;
+        this.repliesForCurrent[0].id = this.userService.getGlobalUser().id;
+        console.log("isTypingReply = true");
+    };
+    FeedService.prototype.pushFeedFromSort = function (p) {
+        this.resetFeed();
+        for (var _i = 0, p_1 = p; _i < p_1.length; _i++) {
+            var elem = p_1[_i];
+            if (elem.isPost == 0) {
+                var n = this.feedPosts.push(elem);
+                this.feedPosts[n - 1].repliesVisible = false;
+                this.feedPosts[n - 1].isBeingEdited = false;
+                this.feedPosts[n - 1].isTypingReply = false;
+                console.log("isTypingReply = false [134]");
+            }
+        }
+        this.needToUpdateFeed.next(true);
+    };
+    FeedService.prototype.callUpdateFeed = function () {
+        this.needToUpdateFeed.next(true);
+    };
+    FeedService.prototype.callUpdateReply = function () {
+        this.needToUpdateReply.next(true);
+    };
+    FeedService.prototype.updatePost = function (p, data) {
+        var ind = this.feedPosts.indexOf(p, 0);
+        console.log("update from " + this.feedPosts[ind].title);
+        this.feedPosts[ind] = Object.assign({}, data);
+        this.feedPosts[ind].isBeingEdited = false;
+        this.feedPosts[ind].isTypingReply = false;
+        console.log("to " + this.feedPosts[ind].title);
+        this.needToUpdateFeed.next(true);
+    };
+    FeedService.prototype.updateReply = function (p, data) {
+        console.log("passed post in upd.reply: " + p.title);
+        var ind = this.repliesForCurrent.indexOf(p, 0);
+        this.repliesForCurrent[ind] = Object.assign({}, data);
+        this.repliesForCurrent[ind].isBeingEdited = false;
+        this.repliesForCurrent[ind].isTypingReply = false;
+        this.needToUpdateReply.next(true);
+    };
+    return FeedService;
+}());
+FeedService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__sort_service__["a" /* SortService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__sort_service__["a" /* SortService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object])
+], FeedService);
+
+var _a, _b;
+//# sourceMappingURL=feed.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/login.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user__ = __webpack_require__("../../../../../src/app/user.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var LoginComponent = (function () {
+    function LoginComponent(http, userService, router) {
+        this.http = http;
+        this.userService = userService;
+        this.router = router;
+        this.type = 0;
+        this.tempUser = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]();
+    }
+    LoginComponent.prototype.ngOnInit = function () {
+        console.log("Login component init!");
+    };
+    LoginComponent.prototype.tryLogin = function () {
+        var _this = this;
+        var body = '';
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        this.http.post('http://localhost:8080/Webtech2Project/rest/login/' + this.tempUser.email + '/' + this.tempUser.password, body, options).subscribe(function (data) { return _this.check(data); });
+        //  /Webtech2Project/rest/login/test@test.de/test
+    };
+    LoginComponent.prototype.check = function (data) {
+        var _this = this;
+        // alles ok
+        if (data.status == 200) {
+            // find user by email and setGlobalUser & isLoggedIn
+            this.http.get('http://localhost:8080/Webtech2Project/rest/userservice/find_mail/' + this.tempUser.email).subscribe(function (res) { return _this.set(res); });
+        }
+        else {
+            console.log("User nicht bekannt");
+        }
+    };
+    LoginComponent.prototype.set = function (data) {
+        // alles ok
+        if (data.status == 200) {
+            var usr = data.json().user;
+            this.userService.setUser(usr);
+            this.router.navigate(['/']);
+        }
+        else {
+            console.log("error while trying to fetch user");
+        }
+    };
+    LoginComponent.prototype.signup = function () {
+        this.type = 1;
+        this.tempUser = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]();
+    };
+    LoginComponent.prototype.goBack = function () {
+        this.type = 0;
+        this.tempUser = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]();
+    };
+    LoginComponent.prototype.tryRegister = function () {
+        console.log("try register called");
+        this.userService.createUser(this.tempUser);
+        this.type = 0;
+    };
+    return LoginComponent;
+}());
+LoginComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+        selector: 'login',
+        template: "\t\n    <div *ngIf=\"type == 0\">\n  \n    <form>\n      \n      <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n      <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n      <input type=\"submit\" value=\"Login\" (click)=\"tryLogin()\">      \n    </form>\n    \n    Dont have an account yet? Click <span (click)=\"signup()\">here</span> to crete one!\n\n    </div>\n    \n    <div *ngIf=\"type == 1 \">\n      Register now!\n      <br>\n      Simply fill out the fields below and you are ready to go!\n      <br>\n      <form>\n\n        <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n        <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n        <input type=\"date\" [(ngModel)]=\"tempUser.birth_date\" name=\"whytho3\" placeholder=\"Birth date\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.name\" name=\"whytho4\" placeholder=\"first name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.surname\" name=\"whytho5\" placeholder=\"last name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.location\" name=\"whytho6\" placeholder=\"Your location inside the company\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.phone\" name=\"whytho7\" placeholder=\"your phone\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.fax\" name=\"whytho8\" placeholder=\"your fax\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.gender\" name=\"whytho9\" placeholder=\"your gender\">        \n        \n       \n        <input type=\"submit\" value=\"Register\" (click)=\"tryRegister()\">\n      </form>\n      \n      <span (click)=\"goBack()\">Go back</span>\n    </div>\n  ",
+        providers: []
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object])
+], LoginComponent);
+
+var _a, _b, _c;
+//# sourceMappingURL=login.component.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/mainpage.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -534,17 +952,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var MainpageComponent = (function () {
     function MainpageComponent() {
         this.title = 'CoLAB';
-        this.feedPosts = [];
-        this.repliesForCurrent = [];
     }
     MainpageComponent.prototype.ngOnInit = function () {
+        console.log("INIT MAINPAGE");
     };
     return MainpageComponent;
 }());
 MainpageComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'mainpage',
-        template: "   <main>\n    <div class=\"col_1\">\n      <profileBadge>\n      </profileBadge>\n    </div>\n    <div class=\"col_2\">\n      <h2>Das ist ein Test: </h2>\n      <div class=\"formdiv\">\n        <choice [isNewPost]=\"true\">\n        </choice>\n      </div>\n      <h2 class=\"morespace\">See what everyone in your company is up to!</h2>\n\n      <post [feedPosts]=\"feedPosts\" [repliesForCurrent]=\"repliesForCurrent\"></post>\n    </div>\n\n    <div class=\"col_3\">\n      <sortby></sortby>\n    </div>\n  </main>\n  "
+        template: "   <main>\n    <div class=\"col_1\">\n      <profileBadge>\n      </profileBadge>\n    </div>\n    <div class=\"col_2\">\n      <h2>Das ist ein Test: </h2>\n      <div class=\"formdiv\">\n        <choice [isNewPost]=\"true\">\n        </choice>\n      </div>\n      <h2 class=\"morespace\">See what everyone in your company is up to!</h2>\n\n      <post></post>\n    </div>\n\n    <div class=\"col_3\">\n      <sortby></sortby>\n    </div>\n  </main>\n  "
     })
 ], MainpageComponent);
 
@@ -572,7 +989,7 @@ var NavbarComponent = (function () {
 }());
 NavbarComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({ selector: 'navbar',
-        template: "<div class=\"navbar\">\n                <nav>\n                  <ul class=\"navul\">\n                     <li class=\"mmenu midmenu\" routerLink=\"/profile\"> <i class=\"material-icons\">account_circle</i><span class=\"atest\">PROFILE</span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/settings\"><i class=\"material-icons\">build</i><span class=\"atest\">SETTINGS</span></li>\n                     <li class=\"mmenu colab\" routerLink=\"\" ><span class=\"co\"><i class=\"material-icons\">keyboard_arrow_right</i>Co</span><span class=\"lab\">LAB<i class=\"material-icons\">keyboard_arrow_left</i></span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/logout\"><i class=\"material-icons\">power_settings_new</i><span class=\"atest\">SIGN OUT</span></li>\n                     <li class=\"mmenu midmenu searchbar\">                       \n                       <form action=\"#\">\n                           <input type=\"search\" name=\"search\" class=\"mainsearch\" placeholder=\"Search for things\">\n                       </form>\n                    </li>\n                  </ul>\n                </nav>\n                </div>\n   "
+        template: "<div class=\"navbar\">\n                <nav>\n                  <ul class=\"navul\">\n                     <li class=\"mmenu midmenu\" routerLink=\"/profile\"> <i class=\"material-icons\">account_circle</i><span class=\"atest\">PROFILE</span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/settings\"><i class=\"material-icons\">build</i><span class=\"atest\">SETTINGS</span></li>\n                     <li class=\"mmenu colab\" routerLink=\"\" ><span class=\"co\"><i class=\"material-icons\">keyboard_arrow_right</i>Co</span><span class=\"lab\">LAB<i class=\"material-icons\">keyboard_arrow_left</i></span></li>\n                     <li class=\"mmenu midmenu\" routerLink=\"/logout\" (click)=\"logOut()\"><i class=\"material-icons\">power_settings_new</i><span class=\"atest\">SIGN OUT</span></li>\n                     <li class=\"mmenu midmenu searchbar\">                       \n                       <form action=\"#\">\n                           <input type=\"search\" name=\"search\" class=\"mainsearch\" placeholder=\"Search for things\">\n                       </form>\n                    </li>\n                  </ul>\n                </nav>\n                </div>\n   "
     })
 ], NavbarComponent);
 
@@ -604,6 +1021,8 @@ var Post = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__post__ = __webpack_require__("../../../../../src/app/post.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__postit_service__ = __webpack_require__("../../../../../src/app/postit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__feed_service__ = __webpack_require__("../../../../../src/app/feed.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PostComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -617,12 +1036,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 // IN MODULE AUSLAGERN
 var PostComponent = (function () {
-    function PostComponent(postService) {
+    function PostComponent(postService, userService, feedService) {
+        var _this = this;
         this.postService = postService;
+        this.userService = userService;
+        this.feedService = feedService;
         this.title = 'CoLAB';
+        // -------------------
+        this.feedPosts = this.feedService.getFeedPost();
+        this.repliesForCurrent = this.feedService.getRepliesForCurrent();
         this.editMode = false;
+        this.subscriptionFeed = this.feedService.needToUpdateFeed.subscribe(function (val) { _this.feedPosts = _this.feedService.getFeedPost(); console.log("update me"); });
+        this.subscriptionReply = this.feedService.needToUpdateReply.subscribe(function (val) {
+            _this.repliesForCurrent = _this.feedService.getRepliesForCurrent();
+            console.log("update me");
+            for (var _i = 0, _a = _this.repliesForCurrent; _i < _a.length; _i++) {
+                var elem = _a[_i];
+                console.log("######### " + elem.contentText);
+            }
+        });
     }
     // TODO DELETE, USER, RELOAD FIXEWN
     PostComponent.prototype.onSelectAnswer = function (selected, ev) {
@@ -631,60 +1067,53 @@ var PostComponent = (function () {
     };
     PostComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log("OnINIT for PostItComponent was called");
-        this.postService.getAllPosts().then(function (res) {
-            // this.feedPosts = res;
-            _this.feedPosts = [];
-            console.log("res was : " + res.toString());
+        this.user = this.userService.getGlobalUser();
+        this.postService.getSortedByNewest().then(function (res) {
+            _this.feedService.resetFeed();
             for (var _i = 0, res_1 = res; _i < res_1.length; _i++) {
                 var elem = res_1[_i];
-                console.log("Current element in for loop : " + elem);
                 // add to feedPosts if element is post
                 if (elem.isPost === 0) {
-                    console.log("Current element " + elem.id + " is Post ");
-                    var len = _this.feedPosts.push(elem);
-                    console.log("AL Length after push: " + _this.feedPosts.length);
-                    _this.feedPosts[len - 1].repliesVisible = false;
-                    _this.feedPosts[len - 1].isBeingEdited = false;
-                    _this.feedPosts[len - 1].isTypingReply = false;
+                    var len = _this.feedService.feedPush(elem);
                 }
             }
+            _this.feedService.initFeed();
+            _this.feedPosts = _this.feedService.getFeedPost();
         });
     };
     PostComponent.prototype.cancelReply = function (post) {
         post.isTypingReply = false;
         // temporarily added element can be deleted now as user chose to cancel editing
-        this.repliesForCurrent.shift();
+        this.feedService.repliesShift();
+        this.feedPosts = this.feedService.getFeedPost();
     };
-    //TODO Answer in eigene Component lagern, die dann dynamically GEADDET WIRD
-    //DADURCH DANN HOFFENTLICH KEIN RERENDER MEHR!
-    // https://angular.io/guide/dynamic-component-loader#dynamic-component-loading
-    // https://medium.com/tixdo-labs/angular-2-dynamic-component-loader-752c3235bf9
     PostComponent.prototype.onSelect = function (selected, ev) {
         var _this = this;
+        // for(let eleme of this.feedPosts) {
+        //     console.log("--------------- " + eleme.id);
+        //   }
         ev.stopPropagation();
-        this.repliesForCurrent = [];
         if (this.selectedPost === selected) {
             // if is already showing replies --> hide
             if (this.selectedPost.repliesVisible) {
                 this.selectedPost.repliesVisible = false;
             }
             else {
+                this.feedService.resetReplies();
                 this.selectedPost.repliesVisible = true;
                 // fetch replies
                 this.postService.getRepliesTo(selected.id).then(function (res) {
+                    // let rp = this.feedService.getRepliesForCurrent();
                     for (var _i = 0, res_2 = res; _i < res_2.length; _i++) {
                         var elem = res_2[_i];
                         // add to feedPosts if element is answer / responseTo
                         if (elem.isPost === 1) {
-                            // console.log("Current answer " + elem.id + " is answer ");
-                            var len = _this.repliesForCurrent.push(elem);
-                            //   console.log("AL Length after push: " +  this.repliesForCurrent.length);
-                            _this.repliesForCurrent[len - 1].repliesVisible = false;
-                            _this.repliesForCurrent[len - 1].isBeingEdited = false;
-                            _this.repliesForCurrent[len - 1].isTypingReply = false;
+                            // console.log("fetched reply with text " + elem.contentText);
+                            var len = _this.feedService.repliesPush(elem);
                         }
                     }
+                    _this.feedService.initReplies();
+                    _this.repliesForCurrent = _this.feedService.getRepliesForCurrent();
                 });
             }
         }
@@ -692,52 +1121,41 @@ var PostComponent = (function () {
             if (this.selectedPost != null) {
                 this.selectedPost.repliesVisible = false;
             }
-            this.repliesForCurrent = [];
             this.selectedPost = selected;
             this.postService.getRepliesTo(selected.id).then(function (res) {
+                _this.feedService.resetReplies();
                 for (var _i = 0, res_3 = res; _i < res_3.length; _i++) {
                     var elem = res_3[_i];
                     // add to feedPosts if element is post
                     if (elem.isPost === 1) {
-                        //  console.log("Current answer " + elem.id + " is answer ");
-                        var len = _this.repliesForCurrent.push(elem);
-                        //   console.log("AL Length after push: " +  this.repliesForCurrent.length);
-                        _this.repliesForCurrent[len - 1].repliesVisible = false;
-                        _this.repliesForCurrent[len - 1].isBeingEdited = false;
-                        _this.repliesForCurrent[len - 1].isTypingReply = false;
+                        var len = _this.feedService.repliesPush(elem);
                     }
                 }
+                _this.feedService.initReplies();
+                _this.repliesForCurrent = _this.feedService.getRepliesForCurrent();
             });
             this.selectedPost.repliesVisible = true;
         }
-    };
-    PostComponent.prototype.test = function () {
-        //  const factory = this.componentFactoryResolver.resolveComponentFactory(TestComponent);
-        // const ref = this.viewContainerRef.createComponent(factory);
-        //   ref.changeDetectorRef.detectChanges();
     };
     PostComponent.prototype.assignPost = function (post) {
     };
     PostComponent.prototype.refresh = function () {
         var _this = this;
         this.postService.getAllPosts().then(function (res) {
-            // this.feedPosts = res;
-            _this.feedPosts = [];
+            _this.feedService.resetFeed();
             for (var _i = 0, res_4 = res; _i < res_4.length; _i++) {
                 var elem = res_4[_i];
                 // add to feedPosts if element is post
                 if (elem.isPost === 0) {
-                    console.log("Current element " + elem.id + " is Post ");
-                    var len = _this.feedPosts.push(elem);
-                    console.log("AL Length after push: " + _this.feedPosts.length);
-                    _this.feedPosts[len - 1].repliesVisible = false;
-                    _this.feedPosts[len - 1].isBeingEdited = false;
+                    var len = _this.feedService.feedPush(elem);
                 }
             }
+            _this.feedService.initFeed();
+            _this.feedPosts = _this.feedService.getFeedPost();
         });
     };
     PostComponent.prototype.editAnswer = function (selected, ev) {
-        console.log("Clicked edit answer on " + selected.title);
+        // console.log("Clicked edit answer on " + selected.title);
         this.selectedAnswer = selected;
         this.editedPost = Object.assign({}, selected);
         ev.stopPropagation();
@@ -747,10 +1165,8 @@ var PostComponent = (function () {
         else {
             for (var _i = 0, _a = this.repliesForCurrent; _i < _a.length; _i++) {
                 var elem = _a[_i];
-                //console.log("Compare " + elem.id + " to " + selected.id);
                 if (elem === selected) {
                     selected.isBeingEdited = true;
-                    //   console.log("IF: Selected being edited = true");
                 }
                 else {
                     elem.isBeingEdited = false;
@@ -775,10 +1191,8 @@ var PostComponent = (function () {
         else {
             for (var _i = 0, _a = this.feedPosts; _i < _a.length; _i++) {
                 var elem = _a[_i];
-                // console.log("Compare " + elem.id + " to " + selected.id);
                 if (elem === selected) {
                     selected.isBeingEdited = true;
-                    //  console.log("IF: Selected being edited = true");
                 }
                 else {
                     elem.isBeingEdited = false;
@@ -786,10 +1200,10 @@ var PostComponent = (function () {
             }
         }
         if (selected.isBeingEdited == false) {
-            console.log("Current.isBeingEdited is now set to false");
+            //  console.log("Current.isBeingEdited is now set to false");
         }
         else {
-            console.log("Current.isBeingEdited is now set to true");
+            // console.log("Current.isBeingEdited is now set to true");
         }
     };
     PostComponent.prototype.onSubmitEdit = function () {
@@ -803,108 +1217,57 @@ var PostComponent = (function () {
         ev.stopPropagation();
         this.postService.deletePost(selected.id).subscribe(function (data) { return _this.updateFeed(data, selected); });
     };
-    // Backup
-    /* reply(selected : Post, ev : any): void {
-      ev.stopPropagation();
-      // if it wasnt selected previously, get replies
-      if(selected.repliesVisible == false ){
-        this.repliesForCurrent = [];
-        console.log("For reply: replies were not visible, not set to visible");
-        selected.repliesVisible = true;
-        this.postService.getRepliesTo(selected.id).then(res => {
-          for (let elem of res) {
-  
-            // add to feedPosts if element is answer / responseTo
-            if (elem.isPost === 1) {
-             // console.log("Current answer " + elem.id + " is answer ");
-              let len = this.repliesForCurrent.push(elem);
-            //  console.log("AL Length after push: " +  this.repliesForCurrent.length);
-  
-              this.repliesForCurrent[len-1].repliesVisible = false;
-              this.repliesForCurrent[len-1].isBeingEdited = false;
-              this.repliesForCurrent[len-1].isTypingReply = false;
-            }
-          }
-        });
-  
-        console.log("Unshift test: Length before : " + this.repliesForCurrent.length);
-        // replies are loaded. shift arreay 1 to right
-        this.repliesForCurrent.unshift(new Post());
-        this.repliesForCurrent[0].isTypingReply = true;
-        console.log("0 set to true");
-      }
-  
-      else {
-        selected.repliesVisible = false;
-      }
-  
-  
-    } */
     PostComponent.prototype.updateFeed = function (data, element) {
         if (data.status == 200) {
             // isPost --> delete from feedPosts
             if (element.isPost == 0) {
-                console.log("Delete Post");
-                var ind = this.feedPosts.indexOf(element);
-                this.feedPosts.splice(ind, 1);
+                this.feedService.deleteFromFeed(element);
+                this.feedPosts = this.feedService.getFeedPost();
             }
             else {
-                console.log("Delete reply");
-                var ind = this.repliesForCurrent.indexOf(element);
-                this.repliesForCurrent.splice(ind, 1);
+                this.feedService.deleteFromReplies(element);
+                this.repliesForCurrent = this.feedService.getRepliesForCurrent();
             }
         }
-        else {
-            console.log("Error int rying to delete");
-        }
+        else { }
     };
     PostComponent.prototype.reply = function (selected, ev) {
         var _this = this;
         ev.stopPropagation();
-        // if it wasnt selected previously, get replies
-        this.repliesForCurrent = [];
-        console.log("For reply: replies were not visible, not set to visible");
-        selected.repliesVisible = true;
-        this.postService.getRepliesTo(selected.id).then(function (res) {
-            for (var _i = 0, res_5 = res; _i < res_5.length; _i++) {
-                var elem = res_5[_i];
-                // add to feedPosts if element is answer / responseTo
-                if (elem.isPost === 1) {
-                    // console.log("Current answer " + elem.id + " is answer ");
-                    var len = _this.repliesForCurrent.push(elem);
-                    //  console.log("AL Length after push: " +  this.repliesForCurrent.length);
-                    _this.repliesForCurrent[len - 1].repliesVisible = false;
-                    _this.repliesForCurrent[len - 1].isBeingEdited = false;
-                    _this.repliesForCurrent[len - 1].isTypingReply = false;
+        // if not already replying --> new one
+        if (!selected.isTypingReply) {
+            // if it wasnt selected previously, get replies
+            // console.log("arr length b4 : " + this.repliesForCurrent.length);
+            this.feedService.resetReplies();
+            selected.repliesVisible = true;
+            this.postService.getRepliesTo(selected.id).then(function (res) {
+                for (var _i = 0, res_5 = res; _i < res_5.length; _i++) {
+                    var elem = res_5[_i];
+                    // add to feedPosts if element is answer / responseTo
+                    if (elem.isPost === 1) {
+                        var len = _this.feedService.repliesPush(elem);
+                    }
                 }
-            }
-        });
-        console.log("Unshift test: Length before : " + this.repliesForCurrent.length);
-        // replies are loaded. shift arreay 1 to right
-        this.repliesForCurrent.unshift(new __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */]());
-        this.repliesForCurrent[0].isTypingReply = true;
-        console.log("0 set to true");
+                _this.feedService.initReplies();
+                _this.feedService.repliesUnshift(new __WEBPACK_IMPORTED_MODULE_1__post__["a" /* Post */]());
+                _this.feedService.setIsTyping();
+                _this.repliesForCurrent = _this.feedService.getRepliesForCurrent();
+            });
+        }
+        // else: do nothing since already in reply mode
     };
     return PostComponent;
 }());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Input */])(),
-    __metadata("design:type", Array)
-], PostComponent.prototype, "feedPosts", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Input */])(),
-    __metadata("design:type", Object)
-], PostComponent.prototype, "repliesForCurrent", void 0);
 PostComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'post',
-        template: "    <!-- TODO Eventuell Style wegen Umrandung und Markierung welcher selected ist anpassen\n        Jquery In Angular: https://stackoverflow.com/questions/30623825/how-to-use-jquery-with-angular2\n        Scrollen mit Jquery: https://stackoverflow.com/questions/6677035/jquery-scroll-to-element\n     -->\n \n      <div *ngFor=\"let current of feedPosts\" (click)=\"onSelect(current, $event)\" > <!-- [class.selected]=\"current === selectedPost\"-->\n      <div class=\"content\" >\n    <div class=\"flexcol\">\n      <div class=\"flexrow\">\n        <div class=\"item stats\">\n          <span class=\"markertest\">\n            \n          </span>\n          <img class=\"feedpic\" src=\"kermit.jpg\">\n\n          <div class=\"text\">\n            <ul class=\"ulstat\">\n              <li>Likes: TODO </li>\n              <li>Replies: TODO {{current.answers}}</li>\n              <li>Views: TODO {{current.clicks}}</li>\n            </ul>\n          </div>\n        </div>\n        <div class=\"item_2 flexcol\">\n         <div *ngIf=\"current.isBeingEdited == true\">\n           <choice [fp]=\"feedPosts\" [selPost] = \"selectedPost\" [isNewPost]=\"false\">                 \n                </choice>\n         </div>\n        <div *ngIf=\"current.isBeingEdited == false\"> \n          <div *ngIf=\"!current.contentImage\"> \n             <div class=\"item\">\n                 <h1>{{current.title}}</h1>\n             </div>\n            <br>\n            {{current.contentText}}\n          </div>\n\n          <div *ngIf=\"!current.contentText\">\n            <div class=\"item\">\n              <h1>{{current.title}}</h1>\n            </div>\n            <br>\n            TODO: ADD INAGE (POSTITCOMPONENT)\n          </div>\n          <span class=\"created\"> Created: {{current.date}} Last modified: {{current.lmod}} </span>\n          </div>          \n       </div> \n        <div class=\"item_4 symbols\">\n          <a href=\"#\" class=\"nounder\" (click)=\"editPost(current,$event)\">\n            <i class=\"material-icons\">create</i>\n          </a>\n          <br>\n          <br>\n          <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n            <i class=\"material-icons\">clear</i>\n          </a>\n          <br>\n          <br>\n          <a href=\"#\" class=\"nounder\" (click)=\"reply(current, $event)\">\n            <i class=\"material-icons\">reply</i>\n          </a>\n        </div>\n    </div>\n  </div>\n       <div *ngFor=\"let answers of repliesForCurrent\" (click)=\"onSelectAnswer(current, $event)\">\n         <div *ngIf=\"current.repliesVisible\">\n           <div class=\"content answer\" style=\"background-color: green;\">\n             <div class=\"flexcol\">\n               <div class=\"flexrow\" >\n                 <div class=\"flexcol\" style=\"flex-basis: 8%\">\n                   <div class=\"item stats\">\n                     <img src=\"pic.jpg\" class=\"feedpic\">\n                     <div class=\"text\">\n                       <ul class=\"ulstat\">\n                         <li>Likes</li>\n                         <li>{{answers.clicks}}</li>\n                       </ul>\n                     </div>\n                   </div>\n                 </div>\n                 <div class=\"item_2 flexcol\">\n                   <div class=\"item\">\n                     <div *ngIf=\"answers.isBeingEdited == true\">\n                       <choice [fp]=\"repliesForCurrent\" [selPost] = \"answers\" [isNewPost]=\"false\">\n                       </choice>\n                     </div>                     \n                     <div *ngIf=\"answers.isBeingEdited == false\">\n                       <div *ngIf=\"answers.isTypingReply == true\">\n                         <choice (endReply)=\"cancelReply(answers)\" [topLevelPost]=\"current\" [fp]=\"repliesForCurrent\" [selPost] = \"answers\" [isNewPost]=\"false\">\n                         </choice>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false \">\n                        <div *ngIf=\"!answers.contentImage\">\n                         <h1> {{answers.title}} </h1>\n                         {{answers.contentText}}\n                        </div>\n                         <div *ngIf=\"!answers.contentText\">\n                           <h1> {{answers.title}} </h1>\n                           TODO: ADD IMAGE (POSTITCOMPONENT)\n                         </div>\n                       </div>                       \n                   </div>\n                   <br>\n                   <span class=\"created\">Created: {{answers.date}} Last modified: {{answers.lastModified}}</span>\n                 </div>\n                 </div>\n                 <div class=\"item_4 symbols\">\n                   <a href=\"#\" class=\"nounder\" (click)=\"editAnswer(answers, $event)\">\n                     <i class=\"material-icons\">create</i>\n                   </a>\n                   <br>\n                   <br>\n                   <a href=\"#\" class=\"nounder\" (click)=\"deletePost(answers, $event)\">\n                     <i class=\"material-icons\">clear</i>\n                   </a>\n                 </div>\n               </div>\n             </div>\n           </div>\n           \n         </div>\n         \n       </div>\n        \n      </div>\n    </div>\n  ",
+        template: "    <!-- TODO Eventuell Style wegen Umrandung und Markierung welcher selected ist anpassen\n        Jquery In Angular: https://stackoverflow.com/questions/30623825/how-to-use-jquery-with-angular2\n        Scrollen mit Jquery: https://stackoverflow.com/questions/6677035/jquery-scroll-to-element\n     -->\n \n      <div *ngFor=\"let current of feedPosts\" (click)=\"onSelect(current, $event)\" > <!-- [class.selected]=\"current === selectedPost\"-->\n      <div class=\"content\" >\n    <div class=\"flexcol\">\n      <div class=\"flexrow\">\n        <div class=\"item stats\">\n          <span class=\"markertest\">\n            \n          </span>\n          <img class=\"feedpic\" src=\"\">\n\n          <div class=\"text\">\n            <ul class=\"ulstat\">\n              <li>Likes: TODO </li>\n              <li>Replies: TODO {{current.answers}}</li>\n              <li>Views: TODO {{current.clicks}}</li>\n            </ul>\n          </div>\n        </div>\n        <div class=\"item_2 flexcol\">\n         <div *ngIf=\"current.isBeingEdited == true\">\n           <choice [selPost] = \"selectedPost\" [isNewPost]=\"false\">                 \n                </choice>\n         </div>\n        <div *ngIf=\"current.isBeingEdited == false\"> \n          <div *ngIf=\"!current.contentImage\"> \n             <div class=\"item\">\n                 <h1>{{current.title}}</h1>\n             </div>\n            <br>\n            {{current.contentText}}\n          </div>\n\n          <div *ngIf=\"!current.contentText\">\n            <div class=\"item\">\n              <h1>{{current.title}}</h1>\n            </div>\n            <br>\n           <img src=\"{{current.contentImage}}\">\n          </div>\n          <span class=\"created\"> Created: {{current.date}} Last modified: {{current.lmod}} </span>\n          </div>          \n       </div>\n        <div class=\"item_4 symbols\">\n         <div *ngIf=\"current.id == user.id\">         \n            <a href=\"#\" class=\"nounder\" (click)=\"editPost(current,$event)\">\n              <i class=\"material-icons\">create</i>\n            </a>\n            <br>\n            <br>\n        </div>\n           <div *ngIf=\"current.id == user.id\"> \n            <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n              <i class=\"material-icons\">clear</i>\n            </a>\n            <br>\n            <br>            \n         </div>\n       \n          <a href=\"#\" class=\"nounder\" (click)=\"reply(current, $event)\">\n            <i class=\"material-icons\">reply</i>\n          </a>\n        </div>\n    </div>\n  </div>\n       <div *ngFor=\"let answers of repliesForCurrent\" (click)=\"onSelectAnswer(current, $event)\">\n         <div *ngIf=\"current.repliesVisible\">\n           <div class=\"content answer\" style=\"background-color: green;\">\n             <div class=\"flexcol\">\n               <div class=\"flexrow\" >\n                 <div class=\"flexcol\" style=\"flex-basis: 8%\">\n                   <div class=\"item stats\">\n                     <img src=\"pic.jpg\" class=\"feedpic\">\n                     <div class=\"text\">\n                       <ul class=\"ulstat\">\n                         <li>Likes</li>\n                         <li>{{answers.clicks}}</li>\n                       </ul>\n                     </div>\n                   </div>\n                 </div>\n                 <div class=\"item_2 flexcol\">\n                   <div class=\"item\">\n                     <div *ngIf=\"answers.isBeingEdited == true\">\n                       <choice [selPost] = \"answers\" [isNewPost]=\"false\">\n                       </choice>\n                     </div>                     \n                     <div *ngIf=\"answers.isBeingEdited == false\">\n                       <div *ngIf=\"answers.isTypingReply == true\">\n                         <choice (endReply)=\"cancelReply(answers)\" [topLevelPost]=\"current\" [selPost] = \"answers\" [isNewPost]=\"false\">\n                         </choice>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false \">\n                        <div *ngIf=\"!answers.contentImage\">\n                         <h1> {{answers.title}} </h1>\n                         {{answers.contentText}}\n                        </div>\n                         <div *ngIf=\"!answers.contentText\">\n                           <h1> {{answers.title}} </h1>\n                           <img src=\"{{answers.contentImage}}\">\n                         </div>\n                       </div>\n                       <span class=\"created\">Created: {{answers.date}} Last modified: {{answers.lastModified}}</span>\n                   </div>\n                   <br>                \n                 </div>\n                 </div>              \n                 <div class=\"item_4 symbols\">\n                   <div *ngIf=\"answers.id == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\"answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"editAnswer(answers, $event)\">\n                       <i class=\"material-icons\">create</i>\n                     </a>\n                     <br>\n                     <br>\n                   </div>\n                   <div *ngIf=\" answers.id == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\" answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"deletePost(answers, $event)\">\n                       <i class=\"material-icons\">clear</i>\n                     </a>\n                   </div>                  \n                 </div>\n               </div>\n             </div>\n           </div>           \n         </div>         \n       </div>        \n      </div>\n    </div>\n  ",
         providers: [__WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */]) === "function" && _c || Object])
 ], PostComponent);
 
-var _a;
+var _a, _b, _c;
 //# sourceMappingURL=postit.component.js.map
 
 /***/ }),
@@ -915,6 +1278,7 @@ var _a;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__user_service__ = __webpack_require__("../../../../../src/app/user.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PostService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -927,11 +1291,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var PostService = (function () {
-    function PostService(http) {
+    function PostService(http, userService) {
         this.http = http;
+        this.userService = userService;
         this.url = 'http://localhost:8080/Webtech2Project/rest/postitservice/';
-        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
+        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
     }
     PostService.prototype.getAllPosts = function () {
         return this.http.get(this.url + 'fetch_all').
@@ -946,104 +1312,148 @@ var PostService = (function () {
     PostService.prototype.getById = function (id) {
         return this.http.get(this.url + 'find/' + id).toPromise();
     };
-    // TODO
     PostService.prototype.getSortedByNewest = function () {
-        return this.http.get(this.url + 'fetchallnewest').
+        return this.http.get(this.url + 'fetch_all_sort_date_oldest').
             toPromise().
-            then(function (response) { return response.json(); });
+            then(function (response) { return response.json().postit; });
     };
-    // TODO
     PostService.prototype.getSortedByOldest = function () {
-        return this.http.get(this.url + 'fetchalloldest').
+        return this.http.get(this.url + 'fetch_all_sort_date').
             toPromise().
-            then(function (response) { return response.json(); });
+            then(function (response) { return response.json().postit; });
     };
-    // TODO
     PostService.prototype.getSortedByPopular = function () {
-        return this.http.get(this.url + 'fetchallpopular').
+        return this.http.get(this.url + 'fetch_all_sort_clicks').
             toPromise().
-            then(function (response) { return response.json(); });
+            then(function (response) { return response.json().postit; });
     };
-    // TODO
     PostService.prototype.getAllPostsByUser = function (id) {
-        return this.http.get(this.url + 'allpostsbyuser/' + id).
+        return this.http.get(this.url + 'postits_by/' + id).
             toPromise().
-            then(function (response) { return response.json(); });
+            then(function (response) { return response.json().postit; });
     };
-    // TODO
     PostService.prototype.getOnlyRepliesByUser = function (id) {
-        return this.http.get(this.url + 'repliesbyuser/' + id).
+        return this.http.get(this.url + 'postits_responses_by/' + id).
             toPromise().
-            then(function (response) { return response.json(); });
+            then(function (response) { return response.json().postit; });
     };
-    // TODO
     PostService.prototype.getOnlyPostsByUser = function (id) {
-        return this.http.get(this.url + 'postsbyuser/' + id).
+        return this.http.get(this.url + 'postits_only_posts/' + id).
             toPromise().
-            then(function (response) { return response.json(); });
+            then(function (response) { return response.json().postit; });
     };
     PostService.prototype.createPostText = function (internalPost) {
-        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":null,"contentText":"' + internalPost.contentText + '","date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + internalPost.title + '","author":2}}';
-        console.log("Stringified post : " + body);
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        console.log("post text method called inside");
+        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":null,"contentText":"' + internalPost.contentText + '","date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + internalPost.title + '","author":' + this.userService.getGlobalUser().id + '}}';
+        // console.log("Stringified post : " + body);
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        //  console.log("post text method called inside");
         return this.http.post(this.url + 'create_by_json', body, options);
     };
-    // TODO
-    PostService.prototype.createPostImage = function (payload, title) {
-        console.log("test: image has a result like : " + payload);
-        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":' + payload + ',"contentText":null,"date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + title + '","author":2}}';
-        console.log("Stringified post : " + body);
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        console.log("post image method called inside");
-        //  return this.http.post(this.url+'create_by_json', body, options);
-        //HIer irgendwo
-        console.log("calling url:  http://localhost:8080/Webtech2Project/rest/file/avatar");
-        return this.http.post('http://localhost:8080/Webtech2Project/rest/file/avatar', payload);
+    PostService.prototype.uploadImage = function (payload) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        // console.log("post image method called inside");
+        return this.http.post('http://localhost:8080/Webtech2Project/rest/file/postit', payload);
+    };
+    PostService.prototype.createPostImage = function (res, title) {
+        if (res.status == 200) {
+            // console.log("img post appears to be succesful");
+            var path = res.json().location;
+            //  console.log("path from json : " + path);
+            var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":"' + path + '","contentText":null,"date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + title + '","author":' + this.userService.getGlobalUser().id + '}}';
+            //  console.log("Stringified post : " + body);
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+            var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+            //  console.log("post text method called inside");
+            return this.http.post(this.url + 'create_by_json', body, options);
+        }
+        else {
+            // console.log("CreatePostImage: Response status other than 200, in fact it was " + res.status);
+        }
     };
     PostService.prototype.updatePostText = function (id, internalPost) {
-        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":null,"contentText":"' + internalPost.contentText + '","date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + internalPost.title + '","author":2}}';
-        console.log("Stringified post : " + body + " --- ID : " + id);
-        console.log(this.url + 'update/' + id);
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        console.log(body + " +++ " + options);
+        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":null,"contentText":"' + internalPost.contentText + '","date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + internalPost.title + '","author":' + this.userService.getGlobalUser().id + '}}';
+        // console.log("Stringified post : " + body + " --- ID : " +  id);
+        //console.log(this.url+'update/'+id);
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        // console.log(body + " +++ " +  options);
         return this.http.post(this.url + 'update/' + id, body, options);
     };
-    // TODO
-    PostService.prototype.updatePostImage = function (id, internalPost) {
-        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":null,"contentText":"' + internalPost.contentText + '","date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + internalPost.title + '","author":2}}';
-        console.log("Stringified post : " + body);
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        return this.http.post(this.url + 'update/' + id, body, options);
+    PostService.prototype.updatePostImage = function (res, title, id) {
+        if (res.status == 200) {
+            // console.log("img post appears to be succesful");
+            var path = res.json().location;
+            //  console.log("path from json : " + path);
+            var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":"' + path + '","contentText":null,"date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + title + '","author":' + this.userService.getGlobalUser().id + '}}';
+            // console.log("Stringified post : " + body);
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+            var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+            //  console.log("post text method called inside");
+            //  console.log("call post for UPDATAETE");
+            return this.http.post(this.url + 'update/' + id, body, options);
+        }
+        else {
+            // console.log("CreatePostImage: Response status other than 200, in fact it was " + res.status);
+        }
     };
+    // TODO Wie oben: erst neues Bild hochladen, dann status prüfen und path aus der response als neuen Wert setzen
+    // TODO Entsprechend muss nur Title & ContentImage aktualisiert werden!!!s
+    /* updatePostImage(payload : any, title: string, id : number) : any {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      console.log("post image method called inside");
+      this.http.post('http://localhost:8080/Webtech2Project/rest/file/postit', payload).toPromise().then(
+        res => {
+          if(res.status == 200) {
+            console.log("img post appears to be succesful");
+            let path = res.json();
+            console.log("path from json : " + path);
+  
+            let body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage"' + path +',"contentText":null,"date":1498663847000,"isPost":0,"lastModified":1498663847000,"responseTo":0,"title":"' + title + '","author":' + this.userService.getGlobalUser().id + '}}';
+            console.log("Stringified post : " + body);
+            let headers = new Headers({ 'Content-Type': 'application/json' });
+            let options = new RequestOptions({ headers: headers });
+            console.log("post text method called inside");
+            return this.http.post(this.url+'update/'+id, body, options);
+          }
+          else {
+            console.log("CreatePostImage: Response status other than 200, in fact it was " + res.status);
+          }
+        }
+  
+      );
+  
+    } */
     PostService.prototype.createReplyText = function (internalPost, parentPost) {
-        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":null,"contentText":"' + internalPost.contentText + '","date":1498663847000,"isPost":1,"lastModified":1498663847000,"responseTo":' + parentPost.id + ',"title":"' + internalPost.title + '","author":2}}';
-        console.log("Stringified post : " + body);
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
-        console.log("post text method called inside");
+        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":null,"contentText":"' + internalPost.contentText + '","date":1498663847000,"isPost":1,"lastModified":1498663847000,"responseTo":' + parentPost.id + ',"title":"' + internalPost.title + '","author":' + this.userService.getGlobalUser().id + '}}';
+        // console.log("Stringified post : " + body);
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        // console.log("post text method called inside");
         return this.http.post(this.url + 'create_by_json', body, options);
     };
     // TODO
-    PostService.prototype.createReplyImage = function () {
+    PostService.prototype.createReplyImage = function (internalPost, parentPost, path) {
+        var body = '{ "postit":{"id":-1,"answers":0,"clicks":0,"contentImage":"' + path + '","contentText": null,"date":1498663847000,"isPost":1,"lastModified":1498663847000,"responseTo":' + parentPost.id + ',"title":"' + internalPost.title + '","author":' + this.userService.getGlobalUser().id + '}}';
+        // console.log("Stringified post : " + body);
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        // console.log("post text method called inside");
+        return this.http.post(this.url + 'create_by_json', body, options);
     };
     PostService.prototype.deletePost = function (id) {
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Headers */]({ 'Content-Type': 'application/json' });
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* RequestOptions */]({ headers: headers });
         return this.http.delete(this.url + 'delete/' + id, headers);
     };
     return PostService;
 }());
 PostService = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__user_service__["a" /* UserService */]) === "function" && _b || Object])
 ], PostService);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=postit.service.js.map
 
 /***/ }),
@@ -1126,7 +1536,7 @@ ProfileComponent = __decorate([
         template: "\n    <main>\n      <div class=\"col_4\">\n        <div class=\"infos\">\n          <div class=\"avatar\">\n            <img src=\"vivalderino.jpg\" class=\"profpicfull\">\n          </div>\n\n          <div class=\"contactinfos\">\n            <span class=\"contact\"><i class=\"material-icons\">face</i> {{user.name}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">business</i>{{user.location}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">phone</i>{{user.phone}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">print</i>{{user.fax}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">cake</i>{{user.birth_date}}</span>\n          </div>\n        </div>\n\n        <div class=\"sort\">\n          <span class=\"sortspan\" (click)=\"showAll()\">Alles anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnPosts()\">Nur eigene Posts anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnReplies()\">Nur Antworten anzeigen</span>\n        </div>\n\n        <div *ngFor=\"let posts of profilePosts\">\n          <div class=\"results\">\n            <div class=\"content\">\n              <div class=\"flexcol\">\n                <div class=\"flexrow\">\n                  <div class=\"item stats\">\n                    <img class=\"feedpic\" src=\"kermit.jpg\">\n  \n                    <div class=\"text\">\n                      <ul class=\"ulstat\">\n                        <li>Likes: TODO</li>\n                        <li>Replies:TODO</li>\n                        <li>Views: TODO</li>\n                      </ul>\n                    </div>\n                  </div>\n                  <div class=\"item_2 flexcol\">\n                   <div *ngIf=\"!posts.contentImage\">\n                     <div class=\"item\">\n                       <h1>{{posts.title}} </h1>\n                       {{posts.contentText}}\n                       </div>\n                   </div>\n                    <div *ngIf=\"!posts.contentText\">\n                      <div class=\"item\">\n                        <h1>{{posts.title}} </h1>\n                            TODO: ADD IMAGE SRC (PROFILE COMPONENT)\n                      </div>\n                    </div>\n                    <!--  <div class=\"item lmod\">\n                                      Created: 01.06.2017 13:37. Last modified: -\n                                  </div> -->\n                    <br>\n                    <span class=\"created\"> Created: 02.06.2017 17:31 Last modified: - </span>\n                  </div>\n                 <!-- <div class=\"item_4 symbols\">\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">create</i>\n                    </a>\n                    <br>\n                    <br>\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">clear</i>\n                    </a>\n                    <br>\n                    <br>\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">reply</i>\n                    </a>\n                  </div> -->\n                </div>\n            </div>\n          </div>\n          </div>\n        </div>\n      </div>        \n    </main> ",
         providers: [__WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__postit_service__["a" /* PostService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */]) === "function" && _d || Object])
 ], ProfileComponent);
 
 var _a, _b, _c, _d;
@@ -1165,7 +1575,7 @@ var ProfileBadge = (function () {
 ProfileBadge = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'profileBadge',
-        template: "\t\t\n    <div class=\"col_1_adjusted\">\n      <div class=\"feedtext\">\n        You\n      </div>\n\n      <img src=\"vivalderino.jpg\" class=\"profilepic\">\n      <br>\n      <div class=\"profilestats\">\n        Amount of posts:\n        <br> {{user.name}}test\n        <br>\n        Amount of views:\n        <br>\n        1337\n      </div>\n      <br>\n      <div class=\"profstatdiv\">\n        <ul class=\"profilestatul\">\n          <li class=\"leftli\" routerLink=\"\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Feed</a></li>\n          <li class=\"leftli\" routerLink=\"/profile\"><a ><i class=\"material-icons\">keyboard_arrow_right</i> Profile</a></li>\n          <li class=\"leftli\" routerLink=\"/settings\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Settings</a></li>\n          <li class=\"leftli\" routerLink=\"/logout\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Signout</a></li>\n        </ul>\n      </div>\n    </div>\n  ",
+        template: "\t\t\n    <div class=\"col_1_adjusted\">\n      <div class=\"feedtext\">\n        You\n      </div>\n\n      <img src=\"{{user.avatar}}\" class=\"profilepic\">\n      <br>\n      <div class=\"profilestats\">\n        Amount of posts:\n        <br> {{user.postits.length}}\n       <!-- <br>\n        Amount of views:\n        <br>\n        1337 -->\n      </div>\n      <br>\n      <div class=\"profstatdiv\">\n        <ul class=\"profilestatul\">\n          <li class=\"leftli\" routerLink=\"\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Feed</a></li>\n          <li class=\"leftli\" routerLink=\"/profile\"><a ><i class=\"material-icons\">keyboard_arrow_right</i> Profile</a></li>\n          <li class=\"leftli\" routerLink=\"/settings\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Settings</a></li>\n          <li class=\"leftli\" routerLink=\"/logout\"><a><i class=\"material-icons\">keyboard_arrow_right</i> Signout</a></li>\n        </ul>\n      </div>\n    </div>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */]) === "function" && _a || Object])
 ], ProfileBadge);
@@ -1175,12 +1585,54 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/sort.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SortService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var SortService = (function () {
+    function SortService() {
+        // 0 = newest
+        // 1 = oldest
+        // 2 = most popular
+        this.sortOrder = 0;
+    }
+    SortService.prototype.ngOnInit = function () {
+        this.sortOrder = 0;
+    };
+    SortService.prototype.setSortOrder = function (n) {
+        this.sortOrder = n;
+        console.log("Set sort order in SortService to " + n);
+    };
+    SortService.prototype.getSortOrder = function () {
+        return this.sortOrder;
+    };
+    return SortService;
+}());
+SortService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])()
+], SortService);
+
+//# sourceMappingURL=sort.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/sortfeed.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__postit_service__ = __webpack_require__("../../../../../src/app/postit.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sort_service__ = __webpack_require__("../../../../../src/app/sort.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__feed_service__ = __webpack_require__("../../../../../src/app/feed.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SortBy; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1193,38 +1645,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var SortBy = (function () {
-    function SortBy(postService) {
+    function SortBy(postService, sortService, feedService) {
         this.postService = postService;
+        this.sortService = sortService;
+        this.feedService = feedService;
     }
     SortBy.prototype.sortNewest = function () {
         var _this = this;
-        this.postService.getSortedByNewest().then(function (res) { return _this.feedPosts = res; });
+        this.sortService.setSortOrder(0);
+        this.postService.getSortedByNewest().then(function (res) {
+            _this.feedService.resetFeed();
+            _this.feedService.pushFeedFromSort(res);
+        });
     };
     SortBy.prototype.sortOldest = function () {
         var _this = this;
-        this.postService.getSortedByOldest().then(function (res) { return _this.feedPosts = res; });
+        this.sortService.setSortOrder(1);
+        this.postService.getSortedByOldest().then(function (res) {
+            _this.feedService.resetFeed();
+            _this.feedService.pushFeedFromSort(res);
+        });
     };
     SortBy.prototype.sortPopular = function () {
         var _this = this;
-        this.postService.getSortedByPopular().then(function (res) { return _this.feedPosts = res; });
+        this.sortService.setSortOrder(2);
+        this.postService.getSortedByPopular().then(function (res) {
+            _this.feedService.resetFeed();
+            _this.feedService.pushFeedFromSort(res);
+        });
     };
     return SortBy;
 }());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Input */])(),
-    __metadata("design:type", Array)
-], SortBy.prototype, "feedPosts", void 0);
 SortBy = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'sortby',
         template: "\t\t\t<div class=\"sortby\">\n    <div class=\"sortheading\">\n      <i class=\"material-icons\">sort</i> Sort feed\n    </div>\n    <div class=\"ulersatz\">\n      <a href=\"#\">\n        <!-- <span class=\"marker\">&nbsp;</span> --><span (click)=\"sortNewest()\">Newest</span>\n      </a>\n    </div>\n    <div class=\"ulersatz\">\n      <a href=\"#\">\n        <!-- <span class=\"marker\">&nbsp;</span> --><span (click)=\"sortOldest()\">Oldest</span>\n      </a>\n    </div>\n    <div class=\"ulersatz\">\n      <a href=\"#\">\n        <!-- <span class=\"marker\">&nbsp;</span> --><span (click)=\"sortPopular()\">Most popular</span>\n      </a>\n    </div>\n  </div>\n",
         providers: [__WEBPACK_IMPORTED_MODULE_1__postit_service__["a" /* PostService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__postit_service__["a" /* PostService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__postit_service__["a" /* PostService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__sort_service__["a" /* SortService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__sort_service__["a" /* SortService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__feed_service__["a" /* FeedService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__feed_service__["a" /* FeedService */]) === "function" && _c || Object])
 ], SortBy);
 
-var _a;
+var _a, _b, _c;
 //# sourceMappingURL=sortfeed.component.js.map
 
 /***/ }),
@@ -1240,6 +1704,8 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_Subject__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1255,27 +1721,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var UserService = (function () {
     function UserService(http) {
         this.http = http;
-        this.url = 'http://127.0.0.1:8080/Webtech2Project/rest/userservice/find/';
+        this.updateUserStatus = new __WEBPACK_IMPORTED_MODULE_5_rxjs_Subject__["Subject"]();
+        this.url = 'http://localhost:8080/Webtech2Project/rest/userservice/find/';
+        this.isLoggedIn = false;
         this.testUser = new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */]();
     }
     UserService.prototype.ngOnInit = function () {
-        this.testUser.id = 1;
-        this.testUser.avatar = "test";
-        this.testUser.birth_date = 1111111;
-        this.testUser.email = "test@test";
-        this.testUser.fax = "fax123";
-        this.testUser.gender = "male";
-        this.testUser.location = "zuhause";
-        this.testUser.name = "aram sam sam sam";
-        this.testUser.password = "niemals";
-        this.testUser.phone = "Telefooooon";
-        this.testUser.register_date = 11223344;
-        this.testUser.surname = "nachname";
-        this.testUser.postits = null;
-        this.testUser.position = 2;
     };
     UserService.prototype.getUser = function (id) {
         return this.http.get(this.url + id)
@@ -1284,15 +1739,35 @@ var UserService = (function () {
     };
     UserService.prototype.setUser = function (u) {
         this.testUser = u;
+        this.isLoggedIn = true;
+        this.updateUserStatus.next(true);
     };
     UserService.prototype.getGlobalUser = function () {
         return this.testUser;
+    };
+    UserService.prototype.logOut = function () {
+        var body = '';
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        this.http.post('http://localhost:8080/Webtech2Project/rest/login/logout', body, options);
+        this.testUser = new __WEBPACK_IMPORTED_MODULE_1__user__["a" /* User */]();
+        this.isLoggedIn = false;
+        this.updateUserStatus.next(true);
+    };
+    UserService.prototype.createUser = function (tempUser) {
+        console.log("Create user called");
+        var body = ' {"user":{"id":-1,"avatar":"colab/resources/avatar/default.jpg","birthDate":' + tempUser.birth_date + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        console.log("create user : body : " + body);
+        this.http.post('http://localhost:8080/Webtech2Project/rest/userservice/create_by_json', body, options);
+        // {"user":{"id":2,"avatar":"https://randomuser.me/api/portraits/men/14.jpg","birthDate":1500242400000,"email":"nicolas.lavigne@example.com","fax":"284-484-5005","gender":"male","location":"stratford","name":"nicolas","password":null,"phone":"647-028-3924","registerDate":1500310302217,"surname":"lavigne","postits":[],"position":3}}
     };
     return UserService;
 }());
 UserService = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* Http */]) === "function" && _a || Object])
 ], UserService);
 
 var _a;
