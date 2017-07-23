@@ -48,6 +48,8 @@ public class Postit implements Serializable {
 	private String author_surname;
 	@Transient 
 	private String avatar_path;
+	@Transient 
+	private int postit_replies;
 
 
 	public Postit() {
@@ -164,6 +166,14 @@ public class Postit implements Serializable {
 
 	public void setAuthor_surname(String author_surname) {
 		this.author_surname = author_surname;
+	}
+
+	public int getPostit_replies() {
+		return postit_replies;
+	}
+
+	public void setPostit_replies(int postit_replies) {
+		this.postit_replies = postit_replies;
 	}
 
 	@Override

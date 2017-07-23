@@ -1,6 +1,8 @@
 package control;
 
 
+import static java.lang.Math.toIntExact;
+
 import java.security.Timestamp;
 import java.util.*;
 
@@ -47,6 +49,7 @@ public class PostitManagement {
 		postit.setAuthor_name(author.getName());
 		postit.setAvatar_path(author.getAvatar());
 		postit.setAuthor_surname(author.getSurname());
+		postit.setPostit_replies(countPostitsReplies(postit.getId()));
 
 		entitymanager.close();
 		return postit;
@@ -88,6 +91,8 @@ public class PostitManagement {
 		postit.setContentImage(content_image);
 		postit.setResponseTo(responseTo);
 		if(postit.getResponseTo() <= 0 ){postit.setIsPost(1);} else {postit.setIsPost(0);}
+		
+		postit.setPostit_replies(countPostitsReplies(postit.getId()));
 		
 
 		Calendar cal = Calendar.getInstance();
@@ -135,6 +140,8 @@ public class PostitManagement {
 		Date date = cal.getTime();
 		postit.setDate(date);
 
+		postit.setPostit_replies(countPostitsReplies(postit.getId()));
+		
 		entitymanager.persist(postit);
 		entitymanager.flush();
 		entitymanager.getTransaction().commit();
@@ -210,6 +217,8 @@ public class PostitManagement {
 			n.setAvatar_path(author.getAvatar());
 			n.setAuthor_surname(author.getSurname());
 			
+			n.setPostit_replies(countPostitsReplies(n.getId()));
+			
 			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
@@ -237,6 +246,8 @@ public class PostitManagement {
 			n.setAuthor_name(author.getName());
 			n.setAvatar_path(author.getAvatar());
 			n.setAuthor_surname(author.getSurname());
+			
+			n.setPostit_replies(countPostitsReplies(n.getId()));
 			
 			/*
 			System.out.println("Postit ID = " + n.getId());
@@ -266,6 +277,8 @@ public class PostitManagement {
 			n.setAuthor_name(author.getName());
 			n.setAvatar_path(author.getAvatar());
 			n.setAuthor_surname(author.getSurname());
+			
+			n.setPostit_replies(countPostitsReplies(n.getId()));
 			
 			/*
 			System.out.println("Postit ID = " + n.getId());
@@ -302,6 +315,8 @@ public class PostitManagement {
 			n.setAvatar_path(author.getAvatar());
 			n.setAuthor_surname(author.getSurname());
 			
+			n.setPostit_replies(countPostitsReplies(n.getId()));
+			
 			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
@@ -333,6 +348,8 @@ public class PostitManagement {
 			n.setAuthor_name(author.getName());
 			n.setAvatar_path(author.getAvatar());
 			n.setAuthor_surname(author.getSurname());
+			
+			n.setPostit_replies(countPostitsReplies(n.getId()));
 			
 			/*
 			System.out.println("Postit ID = " + n.getId());
@@ -369,6 +386,8 @@ public class PostitManagement {
 			n.setAvatar_path(author.getAvatar());
 			n.setAuthor_surname(author.getSurname());
 			
+			n.setPostit_replies(countPostitsReplies(n.getId()));
+			
 			/*
 			System.out.println("Postit ID = " + n.getId());
 			System.out.println("Postit Author = " + n.getAuthor());
@@ -400,6 +419,7 @@ public class PostitManagement {
 			n.setAuthor_name(author.getName());
 			n.setAvatar_path(author.getAvatar());
 			n.setAuthor_surname(author.getSurname());
+			n.setPostit_replies(countPostitsReplies(n.getId()));
 			
 			/*
 			System.out.println("Postit ID = " + n.getId());
@@ -412,5 +432,30 @@ public class PostitManagement {
 
 		return result;
 	}
+	
+	public static int countPostitsReplies(int id)
+	{
+	
+		EntityManager em = emfactory.createEntityManager();
+
+	
+		TypedQuery<Long> query = em.createQuery(
+				"SELECT COUNT(n) FROM Postit n WHERE n.responseTo = :id",
+				Long.class);
+		query.setParameter("id", id);
+		Long result_long = query.getSingleResult().longValue();
+		
+		int result_int =  toIntExact(result_long);
+
+		return result_int;
+		/*
+		TypedQuery<Postit> query = entitymanager.createQuery(
+				"SELECT n FROM Postit n WHERE n.author = :id AND n.isPost = 0",
+				Postit.class);
+		*/
+		
+                
+	}
+	
 
 }
