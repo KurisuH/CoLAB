@@ -3,7 +3,7 @@ package control;
 
 import static java.lang.Math.toIntExact;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.*;
 
 import javax.persistence.GeneratedValue;
@@ -173,7 +173,13 @@ public class PostitManagement {
 		postit.setTitle(update.getTitle());
 		postit.setContentText(update.getContentText());
 		postit.setContentImage(update.getContentImage());
-				
+		
+		
+
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		postit.setLastModified(timestamp);
+		
+
 		//postit.setResponseTo(update.getResponseTo());
 		//if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
 
