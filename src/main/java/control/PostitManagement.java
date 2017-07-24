@@ -90,7 +90,7 @@ public class PostitManagement {
 		postit.setContentText(content_text);
 		postit.setContentImage(content_image);
 		postit.setResponseTo(responseTo);
-		if(postit.getResponseTo() <= 0 ){postit.setIsPost(1);} else {postit.setIsPost(0);}
+		if(postit.getResponseTo() <= 0 ){postit.setIsPost(0);} else {postit.setIsPost(1);}
 		
 		//postit.setPostit_replies(countPostitsReplies(postit.getId()));
 		postit.setPostit_replies(0);

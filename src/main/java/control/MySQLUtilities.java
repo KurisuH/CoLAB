@@ -63,7 +63,7 @@ public class MySQLUtilities {
 		user.setBirthDate(new Date());
 		user.setFax("123");
 		user.setLocation("Yoboi");
-		user.setAvatar("Its yoboi");
+		user.setAvatar("/colab/resources/avatar/16.jpg");
 		user.setRegisterDate(new Date());
 		UserManagement.createUserFromUser(user);
 		
@@ -79,7 +79,7 @@ public class MySQLUtilities {
 		user.setBirthDate(new Date());
 		user.setFax("123");
 		user.setLocation("Yoboi");
-		user.setAvatar("Its yoboi");
+		user.setAvatar("/colab/resources/avatar/15.jpg");
 		user.setRegisterDate(new Date());
 		UserManagement.createUserFromUser(user);
     }
@@ -143,25 +143,26 @@ public class MySQLUtilities {
      */
     public static void fillWithPostit()
     {
-    	PostitManagement.createPostit(1, "Lorem Ipsum!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed tortor et sem semper cursus. Suspendisse erat leo, ornare nec viverra eget, dictum at augue. Proin a vehicula mauris, eu malesuada mi. Curabitur lacinia est sit amet semper porta. Phasellus in turpis fermentum, fermentum urna ut, viverra justo. Curabitur fringilla velit non risus feugiat molestie. ", null , 0);
-    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
-    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
-    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
-    	PostitManagement.createPostit(2, "Great lorem Ipsum!", "I was really moved by it!", null , 1);
+  	
+    	
+    	
+    	
+    	PostitManagement.createPostit(1, "Lorem Ipsum!", "I just love my Lorem Ipsums, check this out: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed tortor et sem semper cursus. Suspendisse erat leo, ornare nec viverra eget, dictum at augue. Proin a vehicula mauris, eu malesuada mi. Curabitur lacinia est sit amet semper porta. ", null , 0);
+    	PostitManagement.createPostit(3, "Great lorem Ipsum!", "Wow that was a great Lorem Ipsum!", null , 1);
+    	PostitManagement.createPostit(4, "I love me some greek", null , "/colab/resources/postit/4-1.jpg" , 1);
+    	PostitManagement.createPostit(5, "Awesome", "What does it mean though?", null , 1);
+    	PostitManagement.createPostit(6, "No idea", "I think its some programming stuff! No Idea what it actually means though!", null , 1);
 
     	
-    	PostitManagement.createPostit(3, "Lorem Ipsum!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed tortor et sem semper cursus. Suspendisse erat leo, ornare nec viverra eget, dictum at augue. Proin a vehicula mauris, eu malesuada mi. Curabitur lacinia est sit amet semper porta. Phasellus in turpis fermentum, fermentum urna ut, viverra justo. Curabitur fringilla velit non risus feugiat molestie. ", null , 0);
-    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
-    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
-    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
-    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "I was really moved by it!", null , 6);
+    	PostitManagement.createPostit(6, "Meeting in Room 4 this eveing to discuss our annual summer event.",null , "/colab/resources/postit/6-2.jpg" , 0);
+    	PostitManagement.createPostit(7, "Looking forward to it!", "I loved the last one.", null , 6);
+    	PostitManagement.createPostit(8, "Yes meetings!", "Just what we needed more of. This is not meant to be sarcastic, I love meetings.", null , 6);
     	
-    	PostitManagement.createPostit(3, "Malkurse! MALKURSE!" , "Tolle Malkurse fuer alle! Bei mir melden!", null , 0);
-    	PostitManagement.createPostit(4, "Malkurs!", "Yeah! Malkurs!", null , 11);
-    	PostitManagement.createPostit(4, "MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALKURS", "Hurra Malkurse!", null , 11);
-    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! Hurra Malkurse! ", null , 11);
-    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "Malkurs!", null , 11);
-    	PostitManagement.createPostit(4, "Great lorem Ipsum!", "Malkurs!", null , 11);
+    	PostitManagement.createPostit(10, "Tomorrow 12 pm. We're gonna grill again!" , null , "/colab/resources/postit/10-3.jpg" , 0);
+    	PostitManagement.createPostit(11, "Yes great!", "Does Jean bring her cake again?", null , 9);
+    	PostitManagement.createPostit(12, "Yes I will!", "/colab/resources/postit/12-5.jpg", null , 9);
+    	
+    	PostitManagement.createPostit(14, "I love my employees! You guys/girls are the best team!" , null , "/colab/resources/postit/14-4.jpg" , 0);
 
     	
     }
