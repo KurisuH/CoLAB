@@ -7,9 +7,6 @@
     
 	<display-name>Restful Web Application</display-name>
 	
-
-	
-	  <servlet>
 	  
 	  <filter>
     <filter-name>UrlRewriteFilter</filter-name>
@@ -21,8 +18,8 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>FORWARD</dispatcher>
 </filter-mapping>
-
-
+	
+	  <servlet>
     <servlet-name>User-Servlet</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>    
     <init-param>

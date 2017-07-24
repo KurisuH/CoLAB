@@ -456,7 +456,7 @@ public class UserManagement {
 		user.setName(update.getName());
 		user.setSurname(update.getSurname());
 		user.setGender(update.getGender());
-		user.setPassword(update.getPassword());
+		// user.setPassword(update.getPassword());
 		
 		user.setPosition(update.getPosition());
 		user.setPhone(update.getPhone());

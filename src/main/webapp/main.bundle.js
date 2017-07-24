@@ -793,7 +793,9 @@ var FeedService = (function () {
         this.repliesForCurrent.splice(a, b);
     };
     FeedService.prototype.resetReplies = function () {
-        this.repliesForCurrent = [];
+        console.log("~~~~ Replies for current with experimental splice called");
+        this.repliesForCurrent.splice(0, this.repliesForCurrent.length);
+        // this.repliesForCurrent = [];
     };
     FeedService.prototype.resetFeed = function () {
         this.feedPosts = [];
@@ -962,7 +964,7 @@ var LoginComponent = (function () {
 LoginComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'login',
-        template: "\t\n    <div *ngIf=\"type == 0\">\n  \n    <form>\n      \n      <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n      <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n      <input type=\"submit\" value=\"Login\" (click)=\"tryLogin()\">      \n    </form>\n    \n    Dont have an account yet? Click <span (click)=\"signup()\">here</span> to crete one!\n\n    </div>\n    \n    <div *ngIf=\"type == 1 \">\n      Register now!\n      <br>\n      Simply fill out the fields below and you are ready to go!\n      <br>\n      <form>\n\n        <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n        <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n        <input type=\"password\" [(ngModel)]=\"checkpw\" name=\"whytho25\" placeholder=\"enter password again\">\n        <input type=\"date\" [(ngModel)]=\"tempUser.birth_date\" name=\"whytho3\" placeholder=\"Birth date (YYYY-MM-DD)\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.name\" name=\"whytho4\" placeholder=\"first name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.surname\" name=\"whytho5\" placeholder=\"last name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.location\" name=\"whytho6\" placeholder=\"Your location inside the company\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.phone\" name=\"whytho7\" placeholder=\"your phone\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.fax\" name=\"whytho8\" placeholder=\"your fax\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.gender\" name=\"whytho9\" placeholder=\"your gender\">        \n        \n       \n        <input type=\"submit\" value=\"Register\" (click)=\"tryRegister()\">\n      </form>\n      \n      <span (click)=\"goBack()\">Go back</span>\n    </div>\n  ",
+        template: "\n    <div *ngIf=\"type == 0\">\n\n      <form>\n\n        <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n        <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n        <input type=\"submit\" value=\"Login\" (click)=\"tryLogin()\">\n      </form>\n\n      Dont have an account yet? Click <span (click)=\"signup()\">here</span> to crete one!\n\n    </div>\n\n    <div *ngIf=\"type == 1 \">\n      Register now!\n      <br>\n      Simply fill out the fields below and you are ready to go!\n      <br>\n      <form>\n\n        <input type=\"text\" [(ngModel)]=\"tempUser.email\" name=\"whytho\" placeholder=\"E-Mail\">\n        <input type=\"password\" [(ngModel)]=\"tempUser.password\" name=\"whytho2\" placeholder=\"password\">\n        <input type=\"password\" [(ngModel)]=\"checkpw\" name=\"whytho25\" placeholder=\"enter password again\">\n        <input type=\"date\" [(ngModel)]=\"tempUser.birthDate\" name=\"whytho3\" placeholder=\"Birth date (YYYY-MM-DD)\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.name\" name=\"whytho4\" placeholder=\"first name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.surname\" name=\"whytho5\" placeholder=\"last name\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.location\" name=\"whytho6\"\n               placeholder=\"Your location inside the company\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.phone\" name=\"whytho7\" placeholder=\"your phone\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.fax\" name=\"whytho8\" placeholder=\"your fax\">\n        <input type=\"text\" [(ngModel)]=\"tempUser.gender\" name=\"whytho9\" placeholder=\"your gender\">\n\n\n        <input type=\"submit\" value=\"Register\" (click)=\"tryRegister()\">\n      </form>\n\n      <span (click)=\"goBack()\">Go back</span>\n    </div>\n  ",
         providers: []
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object])
@@ -1303,6 +1305,13 @@ var PostComponent = (function () {
         if (!selected.isTypingReply) {
             // if it wasnt selected previously, get replies
             // console.log("arr length b4 : " + this.repliesForCurrent.length);
+            for (var _i = 0, _a = this.feedPosts; _i < _a.length; _i++) {
+                var elem = _a[_i];
+                if (elem !== selected) {
+                    elem.isTypingReply = false;
+                    elem.repliesVisible = false;
+                }
+            }
             this.feedService.resetReplies();
             selected.repliesVisible = true;
             this.postService.getRepliesTo(selected.id).then(function (res) {
@@ -1326,7 +1335,7 @@ var PostComponent = (function () {
 PostComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'post',
-        template: "    <!-- TODO Eventuell Style wegen Umrandung und Markierung welcher selected ist anpassen\n        Jquery In Angular: https://stackoverflow.com/questions/30623825/how-to-use-jquery-with-angular2\n        Scrollen mit Jquery: https://stackoverflow.com/questions/6677035/jquery-scroll-to-element\n     -->\n \n      <div *ngFor=\"let current of feedPosts\" (click)=\"onSelect(current, $event)\" > <!-- [class.selected]=\"current === selectedPost\"-->\n      <div class=\"content\" >\n    <div class=\"flexcol\">\n      <div class=\"flexrow\">\n        <div class=\"item stats\">\n          <span class=\"markertest\">\n            \n          </span>\n          <img class=\"feedpic\" src=\"http://localhost:8080/{{current.avatar_path}}\" (click)=\"gotoProfile(current)\">\n\n          <div class=\"text\">\n            <ul class=\"ulstat\">\n              <li></li>\n              <li>by {{current.author_name}} {{current.author_surname}}</li>\n              <li>Replies: {{current.postit_replies}}</li>             \n            </ul>\n          </div>\n        </div>\n        <div class=\"item_2 flexcol\">\n         <div *ngIf=\"current.isBeingEdited == true\">\n           <choice [selPost] = \"selectedPost\" [isNewPost]=\"false\">                 \n                </choice>\n         </div>\n        <div *ngIf=\"current.isBeingEdited == false\"> \n          <div *ngIf=\"!current.contentImage\"> \n             <div class=\"item\">\n                 <h1>{{current.title}}</h1>\n             </div>\n            <br>\n            {{current.contentText}}\n          </div>\n\n          <div *ngIf=\"!current.contentText\">\n            <div class=\"item\">\n              <h1>{{current.title}}</h1>\n            </div>\n            <br>\n           <img src=\"{{current.contentImage}}\">\n          </div>\n          <span class=\"created\"> Created: {{current.date | date }} \n            <span *ngIf=\"current.lastModified == null\"> Last modified: -</span>\n            <span *ngIf=\"current.lastModified != null\">Last modified: {{current.lastModified || date}}</span>\n             </span>\n          </div>          \n       </div>\n        <div class=\"item_4 symbols\">\n         <div *ngIf=\"current.author == user.id\">         \n            <a href=\"#\" class=\"nounder\" (click)=\"editPost(current,$event)\">\n              <i class=\"material-icons\">create</i>\n            </a>\n            <br>\n            <br>\n        </div>\n           <div *ngIf=\"current.author == user.id\"> \n            <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n              <i class=\"material-icons\">clear</i>\n            </a>\n            <br>\n            <br>            \n         </div>\n       \n          <a href=\"#\" class=\"nounder\" (click)=\"reply(current, $event)\">\n            <i class=\"material-icons\">reply</i>\n          </a>\n        </div>\n    </div>\n  </div>\n       <div *ngFor=\"let answers of repliesForCurrent\" (click)=\"onSelectAnswer(current, $event)\">\n         <div *ngIf=\"current.repliesVisible\">\n           <div class=\"content answer\" style=\"background-color: green;\">\n             <div class=\"flexcol\">\n               <div class=\"flexrow\" >\n                 <div class=\"flexcol\" style=\"flex-basis: 8%\">\n                   <div class=\"item stats\">\n                     <img src=\"http://localhost:8080{{answers.avatar_path}}\" class=\"feedpic\" (click)=\"gotoProfile(answers)\"/>\n                     <div class=\"text\">\n                       <ul class=\"ulstat\">\n                         <li></li>\n                         <li>by {{answers.author_name}} {{answers.author_surname}}</li>\n                       </ul>\n                     </div>\n                   </div>\n                 </div>\n                 <div class=\"item_2 flexcol\">\n                   <div class=\"item\">\n                     <div *ngIf=\"answers.isBeingEdited == true\">\n                       <choice [selPost] = \"answers\" [isNewPost]=\"false\">\n                       </choice>\n                     </div>                     \n                     <div *ngIf=\"answers.isBeingEdited == false\">\n                       <div *ngIf=\"answers.isTypingReply == true\">\n                         <choice (endReply)=\"cancelReply(answers)\" [topLevelPost]=\"current\" [selPost] = \"answers\" [isNewPost]=\"false\">\n                         </choice>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false \">\n                          <div *ngIf=\"!answers.contentImage\">\n                           <h1> {{answers.title}} </h1>\n                           {{answers.contentText}}\n                          </div>\n                           <div *ngIf=\"!answers.contentText\">\n                             <h1> {{answers.title}} </h1>\n                             <img src=\"{{answers.contentImage}}\">\n                           </div>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false\">\n                        <span class=\"created\">Created: {{answers.date | date}}\n                         <span *ngIf=\"current.lastModified == null\"> Last modified: -</span>\n                         <span *ngIf=\"current.lastModified != null\">Last modified: {{current.lastModified || date}}</span>\n                       </span>\n                       </div>\n                   </div>\n                   <br>                \n                 </div>\n                 </div>              \n                 <div class=\"item_4 symbols\">\n                   <div *ngIf=\"answers.author == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\"answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"editAnswer(answers, $event)\">\n                       <i class=\"material-icons\">create</i>\n                     </a>\n                     <br>\n                     <br>\n                   </div>\n                   <div *ngIf=\" answers.author == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\" answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"deleteReply(current, answers, $event)\">\n                       <i class=\"material-icons\">clear</i>\n                     </a>\n                   </div>                  \n                 </div>\n               </div>\n             </div>\n           </div>           \n         </div>         \n       </div>        \n      </div>\n    </div>\n      </div>\n      </div>\n  ",
+        template: "    <!-- TODO Eventuell Style wegen Umrandung und Markierung welcher selected ist anpassen\n        Jquery In Angular: https://stackoverflow.com/questions/30623825/how-to-use-jquery-with-angular2\n        Scrollen mit Jquery: https://stackoverflow.com/questions/6677035/jquery-scroll-to-element\n     -->\n \n      <div *ngFor=\"let current of feedPosts\" (click)=\"onSelect(current, $event)\" > <!-- [class.selected]=\"current === selectedPost\"-->\n      <div class=\"content\" >\n    <div class=\"flexcol\">\n      <div class=\"flexrow\">\n        <div class=\"item stats\">\n          <span class=\"markertest\">\n            \n          </span>\n          <img class=\"feedpic\" src=\"http://localhost:8080/{{current.avatar_path}}\" (click)=\"gotoProfile(current)\">\n\n          <div class=\"text\">\n            <ul class=\"ulstat\">\n              <li></li>\n              <li>by {{current.author_name}} {{current.author_surname}}</li>\n              <li>Replies: {{current.postit_replies}}</li>             \n            </ul>\n          </div>\n        </div>\n        <div class=\"item_2 flexcol\">\n         <div *ngIf=\"current.isBeingEdited == true\">\n           <choice [selPost] = \"selectedPost\" [isNewPost]=\"false\">                 \n                </choice>\n         </div>\n        <div *ngIf=\"current.isBeingEdited == false\"> \n          <div *ngIf=\"!current.contentImage\"> \n             <div class=\"item\">\n                 <h1>{{current.title}}</h1>\n             </div>\n            <br>\n            {{current.contentText}}\n          </div>\n\n          <div *ngIf=\"!current.contentText\">\n            <div class=\"item\">\n              <h1>{{current.title}}</h1>\n            </div>\n            <br>\n           <img class=\"postimg\" src=\"{{current.contentImage}}\">\n          </div>\n          <span class=\"created\"> Created: {{current.date | date }} \n            <span *ngIf=\"current.lastModified == null\"> Last modified: -</span>\n            <span *ngIf=\"current.lastModified != null\">Last modified: {{current.lastModified || date}}</span>\n             </span>\n          </div>          \n       </div>\n        <div class=\"item_4 symbols\">\n         <div *ngIf=\"current.author == user.id\">         \n            <a href=\"#\" class=\"nounder\" (click)=\"editPost(current,$event)\">\n              <i class=\"material-icons\">create</i>\n            </a>\n            <br>\n            <br>\n        </div>\n           <div *ngIf=\"current.author == user.id\"> \n            <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n              <i class=\"material-icons\">clear</i>\n            </a>\n            <br>\n            <br>            \n         </div>\n       \n          <a href=\"#\" class=\"nounder\" (click)=\"reply(current, $event)\">\n            <i class=\"material-icons\">reply</i>\n          </a>\n        </div>\n    </div>\n  </div>\n       <div *ngFor=\"let answers of repliesForCurrent\" (click)=\"onSelectAnswer(current, $event)\">\n         <div *ngIf=\"current.repliesVisible\">\n           <div class=\"content answer\" style=\"background-color: green;\">\n             <div class=\"flexcol\">\n               <div class=\"flexrow\" >\n                 <div class=\"flexcol\" style=\"flex-basis: 8%\">\n                   <div class=\"item stats\">\n                     <img src=\"http://localhost:8080{{answers.avatar_path}}\" class=\"feedpic\" (click)=\"gotoProfile(answers)\"/>\n                     <div class=\"text\">\n                       <ul class=\"ulstat\">\n                         <li></li>\n                         <li>by {{answers.author_name}} {{answers.author_surname}}</li>\n                       </ul>\n                     </div>\n                   </div>\n                 </div>\n                 <div class=\"item_2 flexcol\">\n                   <div class=\"item\">\n                     <div *ngIf=\"answers.isBeingEdited == true\">\n                       <choice [selPost] = \"answers\" [isNewPost]=\"false\">\n                       </choice>\n                     </div>                     \n                     <div *ngIf=\"answers.isBeingEdited == false\">\n                       <div *ngIf=\"answers.isTypingReply == true\">\n                         <choice (endReply)=\"cancelReply(answers)\" [topLevelPost]=\"current\" [selPost] = \"answers\" [isNewPost]=\"false\">\n                         </choice>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false \">\n                          <div *ngIf=\"!answers.contentImage\">\n                           <h1> {{answers.title}} </h1>\n                           {{answers.contentText}}\n                          </div>\n                           <div *ngIf=\"!answers.contentText\">\n                             <h1> {{answers.title}} </h1>\n                             <img class=\"postimg\" src=\"{{answers.contentImage}}\">\n                           </div>\n                       </div>\n                       <div *ngIf=\"answers.isTypingReply == false\">\n                        <span class=\"created\">Created: {{answers.date | date}}\n                         <span *ngIf=\"current.lastModified == null\"> Last modified: -</span>\n                         <span *ngIf=\"current.lastModified != null\">Last modified: {{current.lastModified || date}}</span>\n                       </span>\n                       </div>\n                   </div>\n                   <br>                \n                 </div>\n                 </div>              \n                 <div class=\"item_4 symbols\">\n                   <div *ngIf=\"answers.author == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\"answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"editAnswer(answers, $event)\">\n                       <i class=\"material-icons\">create</i>\n                     </a>\n                     <br>\n                     <br>\n                   </div>\n                   <div *ngIf=\" answers.author == user.id && answers.isTypingReply == false\"> \n                   <div *ngIf=\" answers.isTypingReply == false\">\n                     <a href=\"#\" class=\"nounder\" (click)=\"deleteReply(current, answers, $event)\">\n                       <i class=\"material-icons\">clear</i>\n                     </a>\n                   </div>                  \n                 </div>\n               </div>\n             </div>\n           </div>           \n         </div>         \n       </div>        \n      </div>\n    </div>\n      </div>\n      </div>\n  ",
         providers: [__WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__postit_service__["a" /* PostService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__feed_service__["a" /* FeedService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_router__["b" /* Router */]) === "function" && _d || Object])
@@ -1621,7 +1630,7 @@ var ProfileComponent = (function () {
 ProfileComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'profilepage',
-        template: "\n    <main>\n      <div class=\"col_4\">\n        <div class=\"infos\">\n          <div class=\"avatar\">\n            <img src=\"http://localhost:8080/{{user?.avatar}}\" class=\"profpicfull\"/>\n          </div>\n\n          <div class=\"contactinfos\">\n            <span class=\"contact\"><i class=\"material-icons\">face</i> {{user?.name}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">business</i>{{user?.location}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">phone</i>{{user?.phone}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">print</i>{{user?.fax}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">cake</i>{{user?.birth_date}}</span>\n          </div>\n        </div>\n\n        <div class=\"sort\">\n          <span class=\"sortspan\" (click)=\"showAll()\">Alles anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnPosts()\">Nur eigene Posts anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnReplies()\">Nur Antworten anzeigen</span>\n        </div>\n\n        <div *ngFor=\"let posts of profilePosts\">\n          <div class=\"results\">\n            <div class=\"content\">\n              <div class=\"flexcol\">\n                <div class=\"flexrow\">\n                  <div class=\"item stats\">\n                    <img class=\"feedpic\" src=\"http://localhost:8080/{{posts.avatar_path}}\">\n  \n                    <div class=\"text\">\n                      <ul class=\"ulstat\">\n                        <li>by {{posts.author_name}}  {{posts.author_surname}}</li>\n                        <li>Replies:{{posts.postit_replies}}</li>\n                      </ul>\n                    </div>\n                  </div>\n                  <div class=\"item_2 flexcol\">\n                   <div *ngIf=\"!posts.contentImage\">\n                     <div class=\"item\">\n                       <h1>{{posts.title}} </h1>\n                       {{posts.contentText}}\n                       </div>\n                   </div>\n                    <div *ngIf=\"!posts.contentText\">\n                      <div class=\"item\">\n                        <h1>{{posts.title}} </h1>\n                          <img src=\"{{posts.contentImage}}\" />\n                      </div>\n                    </div>\n                    <!--  <div class=\"item lmod\">\n                                      Created: 01.06.2017 13:37. Last modified: -\n                                  </div> -->\n                    <br>\n                    <span class=\"created\"> Created: {{ ( posts.date | date )}}\n                      <span *ngIf=\"posts.lastModified == null\"> Last modified: -</span>\n                      <span *ngIf=\"posts.lastModified != null\">Last modified: {{posts.lastModified || date}}</span>\n                    </span>\n                  </div>\n                  <div class=\"item_4 symbols\">\n                    <!-- <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">create</i>\n                    </a> -->\n                    <div *ngIf=\"posts.author == user.id\">\n                    <br>\n                    <br>\n                    <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n                      <i class=\"material-icons\">clear</i>\n                    </a>\n                    <br>\n                    <br>\n                    </div> \n                      <!--\n                    <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">reply</i>\n                    </a> -->\n                  </div> \n                </div>\n            </div>\n          </div>\n          </div>\n        </div>\n      </div>        \n    </main> ",
+        template: "\n    <main>\n      <div class=\"col_4\">\n        <div class=\"infos\">\n          <div class=\"avatar\">\n            <img src=\"http://localhost:8080/{{user?.avatar}}\" class=\"profpicfull\"/>\n          </div>\n\n          <div class=\"contactinfos\">\n            <span class=\"contact\"><i class=\"material-icons\">face</i> {{user?.name}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">business</i>{{user?.location}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">phone</i>{{user?.phone}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">print</i>{{user?.fax}}</span>\n            <span class=\"contact\"><i class=\"material-icons\">cake</i>{{user?.birthDate}}</span>\n          </div>\n        </div>\n\n        <div class=\"sort\">\n          <span class=\"sortspan\" (click)=\"showAll()\">Alles anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnPosts()\">Nur eigene Posts anzeigen</span>\n          <span class=\"sortspan\" (click)=\"onlyOwnReplies()\">Nur Antworten anzeigen</span>\n        </div>\n\n        <div *ngFor=\"let posts of profilePosts\">\n          <div class=\"results\">\n            <div class=\"content\">\n              <div class=\"flexcol\">\n                <div class=\"flexrow\">\n                  <div class=\"item stats\">\n                    <img class=\"feedpic\" src=\"http://localhost:8080/{{posts.avatar_path}}\">\n\n                    <div class=\"text\">\n                      <ul class=\"ulstat\">\n                        <li>by {{posts.author_name}} {{posts.author_surname}}</li>\n                        <li>Replies:{{posts.postit_replies}}</li>\n                      </ul>\n                    </div>\n                  </div>\n                  <div class=\"item_2 flexcol\">\n                    <div *ngIf=\"!posts.contentImage\">\n                      <div class=\"item\">\n                        <h1>{{posts.title}} </h1>\n                        {{posts.contentText}}\n                      </div>\n                    </div>\n                    <div *ngIf=\"!posts.contentText\">\n                      <div class=\"item\">\n                        <h1>{{posts.title}} </h1>\n                        <img class=\"postimg\" src=\"{{posts.contentImage}}\"/>\n                      </div>\n                    </div>\n                    <!--  <div class=\"item lmod\">\n                                      Created: 01.06.2017 13:37. Last modified: -\n                                  </div> -->\n                    <br>\n                    <span class=\"created\"> Created: {{ ( posts.date | date )}}\n                      <span *ngIf=\"posts.lastModified == null\"> Last modified: -</span>\n                      <span *ngIf=\"posts.lastModified != null\">Last modified: {{posts.lastModified || date}}</span>\n                    </span>\n                  </div>\n                  <div class=\"item_4 symbols\">\n                    <!-- <a href=\"#\" class=\"nounder\">\n                      <i class=\"material-icons\">create</i>\n                    </a> -->\n                    <div *ngIf=\"posts.author == user.id\">\n                      <br>\n                      <br>\n                      <a href=\"#\" class=\"nounder\" (click)=\"deletePost(current, $event)\">\n                        <i class=\"material-icons\">clear</i>\n                      </a>\n                      <br>\n                      <br>\n                    </div>\n                    <!--\n                  <a href=\"#\" class=\"nounder\">\n                    <i class=\"material-icons\">reply</i>\n                  </a> -->\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </main> ",
         providers: [__WEBPACK_IMPORTED_MODULE_5__postit_service__["a" /* PostService */]]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__postit_service__["a" /* PostService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__postit_service__["a" /* PostService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["e" /* Location */]) === "function" && _d || Object])
@@ -1713,88 +1722,212 @@ var SettingsComponent = (function () {
         this.updateUser = new __WEBPACK_IMPORTED_MODULE_2__user__["a" /* User */]();
         this.confirmpw = '';
         this.tempUser = userService.getGlobalUser();
+        console.log("OnInit is bday set to " + this.tempUser.birthDate);
         this.tempUser.password = '';
+        this.updateUser.password = '';
     }
     SettingsComponent.prototype.ngOnInit = function () {
     };
     SettingsComponent.prototype.tryUpdate = function () {
         var _this = this;
         if (this.updateUser.email != null) {
-            this.tempUser.email = this.updateUser.email;
-        }
-        if (this.updateUser.birth_date != null) {
-            this.tempUser.birth_date = this.updateUser.birth_date;
-        }
-        if (this.updateUser.name != null) {
-            this.tempUser.name = this.updateUser.name;
-        }
-        if (this.updateUser.surname != null) {
-            this.tempUser.surname = this.updateUser.surname;
-        }
-        if (this.updateUser.location != null) {
-            this.tempUser.location = this.updateUser.location;
-        }
-        if (this.updateUser.phone != null) {
-            this.tempUser.phone = this.updateUser.phone;
-        }
-        if (this.updateUser.fax != null) {
-            this.tempUser.fax = this.updateUser.fax;
-        }
-        if (this.updateUser.gender != null) {
-            this.tempUser.gender = this.updateUser.gender;
-        }
-        if (this.checkpw == '') {
-            if (this.tempUser.password == '') {
-                console.log("beide leer");
-                if (this.confirmpw == '') {
-                    console.log("no conform pw --> invalid");
-                    return;
-                }
-                else {
-                    console.log("confirm pw not empty");
-                }
+            // wanted to update, but invalid input
+            if (this.updateUser.email.replace(/\s/g, '').length == 0) {
+                console.log("nur aus whitespaces bestehend!");
             }
             else {
-                console.log("nur 1-1 leer");
+                // valid input
+                console.log("email gefüllt");
+                this.tempUser.email = this.updateUser.email;
             }
         }
         else {
-            if (this.tempUser.password != '') {
-                console.log("beide felder gefüllt");
-                if (this.tempUser.password == this.checkpw) {
-                    console.log("beide pws matchen");
-                }
+            // --> No changes to tempUser
+            console.log("update user email null");
+        }
+        if (this.updateUser.birthDate != null) {
+            console.log("birthdate gefüllt");
+            this.tempUser.birthDate = this.updateUser.birthDate;
+        }
+        else {
+            console.log("update user birth date null");
+        }
+        if (this.updateUser.name != null) {
+            // wanted to update, but invalid input
+            if (this.updateUser.name.replace(/\s/g, '').length == 0) {
+                console.log("nur aus whitespaces bestehend!");
+            }
+            else {
+                // valid input
+                console.log("name gefüllt");
+                this.tempUser.name = this.updateUser.name;
             }
         }
-        if (!this.checkpw === this.tempUser.password) {
-            console.log("Passwords dont match. try again");
-            return;
+        else {
+            // --> No changes to tempUser
+            console.log("update user name null");
         }
-        // wenn beide pw felder leer sind --> verify feld muss gefüllt sein
+        if (this.updateUser.surname != null) {
+            // wanted to update, but invalid input
+            if (this.updateUser.surname.replace(/\s/g, '').length == 0) {
+                console.log("nur aus whitespaces bestehend!");
+            }
+            else {
+                // valid input
+                console.log("surname gefüllt");
+                this.tempUser.surname = this.updateUser.surname;
+            }
+        }
+        else {
+            // --> No changes to tempUser
+            console.log("update user surname null");
+        }
+        if (this.updateUser.location != null) {
+            // wanted to update, but invalid input
+            if (this.updateUser.location.replace(/\s/g, '').length == 0) {
+                console.log("nur aus whitespaces bestehend!");
+            }
+            else {
+                // valid input
+                console.log("location gefüllt");
+                this.tempUser.location = this.updateUser.location;
+            }
+        }
+        else {
+            // --> No changes to tempUser
+            console.log("update user locatoin null");
+        }
+        if (this.updateUser.phone != null) {
+            // wanted to update, but invalid input
+            if (this.updateUser.phone.replace(/\s/g, '').length == 0) {
+                console.log("nur aus whitespaces bestehend!");
+            }
+            else {
+                // valid input
+                console.log("phone gefüllt");
+                this.tempUser.phone = this.updateUser.phone;
+            }
+        }
+        else {
+            // --> No changes to tempUser
+            console.log("update user phine null");
+        }
+        if (this.updateUser.fax != null) {
+            // wanted to update, but invalid input
+            if (this.updateUser.phone.replace(/\s/g, '').length == 0) {
+                console.log("nur aus whitespaces bestehend!");
+            }
+            else {
+                // valid input
+                console.log("fax gefüllt");
+                this.tempUser.fax = this.updateUser.fax;
+            }
+        }
+        else {
+            // --> No changes to tempUser
+            console.log("update user fax null");
+        }
+        if (this.updateUser.gender != null) {
+            // wanted to update, but invalid input
+            if (this.updateUser.phone.replace(/\s/g, '').length == 0) {
+                console.log("nur aus whitespaces bestehend!");
+            }
+            else {
+                // valid input
+                console.log("gender gefüllt");
+                this.tempUser.gender = this.updateUser.gender;
+            }
+        }
+        else {
+            // --> No changes to tempUser
+            console.log("update user gender null");
+        }
+        // Now: all valid changes are already propagated to the tempUser Object.
+        // Check for passwords now, then try to update user on the db
+        if (this.checkpw.replace(/\s/g, '').length == 0) {
+            if (this.updateUser.password.replace(/\s/g, '').length == 0) {
+                console.log("beide leer / nur whitespaces");
+                if (this.confirmpw.replace(/\s/g, '').length == 0) {
+                    // invalid, weil nichtmal confirm pw eingegebn wurde
+                    console.log("no conform pw --> invalid (or only not allowed whitespaces)");
+                    return;
+                }
+                else {
+                    // beide leer, nur confirmation pw eingebgegen --> valid for update
+                    this.tempUser.password = this.confirmpw;
+                    console.log("confirm pw not empty, PROCEED");
+                }
+            }
+            else {
+                // invalid,
+                console.log("nur zweites leer");
+                return;
+            }
+        }
+        else {
+            if (this.updateUser.password.replace(/\s/g, '').length != 0) {
+                console.log("beide felder gefüllt");
+                if (this.updateUser.password == this.checkpw) {
+                    console.log("beide pws matchen");
+                    if (this.confirmpw.replace(/\s/g, '').length != 0) {
+                        // valid
+                        console.log("valid, alle necessary felder von pw gefüllt, PROCEED");
+                        this.tempUser.password = this.updateUser.password;
+                    }
+                    else {
+                        // invalid
+                        console.log("beide pw felder gefüllt, aber connfirm pw leer --> invalid");
+                        return;
+                    }
+                }
+                else {
+                    // invalid
+                    console.log("beide pws matchen nicht");
+                    return;
+                }
+            }
+            else {
+                // invalid
+                console.log("nur erstes pw empty");
+                return;
+            }
+        }
         var files = this.imgUp.nativeElement.files;
         if (files.length > 1) {
             console.log("RETURNED SINCE EMPTYX or TOO LARGE");
             return;
         }
-        ;
         var formData = new FormData();
         formData.append("image", files[0]);
         console.log(files);
-        if (files.length == 0) {
-            this.http.post('http://localhost:8080/Webtech2Project/rest/file/avatar', formData).subscribe(function (res) {
-                if (res.status == 200) {
-                    var loc = res.json().location;
-                    _this.tempUser.avatar = loc;
-                    _this.userService.updateUser(_this.tempUser).subscribe(function (data) { return _this.userService.refreshUser(); });
+        console.log("tempUsr bd = " + this.tempUser.birthDate);
+        this.userService.checkPassoword(this.confirmpw).subscribe(function (data) {
+            if (data.status != 200) {
+                console.log("error in trying to check pw");
+                return;
+            }
+            else {
+                // confirm pw was valid
+                if (files.length == 1) {
+                    // if wants new avatar --> upload avatar first and then updateUser
+                    _this.http.post('http://localhost:8080/Webtech2Project/rest/file/avatar', formData).subscribe(function (res) {
+                        if (res.status == 200) {
+                            var loc = res.json().location;
+                            _this.tempUser.avatar = loc;
+                            // update Usre with avaar
+                            _this.userService.updateUser(_this.tempUser).subscribe(function (data) { return _this.userService.refreshUser(); });
+                        }
+                        else {
+                            console.log("Settings Component: Res status was other than 200");
+                        }
+                    });
                 }
                 else {
-                    console.log("Settings Component: Res status was other than 200");
+                    // updateUser with new avatar
+                    _this.userService.updateUser(_this.tempUser).subscribe(function (data) { return _this.userService.refreshUser(); });
                 }
-            });
-        }
-        else {
-            this.userService.updateUser(this.tempUser).subscribe(function (data) { return _this.userService.refreshUser(); });
-        }
+            }
+        });
     };
     return SettingsComponent;
 }());
@@ -1805,7 +1938,7 @@ __decorate([
 SettingsComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* Component */])({
         selector: 'settings',
-        template: "\n   \n   Update your personal information!\n   <br>\n   Fill out all the fields you want to update, all the other values will stay the same!\n   <br>\n   <br>\n   <br>\n      <form>\n        <input type=\"file\" #imgUpload accept=\"image/*\">\n\n        <input type=\"text\" [(ngModel)]=\"updateUser.email\" name=\"whytho\" placeholder=\"new email\">\n        <input type=\"password\" [(ngModel)]=\"updateUser.password\" name=\"whytho2\" placeholder=\"change password\">\n        <input type=\"password\" [(ngModel)]=\"checkpw\" name=\"whytho25\" placeholder=\"confirm new password\">\n        <input type=\"date\" [(ngModel)]=\"updateUser.birth_date\" name=\"whytho3\" placeholder=\"change Birth date (YYYY-MM-DD)\">\n        <input type=\"text\" [(ngModel)]=\"updateUser.name\" name=\"whytho4\" placeholder=\"change first name\">\n        <input type=\"text\" [(ngModel)]=\"updateUser.surname\" name=\"whytho5\" placeholder=\"change last name\">\n        <input type=\"text\" [(ngModel)]=\"updateUser.location\" name=\"whytho6\" placeholder=\"Change your location inside the company\">\n        <input type=\"text\" [(ngModel)]=\"updateUser.phone\" name=\"whytho7\" placeholder=\"Change your phone\">\n        <input type=\"text\" [(ngModel)]=\"updateUser.fax\" name=\"whytho8\" placeholder=\"Change your fax\">\n        <input type=\"text\" [(ngModel)]=\"updateUser.gender\" name=\"whytho9\" placeholder=\"Change your gender\">\n        \n        \n        <br> \n        <br>\n        In case you did NOT change your password, please type it in below to verify that it is you who made all these changes!\n        <br>\n        <input type=\"password\" [(ngModel)] = \"confirmpw\" name=\"whytho10\" placeholder=\"Your password\">\n\n\n        <input type=\"submit\" value=\"Update your profile\" (click)=\"tryUpdate()\">\n      </form>\n\n  ",
+        template: "\n\n    Update your personal information!\n    <br>\n    All empty fields will not be updated!\n    <br>\n    <br>\n    <br>\n    <form>\n      <input type=\"file\" #imgUpload accept=\"image/*\">\n\n      <input type=\"text\" [(ngModel)]=\"updateUser.email\" name=\"whytho\" placeholder=\"new email\">\n      <input type=\"password\" [(ngModel)]=\"updateUser.password\" name=\"whytho2\" placeholder=\"change password\">\n      <input type=\"password\" [(ngModel)]=\"checkpw\" name=\"whytho25\" placeholder=\"confirm new password\">\n      <input type=\"date\" [(ngModel)]=\"updateUser.birthDate\" name=\"whytho3\" placeholder=\"change Birth date (YYYY-MM-DD)\">\n      <input type=\"text\" [(ngModel)]=\"updateUser.name\" name=\"whytho4\" placeholder=\"change first name\">\n      <input type=\"text\" [(ngModel)]=\"updateUser.surname\" name=\"whytho5\" placeholder=\"change last name\">\n      <input type=\"text\" [(ngModel)]=\"updateUser.location\" name=\"whytho6\"\n             placeholder=\"Change your location inside the company\">\n      <input type=\"text\" [(ngModel)]=\"updateUser.phone\" name=\"whytho7\" placeholder=\"Change your phone\">\n      <input type=\"text\" [(ngModel)]=\"updateUser.fax\" name=\"whytho8\" placeholder=\"Change your fax\">\n      <input type=\"text\" [(ngModel)]=\"updateUser.gender\" name=\"whytho9\" placeholder=\"Change your gender\">\n\n\n      <br>\n      <br>\n      Please type in your current password to verify all changes upon sending.\n      <br>\n      <input type=\"password\" [(ngModel)]=\"confirmpw\" name=\"whytho10\" placeholder=\"Your password\">\n\n\n      <input type=\"submit\" value=\"Update your profile\" (click)=\"tryUpdate()\">\n    </form>\n\n  ",
         providers: []
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === "function" && _c || Object])
@@ -1987,7 +2120,7 @@ var UserService = (function () {
     };
     UserService.prototype.createUser = function (tempUser) {
         console.log("Create user called");
-        var d = new Date(tempUser.birth_date);
+        var d = new Date(tempUser.birthDate);
         var t = d.getTime();
         console.log("t; " + t);
         var body = ' {"user":{"id":-1,"avatar":"/colab/resources/avatar/default.jpg","birthDate":' + t + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
@@ -1997,11 +2130,18 @@ var UserService = (function () {
         return this.http.post('http://localhost:8080/Webtech2Project/rest/userservice/create_by_json', body, options);
         // {"user":{"id":2,"avatar":"https://randomuser.me/api/portraits/men/14.jpg","birthDate":1500242400000,"email":"nicolas.lavigne@example.com","fax":"284-484-5005","gender":"male","location":"stratford","name":"nicolas","password":null,"phone":"647-028-3924","registerDate":1500310302217,"surname":"lavigne","postits":[],"position":3}}
     };
+    UserService.prototype.checkPassoword = function (pw) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        var body = ' {"user":{"id":-1,"avatar":"a","birthDate":0,"email":"a","fax":"a","gender":"a","location":"a","name":"a","password":"' + pw + '","phone":"a","registerDate":0,"surname":"a","postits":[],"position":3}} ';
+        return this.http.post('http://localhost:8080/Webtech2Project/rest/userservice/check_password', body, options);
+    };
     UserService.prototype.updateUser = function (tempUser) {
         console.log("Create user called");
-        var d = new Date(tempUser.birth_date);
-        var t = d.getTime();
-        var body = ' {"user":{"id":-1,"avatar":"' + tempUser.avatar + '","birthDate":' + t + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
+        // let d = new Date(tempUser.birthDate);
+        //  let t = d.getTime();
+        console.log("tempUser bday =  " + tempUser.birthDate);
+        var body = ' {"user":{"id":-1,"avatar":"' + tempUser.avatar + '","birthDate":' + tempUser.birthDate + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
         var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
         var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* RequestOptions */]({ headers: headers });
         console.log("create user : body : " + body);
