@@ -76,6 +76,7 @@ import org.slf4j.LoggerFactory;
 public class LoginService {
 	 private static final transient Logger log = LoggerFactory.getLogger(LoginService.class);
 
+	 // Please dont use this one. Use the other one below instead. This is just for testing.
 
 	 
 	@POST
@@ -122,7 +123,7 @@ public class LoginService {
 	    return Response.status(200).entity(session.getId().toString()).build();
 
 }
-	
+
 	
 	
 	

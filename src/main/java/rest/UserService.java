@@ -367,6 +367,41 @@ public class UserService {
 	}
 	
 	
+	@POST
+	@Consumes("application/json")
+	@Path("check_password")
+	public Response checkPassword(File json) {
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		User user = new User();
+		
+		 if ( !currentUser.isAuthenticated() ) { System.out.println("Not authenticated!"); return Response.status(403).build();}
+		
+		try {
+			JsonUnmarshaller jc = new JsonUnmarshaller();
+			user = jc.UnmarshalJsonUser(json);
+
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			System.out
+					.println("Marshalling went wrong.");
+			
+			return Response.status(400).entity("Malformed json Syntax.").build();
+		}
+		
+		
+		if(UserManagement.isCorrectPassword(currentUser.getPrincipal().toString(), user.getPassword())){return Response.status(200).build();}
+		
+		return Response.status(400).entity("Wrong password").build();
+
+
+	}
+	
+	
+	
 	/**
 	 * Specify an ID and this Method will delete the corresponding Postit in the Database.
 	 */

@@ -523,6 +523,27 @@ public class UserManagement {
 	}
 	
 	
+	public static boolean isCorrectPassword(String email, String password)
+	{
+	
+		EntityManager em = emfactory.createEntityManager();
+
+	
+		TypedQuery<User> query = em.createQuery(
+				"SELECT (n) FROM User n WHERE n.email = :email and n.password = :password",
+				User.class);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		List<User> ng = query.getResultList();
+	
+		if(!ng.isEmpty()){return true;}	
+
+		return false;
+
+                
+	}
+	
+	
 	
 	
 
