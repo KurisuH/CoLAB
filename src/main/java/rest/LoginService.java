@@ -25,6 +25,7 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -50,8 +51,10 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
 import model.Postit;
 import model.User;
+
 
 
 
@@ -220,5 +223,22 @@ public class LoginService {
 
 	    return Response.status(200).entity(session.getId().toString()).build();
 		
+}
+	
+	
+	@POST
+	@Consumes("application/json")
+	@Path("/setup")
+	public Response setupColab() {
+		
+		try {
+			MySQLUtilities.main(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).entity("Setup failed, check console for Info").build();
+		}
+		System.out.println("Setup Complete, no Problems");
+		return Response.status(200).entity("Setup Complete, no Problems").build();
+	
 }
 }
