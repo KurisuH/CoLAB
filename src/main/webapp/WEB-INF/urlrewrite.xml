@@ -26,23 +26,20 @@
 
 	
 	<rule>
-  <from>/login</from>
+  <from>/Webtech2Project/login</from>
   <to>/</to>
-</rule>
-
-<rule>
-<from>/test</from>
-<to> </to>
 </rule>
 
 	<rule>
   <from>/profile</from>
-  <to>/</to>
+  <to type="redirect">/Webtech2Project/index.html</to>
 </rule>
 
-	<rule>
+
+<rule>
   <from>/settings</from>
-  <to type="redirect">/</to>
+	
+  <to type="redirect" >/Webtech2Project/</to>
 </rule>
 
 	

@@ -142,7 +142,7 @@ public class LoginService {
 	    Session session = currentUser.getSession();
 	    session.setAttribute( "login", "YES!" );
 	    UsernamePasswordToken token = new UsernamePasswordToken( user.getEmail(), user.getPassword() );
-	    token.setRememberMe(true);
+	    // token.setRememberMe(true);
 	    
 		try {
 		currentUser.login(token);
@@ -200,6 +200,35 @@ public class LoginService {
 
 	    return Response.status(200).entity(session.getId().toString()).build();
 		
+}
+	
+	
+	@GET
+	@Consumes("application/json")
+	@Path("/getPrincipal")
+	public Response getPrincipial() {
+		
+
+		log.info( "Trying to get principal" );
+		
+    
+	    Subject currentUser = SecurityUtils.getSubject();
+	    Session session = currentUser.getSession();
+
+	    System.out.println();System.out.println();
+	    log.info( "User [" + currentUser.getPrincipal() + "] is logged in!." );
+	    System.out.println();System.out.println();
+
+	    if(currentUser.getPrincipal() != null) {
+	    	
+	    	String json = "{\"user\":\"" + currentUser.getPrincipal().toString() + "\"}";
+
+		    return Response.status(200).entity(json).build();
+	    }
+	    else {
+	    	String json = "{\"user\":\"\"}";
+		    return Response.status(204).entity(json).build();
+	    }
 }
 	
 	@POST
