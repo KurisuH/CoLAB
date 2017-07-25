@@ -9,14 +9,42 @@
 
 -->
 <urlrewrite>
-<!-- 
- <rule match-type="wildcard">
 
-        <condition type="request-uri" operator="notequal">/Webtech2Project/index.html</condition>
-        <condition type="request-uri" operator="notequal">/index.html</condition>
-<from>/**</from>
-<to>/index.html</to>
-</rule> 
+    <rule>
+        <note>
+            The rule means that requests to /test/status/ will be redirected to /rewrite-status
+            the url will be rewritten.
+        </note>
+        <from>/test/status/</from>
+        <to type="redirect">%{context-path}/rewrite-status</to>
+    </rule>	
+	
+	<rule>
+        <from>/rest/</from>
+        <to last="true">-</to>
+    </rule>
+
+	
+	<rule>
+  <from>/Webtech2Project/login</from>
+  <to>/Webtech2Project/index.html</to>
+</rule>
+
+
+
+	<rule>
+  <from>/profile</from>
+  <to type="redirect">/Webtech2Project/index.html</to>
+</rule>
+
+
+<rule>
+  <from>/settings</from>
+	
+  <to type="redirect" >/Webtech2Project/</to>
+</rule>
+
+	
 
 
 
@@ -30,13 +58,9 @@
             url /rewrite-status only /test/status/ both in thier location bar and in hyperlinks
             in your pages.
         </note>
-		
-		
-
-
         <from>/rewrite-status</from>
         <to>/test/status/</to>
-    </outbound-rule> -->
+    </outbound-rule>
 
 
     <!--
