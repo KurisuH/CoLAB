@@ -74,7 +74,7 @@ public class MySQLUtilities {
 		user.setSurname("test");
 		user.setGender("test");
 
-		user.setPosition(3);
+		user.setPosition(1);
 		user.setPhone("123");
 		user.setBirthDate(new Date());
 		user.setFax("123");

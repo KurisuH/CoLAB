@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.StringReader;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -19,6 +20,7 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.JAXBMarshaller;
 import org.eclipse.persistence.jaxb.JAXBUnmarshaller;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
+
 
 
 
@@ -73,7 +75,7 @@ public class JsonUnmarshaller  {
 				
 				
 				user.setAvatar(jp.getAvatar());
-				user.setBirthDate(jp.getDate());
+				user.setBirthDate(new Date(jp.getBirthDate()));
 				user.setEmail(jp.getEmail());
 				user.setFax(jp.getFax());
 				//user.setId(jp.getId());

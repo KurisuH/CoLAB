@@ -62,9 +62,10 @@ public class PersonJson {
 	
 	@XmlElement(name = "registerDate",required = true)
 	private Date registerDate;
+	
+	@XmlElement(name = "birthDate",required = true)
+	private long birthDate;
 
-
-	private Date date;
 
 	public String getGender() {
 		return gender;
@@ -110,6 +111,14 @@ public class PersonJson {
 		return registered;
 	}
 
+	public long getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(int birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	public void setRegistered(String registered) {
 		this.registered = registered;
 	}
@@ -136,15 +145,6 @@ public class PersonJson {
 
 	public void setPosition(int position) {
 		this.position = position;
-	}
-
-	public Date getDate() {
-		date = new Date();
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getPassword() {

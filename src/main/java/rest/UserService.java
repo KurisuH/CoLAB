@@ -37,6 +37,7 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -71,12 +72,14 @@ import javax.ws.rs.core.UriInfo;
 
 
 
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import model.Postit;
 import model.User;
+
 
 
 
@@ -349,7 +352,11 @@ public class UserService {
 		
 		try {
 			JsonUnmarshaller jc = new JsonUnmarshaller();
+			
 			User user = jc.UnmarshalJsonUser(json);
+
+			
+			System.out.println("This is the date: " + user.getBirthDate().toString());
 			if(UserManagement.EmailExists(user.getEmail())){ return Response.status(400).entity("E-Mail already exists.").build();}
 			if(!isValidEmailAddress(user.getEmail())){ return Response.status(400).entity("E-Mail has incorrect Syntax.").build();}
 			UserManagement.createUserFromUser(user);

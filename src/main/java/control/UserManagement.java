@@ -316,7 +316,10 @@ public class UserManagement {
 		EntityManager entitymanager = emfactory.createEntityManager();
 
 		entitymanager.getTransaction().begin();
+		
 		user.setRegisterDate(new Date());
+		
+		System.out.println("This is the date: " + user.getBirthDate().toString());
 
 
 		entitymanager.persist(user);
