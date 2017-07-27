@@ -11,6 +11,7 @@
  	     <class>model.Position</class>
  	     <class>model.Postit</class>
  	     <class>model.User</class>
+ 	     <class>model.Counter</class>
 
       <properties>
          <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/colab"/>

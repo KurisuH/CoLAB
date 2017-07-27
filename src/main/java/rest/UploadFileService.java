@@ -31,6 +31,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import control.UserManagement;
+import control.PostitManagement;
 
 @Path("/file")
 public class UploadFileService {
@@ -58,8 +59,8 @@ public class UploadFileService {
 
 		System.out.println("-------------------------------------------------- 2");
 		String home = System.getProperty("catalina.base");
-		 String location = "/webapps/colab/resources/avatar/";
-		 String location2 = "/colab/resources/avatar/";
+		String location = "/webapps/colab/resources/avatar/";
+		String location2 = "/colab/resources/avatar/";
 		home = home + location;
 		
 		String userid = Integer.toString(UserManagement.getUserbyMail(SecurityUtils.getSubject().getPrincipal().toString()).getId());
@@ -106,7 +107,7 @@ public class UploadFileService {
 		
 		User current = UserManagement.getUserbyMail(SecurityUtils.getSubject().getPrincipal().toString());
 		String userid = Integer.toString(current.getId());
-		int index = new File(home).listFiles().length;
+		int index = PostitManagement.incrementCounterPostit();
 		String uploadedFileLocation = home  + userid + "-" + index +  ".jpg";
 
 		writeToFile(stream, uploadedFileLocation);
@@ -217,11 +218,8 @@ public class UploadFileService {
 			int read = 0;
 			byte[] bytes = new byte[1024];
 
-			if(uploadedInputStream == null){System.out.println("FUCKING NULL!");}
-			System.out.println("STARTING WRITE PROCESS!!");
 			out = new FileOutputStream(new File(uploadedFileLocation));
 			while ((read = uploadedInputStream.read(bytes)) != -1 && uploadedInputStream != null) {
-				System.out.println("NOT NULL!!");
 				out.write(bytes, 0, read);
 			}
 			out.flush();

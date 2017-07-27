@@ -37,4 +37,14 @@ CREATE TABLE `PostIt` (
 	PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `counter` (
+     
+	`id` int NOT NULL AUTO_INCREMENT, 
+	`avatar` int NOT NULL,
+	`postit` int NOT NULL,
+    PRIMARY KEY (`id`)
+	
+	
+);
+
 

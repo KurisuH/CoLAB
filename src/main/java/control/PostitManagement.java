@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import model.Counter;
 import model.Postit;
 import model.User;
 
@@ -467,6 +468,111 @@ public class PostitManagement {
 		
                 
 	}
+	
+	//-----------------
+	
+	
+	
+	@GeneratedValue 
+	public static void createCounter() {
+		
+		EntityManager entitymanager = emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+		Counter count = new Counter();
+		entitymanager.persist(count);
+		entitymanager.getTransaction().commit();
+
+		
+		entitymanager.close();
+
+	}
+	
+	
+	public static int incrementCounterAvatar() {
+
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Counter count = entitymanager.find(Counter.class, 1);
+		entitymanager.getTransaction().begin();
+		count.setAvatar(count.getAvatar() +1);
+		entitymanager.persist(count);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		
+		return count.getAvatar();
+		
+		
+	}
+	
+	public static int incrementCounterPostit() {
+
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Counter count = entitymanager.find(Counter.class, 1);
+		entitymanager.getTransaction().begin();
+		count.setPostit(count.getPostit() +1);
+		entitymanager.persist(count);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		
+		return count.getPostit();
+		
+		
+	}
+	
+	
+	public static int setCounterPostit(int value) {
+
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Counter count = entitymanager.find(Counter.class, 1);
+		entitymanager.getTransaction().begin();
+		count.setPostit(value);
+		entitymanager.persist(count);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		
+		return count.getAvatar();
+		
+		
+	}
+	
+	public static int setCounterAvatar(int value) {
+
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Counter count = entitymanager.find(Counter.class, 1);
+		entitymanager.getTransaction().begin();
+		count.setAvatar(value);
+		entitymanager.persist(count);
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		
+		return count.getAvatar();
+		
+		
+	}
+	/**
+	 * get the counter for avatars via 1 and for postits via 2
+	 * @param id
+	 * @return
+	 */
+	public static int getCounterOption(int option) {
+
+
+		EntityManager entitymanager = emfactory.createEntityManager();
+		Counter count = entitymanager.find(Counter.class, 1);
+
+		if(option == 1){return count.getAvatar();}
+		if(option == 2){return count.getPostit();}
+
+		entitymanager.close();
+		
+		return -1;
+		
+	}
+	
+	
 	
 
 }
