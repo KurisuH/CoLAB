@@ -255,7 +255,7 @@ public class LoginService {
 }
 	
 	
-	@POST
+	@GET
 	@Consumes("application/json")
 	@Path("/setup")
 	public Response setupColab() {
