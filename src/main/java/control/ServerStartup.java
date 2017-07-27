@@ -15,6 +15,8 @@ import org.apache.shiro.util.Factory;
 
 @WebListener
 public class ServerStartup implements ServletContextListener {
+	
+	boolean first_start = true;
 
 	private boolean setup_complete = false;
 	
@@ -24,6 +26,7 @@ public class ServerStartup implements ServletContextListener {
     	//Create the Apache Shiro Security Manager and make it available to the REST classes.
     	
         System.out.println("Server Startup.");
+        if(first_start){PostitManagement.createCounter(); first_start = false;}
 	    //1.
 	    Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
 
