@@ -2087,7 +2087,7 @@ var SettingsComponent = (function () {
                             var loc = res.json().location;
                             _this.tempUser.avatar = loc;
                             // update Usre with avaar
-                            _this.userService.updateUser(_this.tempUser).subscribe(function (data) { return _this.userService.refreshUser(); });
+                            _this.userService.updateUser(_this.tempUser).subscribe(function (data) { _this.userService.refreshUser(); _this.router.navigate(['profile']); });
                         }
                         else {
                             console.log("Settings Component: Res status was other than 200");
@@ -2319,8 +2319,10 @@ var UserService = (function () {
         console.log("Create user called");
         // let d = new Date(tempUser.birthDate);
         //  let t = d.getTime();
+        var d = new Date(tempUser.birthDate);
+        var t = d.getTime();
         console.log("tempUser bday =  " + tempUser.birthDate);
-        var body = ' {"user":{"id":-1,"avatar":"' + tempUser.avatar + '","birthDate":' + tempUser.birthDate + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
+        var body = ' {"user":{"id":-1,"avatar":"' + tempUser.avatar + '","birthDate":' + t + ',"email":"' + tempUser.email + '","fax":"' + tempUser.fax + '","gender":"' + tempUser.gender + '","location":"' + tempUser.location + '","name":"' + tempUser.name + '","password":"' + tempUser.password + '","phone":"' + tempUser.phone + '","registerDate":0,"surname":"' + tempUser.surname + '","postits":[],"position":3}}';
         var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
         var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* RequestOptions */]({ headers: headers });
         console.log("create user : body : " + body);
