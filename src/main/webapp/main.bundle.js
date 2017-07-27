@@ -697,7 +697,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "button {\r\n  font-family: \"Roboto\", sans-serif;\r\n  outline: 0;\r\n  background-color: white;\r\n  border: 1px solid #061651;\r\n  width: 20%;\r\n  padding: 15px;\r\n  margin-left: 20%;\r\n  color: black;\r\n  font-size: 14px;\r\n  cursor: pointer;\r\n}\r\n\r\n\r\n.blub {\r\n  margin-bottom: 25px;\r\n}\r\n\r\n\r\n.advancedbtn {\r\n  margin-left: 10%;\r\n}\r\n\r\n.lel {\r\n  margin-top: 2%;\r\n}\r\n", ""]);
+exports.push([module.i, "button {\r\n  font-family: \"Roboto\", sans-serif;\r\n  outline: 0;\r\n  background-color: white;\r\n  border: 1px solid #061651;\r\n  width: 20%;\r\n  padding: 15px;\r\n  margin-left: 20%;\r\n  color: black;\r\n  font-size: 14px;\r\n  cursor: pointer;\r\n}\r\n\r\n\r\n.blub {\r\n  margin-bottom: 25px;\r\n}\r\n\r\n\r\n.advancedbtn {\r\n  margin-left: 10% !important;\r\n}\r\n\r\n.lel {\r\n  margin-top: 2%;\r\n}\r\n", ""]);
 
 // exports
 
