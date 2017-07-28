@@ -82,6 +82,9 @@ public class MySQLUtilities {
 		user.setAvatar("/colab/resources/avatar/15.jpg");
 		user.setRegisterDate(new Date());
 		UserManagement.createUserFromUser(user);
+		PostitManagement.createCounter();
+		PostitManagement.setCounterPostit(20);
+		PostitManagement.setCounterAvatar(20);
     }
 
     // TODO: Instead of throws Exception, all exceptions should be wrapped

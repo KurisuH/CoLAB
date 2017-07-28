@@ -81,6 +81,8 @@ public class test extends HttpServlet{
 		/*
 	    Object request;
 	    
+	
+	    
 	    
 	    System.out.println( Files.readAllLines(Paths.get("src/main/resources/avatar.upload")));
 */
@@ -109,6 +111,13 @@ public class test extends HttpServlet{
     	//UserManagement.fetchAllUsers();
 		
 		//PostitManagement.deletePostitbyID(3);
+		/*
+	PostitManagement.createCounter();
+	PostitManagement.setCounterAvatar(15);
+	PostitManagement.setCounterPostit(5);
+	*/
+	PostitManagement.incrementCounterAvatar();
+	PostitManagement.incrementCounterPostit();
 	}
 
 }
